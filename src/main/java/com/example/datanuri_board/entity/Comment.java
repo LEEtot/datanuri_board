@@ -1,5 +1,6 @@
-package com.example.datanuri_board.domain;
+package com.example.datanuri_board.entity;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -9,8 +10,15 @@ import org.springframework.data.annotation.LastModifiedBy;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Getter
 @ToString
@@ -26,18 +34,20 @@ public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
-    private Long comment_id;  // ID
+    private Long commentId;  // ID
 
     @Setter
     @ManyToOne(optional = false)
-    private Board board_id;  // 게시글(ID)
+    private Board boardId;  // 게시글(ID)
     @Setter
     @ManyToOne(optional = false)
-    private User user_id;  // 유저(ID)
+    private User userId;  // 유저(ID)
 
-    private int comment_group; // 댓글 그룹
-    private int comment_order; // 그룹내 순서
-    private int comment_layer; // 댓글 계층
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "commentLayer")
+    private Comment parent;  // 댓글 그룹
+
+    private String commentLayer;  //  댓글 계층
 
     @Setter
     @Column(nullable = false, length = 2000)
@@ -56,8 +66,15 @@ public class Comment {
     private LocalDateTime modifier_date;  // 수정 일자
 
     @Setter
-    @Column(length = 4)
+    @NotNull
+    @Size(min = 4, max = 4)
     private String state; // 상태
+
+
+    //== 부모 댓글을 삭제해도 자식 댓글은 남아있음 ==//
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> childList = new ArrayList<>();
+
 
     protected Comment() {
     }
@@ -75,11 +92,11 @@ public class Comment {
         if (this == o) return true;
         if (!(o instanceof Comment)) return false;
         Comment comment = (Comment) o;
-        return comment_id != null && comment_id == comment.comment_id;
+        return commentId != null && commentId == comment.commentId;
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(comment_id);
+        return Objects.hash(commentId);
     }
 }
