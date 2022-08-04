@@ -16,18 +16,18 @@ public class BoardSubjectTest {
 
     @Test
     void save(){
-        BoardSubject params = BoardSubject.builder()
-                .subject("기본게시판2")
-                .readAuthority(2L)
-                .writeAuthority(2L)
-                .creator("운영자")
-                .state("Y")
-                .build();
-
-        boardSubjectRepository.save(params);
-
-        BoardSubject entity = boardSubjectRepository.findById((long) 1).get();
-
+//        BoardSubject params = BoardSubject.builder()
+//                .subject("기본게시판2")
+//                .readAuthority(2L)
+//                .writeAuthority(2L)
+//                .creator("운영자")
+//                .state("Y")
+//                .build();
+//
+//        boardSubjectRepository.save(params);
+//
+//        BoardSubject entity = boardSubjectRepository.findById((long) 1).get();
+//
 
 
     }

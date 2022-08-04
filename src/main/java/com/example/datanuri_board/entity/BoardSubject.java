@@ -57,4 +57,13 @@ public class BoardSubject {
         this.creator = creator;
         this.state = state;
     }
+
+    public void update(String subject,Role readAuthority, Role writeAuthority, User modifier, LocalDateTime modifiedDate, String state ){
+        this.subject = subject;
+        this.readAuthority = readAuthority;
+        this.writeAuthority = writeAuthority;
+        this.modifier = modifier;
+        this.modifiedDate = modifiedDate;
+        this.state = state;
+    }
 }
