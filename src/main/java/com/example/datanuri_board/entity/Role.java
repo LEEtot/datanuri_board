@@ -1,4 +1,4 @@
-package com.example.datanuri_board.domain;
+package com.example.datanuri_board.entity;
 
 import lombok.*;
 

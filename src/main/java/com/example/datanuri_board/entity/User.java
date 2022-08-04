@@ -1,5 +1,6 @@
-package com.example.datanuri_board.domain;
+package com.example.datanuri_board.entity;
 
+import com.example.datanuri_board.entity.Role;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 public class User {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)

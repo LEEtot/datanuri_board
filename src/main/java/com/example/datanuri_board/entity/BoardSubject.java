@@ -23,31 +23,34 @@ public class BoardSubject {
     @NotNull
     private String subject;
 
-    @NotNull
-    @Column(name = "read_authority")
-    private Long readAuthority;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "readAuthority")
+    private Role readAuthority;
 
-    @NotNull
-    @Column(name = "write_authority")
-    private Long writeAuthority;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "writeAuthority")
+    private Role writeAuthority;
 
-    @NotNull
-    private String creator;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "creatorId")
+    private User creator;
 
     @Column(name = "create_date")
     private LocalDateTime createDate = LocalDateTime.now();
 
-    private String modifier;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "modiferId")
+    private User modifier;
 
     @Column(name = "modified_date")
     private LocalDateTime modifiedDate;
 
     @NotNull
-    @Column(length = 4)
+    @Size(min = 4, max = 4)
     private String state;
 
     @Builder
-    public BoardSubject(String subject, Long readAuthority, Long writeAuthority, String creator, String state){
+    public BoardSubject(String subject, Role readAuthority, Role writeAuthority, User creator, String state){
         this.subject = subject;
         this.readAuthority = readAuthority;
         this.writeAuthority = writeAuthority;
