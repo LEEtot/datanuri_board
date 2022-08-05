@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor /** 모든 필드 값을 파라미터로 받는 생성자를 추가 */
 @Builder
 @Table(name = "boardUser")
-public class User {
+public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,16 +40,6 @@ public class User {
 
     @NotEmpty
     private String signUpApi;
-
-    @NotEmpty
-    private int applicant;
-
-    private LocalDateTime joiningDate;
-
-    @NotEmpty
-    private int modifier;
-
-    private LocalDateTime modifiedDate;
 
     @NotEmpty
     @Size(min = 4, max = 4)
