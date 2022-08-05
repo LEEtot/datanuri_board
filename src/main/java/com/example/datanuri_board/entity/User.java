@@ -56,5 +56,7 @@ public class User {
     private String state;
 
     private String imgPath;
+
+
 }
 

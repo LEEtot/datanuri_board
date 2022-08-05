@@ -58,12 +58,21 @@ public class BoardSubject {
         this.state = state;
     }
 
-    public void update(String subject,Role readAuthority, Role writeAuthority, User modifier, LocalDateTime modifiedDate, String state ){
+/*    public void update(String subject,Role readAuthority, Role writeAuthority, User modifier, String state ){
         this.subject = subject;
         this.readAuthority = readAuthority;
         this.writeAuthority = writeAuthority;
         this.modifier = modifier;
-        this.modifiedDate = modifiedDate;
+        this.modifiedDate = LocalDateTime.now();
         this.state = state;
-    }
+    }*/
+
+/*    public void update(String subject,String readAuthority, String writeAuthority, Long modifier, String state ){
+        this.subject = subject;
+        this.readAuthority = readAuthority;
+        this.writeAuthority = writeAuthority;
+        this.modifier = modifier;
+        this.modifiedDate = LocalDateTime.now();
+        this.state = state;
+    }*/
 }

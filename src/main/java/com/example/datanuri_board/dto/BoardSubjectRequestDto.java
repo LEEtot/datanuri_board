@@ -7,24 +7,31 @@ import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BoardSubjectRequestDto {
 
+    private Long id;
     private String subject;
-    private Role readAuthority;
-    private Role writeAuthority;
-    private User creator;
+    private String readAuthority;
+    private String writeAuthority;
+    private Long creator;
     private String state;
+    private User modifier;
+    private LocalDateTime modifiedDate;
 
 
     public BoardSubject toEntity(){
         return BoardSubject.builder()
                 .subject(subject)
-                .readAuthority(readAuthority)
-                .writeAuthority(writeAuthority)
-                .creator(creator)
+                .readAuthority(Role.builder().id(readAuthority).build())
+                .writeAuthority(Role.builder().id(writeAuthority).build())
+                .creator(User.builder().id(creator).build())
                 .state(state)
                 .build();
     }
+
+
 }
