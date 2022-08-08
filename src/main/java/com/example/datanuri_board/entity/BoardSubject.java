@@ -14,7 +14,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "board_subject")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardSubject {
+public class BoardSubject extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,38 +23,21 @@ public class BoardSubject {
     @NotNull
     private String subject;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "readAuthority")
-    private Role readAuthority;
+    @NotNull
+    private String readAuthority;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writeAuthority")
-    private Role writeAuthority;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "creatorId")
-    private User creator;
-
-    @Column(name = "create_date")
-    private LocalDateTime createDate = LocalDateTime.now();
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "modiferId")
-    private User modifier;
-
-    @Column(name = "modified_date")
-    private LocalDateTime modifiedDate;
+    @NotNull
+    private String writeAuthority;
 
     @NotNull
     @Size(min = 4, max = 4)
     private String state;
 
     @Builder
-    public BoardSubject(String subject, Role readAuthority, Role writeAuthority, User creator, String state){
+    public BoardSubject(String subject, String readAuthority, String writeAuthority, String state){
         this.subject = subject;
         this.readAuthority = readAuthority;
         this.writeAuthority = writeAuthority;
-        this.creator = creator;
         this.state = state;
     }
 

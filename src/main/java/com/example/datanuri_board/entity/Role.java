@@ -16,7 +16,7 @@ import javax.validation.constraints.Size;
 /** 모든 필드 값을 파라미터로 받는 생성자를 추가 */
 @Builder
 @Table(name = "role")
-public class Role {
+public class Role extends BaseEntity {
 
     @Id
     @Size(min = 4, max = 4)

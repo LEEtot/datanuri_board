@@ -6,37 +6,34 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board extends BaseEntity {
+public class Comment extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long board_id;
+    private Long comment_id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="board_subject_id")
-    private BoardSubject boardSubject;
+    @JoinColumn(name = "board_id", updatable = false)
+    private Board board;
+
+    private int comment_group;
+
+    private int comment_order;
+
+    private int comment_layer;
 
     @NotNull
-    private String title;
-
-    @NotNull
+    @Column(columnDefinition = "TEXT", nullable = false)
     private String contents;
 
-    @NotNull
-    private Long view_count;
-
-    @Column(name = "start_date")
-    private LocalDateTime startDate;
-
-    @Column(name = "finish_date")
-    private LocalDateTime finishDate;
-
     @Column(length = 4)
+    @Size(min = 4, max = 4)
     private String state;
 
 }
