@@ -41,21 +41,13 @@ public class BoardSubject extends BaseEntity {
         this.state = state;
     }
 
-/*    public void update(String subject,Role readAuthority, Role writeAuthority, User modifier, String state ){
-        this.subject = subject;
-        this.readAuthority = readAuthority;
-        this.writeAuthority = writeAuthority;
-        this.modifier = modifier;
-        this.modifiedDate = LocalDateTime.now();
-        this.state = state;
-    }*/
 
-/*    public void update(String subject,String readAuthority, String writeAuthority, Long modifier, String state ){
+   public void update(String subject, String readAuthority, String writeAuthority, String state ){
         this.subject = subject;
         this.readAuthority = readAuthority;
         this.writeAuthority = writeAuthority;
-        this.modifier = modifier;
-        this.modifiedDate = LocalDateTime.now();
         this.state = state;
-    }*/
+    }
+
+
 }

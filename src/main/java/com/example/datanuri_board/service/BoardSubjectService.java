@@ -2,14 +2,13 @@ package com.example.datanuri_board.service;
 
 import com.example.datanuri_board.config.exception.CustomException;
 import com.example.datanuri_board.config.exception.ErrorCode;
-import com.example.datanuri_board.dto.BoardSubjectRequestDto;
-import com.example.datanuri_board.dto.BoardSubjectResponseDto;
+import com.example.datanuri_board.dto.request.BoardSubjectRequestDto;
+import com.example.datanuri_board.dto.response.BoardSubjectResponseDto;
 import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.repository.BoardSubjectRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import javax.transaction.Transactional;
 import java.util.List;
@@ -34,19 +33,27 @@ public class BoardSubjectService {
      * 게시판 전체조회
      */
     public List<BoardSubjectResponseDto> findAll(){
-        Sort sort = Sort.by(Sort.Direction.DESC, "id", "createDate");
+        Sort sort = Sort.by(Sort.Direction.DESC, "id", "createdDate");
         List<BoardSubject> list = boardSubjectRepository.findAll(sort);
         return list.stream().map(BoardSubjectResponseDto::new).collect(Collectors.toList());
     }
 
     /**
+     * 게시판 특정조회
+     */
+    public BoardSubjectResponseDto findById(Long id){
+        BoardSubject entity = boardSubjectRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BoardSubject_NOT_FOUND));
+        return new BoardSubjectResponseDto(entity);
+    }
+
+    /**
      * 게시판 수정
      */
-    /*@Transactional
+    @Transactional
     public Long update(final Long id, final BoardSubjectRequestDto params){
         BoardSubject entity = boardSubjectRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BoardSubject_NOT_FOUND));
-        entity.update(params.getSubject(),params.getReadAuthority(),params.getWriteAuthority(),params.getModifier(), params.getState());
+        entity.update(params.getSubject(),params.getReadAuthority(),params.getWriteAuthority(),params.getState());
         return params.getId();
-    }*/
+    }
 
 }

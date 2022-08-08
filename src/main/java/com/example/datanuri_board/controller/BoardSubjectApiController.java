@@ -1,10 +1,9 @@
 package com.example.datanuri_board.controller;
 
 
-import com.example.datanuri_board.dto.BoardSubjectRequestDto;
-import com.example.datanuri_board.dto.BoardSubjectResponseDto;
+import com.example.datanuri_board.dto.request.BoardSubjectRequestDto;
+import com.example.datanuri_board.dto.response.BoardSubjectResponseDto;
 import com.example.datanuri_board.service.BoardSubjectService;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,6 +35,13 @@ public class BoardSubjectApiController {
         return boardSubjectService.findAll();
     }
 
+    /**
+     * 게시판 특정 ID로 조회
+     */
+    @GetMapping("/select/{id}")
+    public BoardSubjectResponseDto findById(@PathVariable Long id){
+        return boardSubjectService.findById(id);
+    }
 
     /**
      * 게시판 수정
