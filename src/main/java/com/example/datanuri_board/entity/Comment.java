@@ -22,11 +22,9 @@ public class Comment extends BaseEntity {
     @Column(name = "comment_id")
     private Long id;
 
-
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "author_id")
     private User author;
-
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "post_id")
@@ -94,14 +92,14 @@ public class Comment extends BaseEntity {
 
         Optional.ofNullable(this.parent).ifPresentOrElse(
 
-                parentComment -> {//대댓글인 경우 (부모가 존재하는 경우)
+                parentComment -> {  //대댓글인 경우 (부모가 존재하는 경우)
                     if (parentComment.isRemoved() && parentComment.isAllChildRemoved()) {
                         result.addAll(parentComment.getChildList());
                         result.add(parentComment);
                     }
                 },
 
-                () -> {//댓글인 경우
+                () -> {  //댓글인 경우
                     if (isAllChildRemoved()) {
                         result.add(this);
                         result.addAll(this.getChildList());

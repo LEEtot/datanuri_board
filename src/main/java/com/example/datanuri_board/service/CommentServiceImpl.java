@@ -21,8 +21,8 @@ import java.util.List;
 public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
-    private final UserRepository memberRepository;
-    private final BoardRepository postRepository;
+    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     @Override
     public void save(Long postId, CommentSaveDto commentSaveDto) {

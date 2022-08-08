@@ -13,10 +13,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 @RestControllerAdvice
 @Slf4j
 public class ExceptionAdvice {
-
-
-    //HttpMessageNotReadableException  => json 파싱 오류
-
     @ExceptionHandler(BaseException.class)
     public ResponseEntity handleBaseEx(BaseException exception){
         log.error("BaseException errorMessage(): {}",exception.getExceptionType().getErrorMessage());

@@ -1,8 +1,9 @@
 package com.example.datanuri_board.exception.commentEXC;
 
+import com.example.datanuri_board.exception.BaseException;
 import com.example.datanuri_board.exception.BaseExceptionType;
 
-public class CommentException extends Throwable {
+public class CommentException extends BaseException {
     private BaseExceptionType baseExceptionType;
 
 
