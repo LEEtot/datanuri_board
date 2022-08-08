@@ -29,9 +29,7 @@ public class User extends BaseEntity {
     @NotEmpty
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roleId", updatable = false)
-    private Role role;
+    private String role;
 
     @NotEmpty
     private int phoneNumber;

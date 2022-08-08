@@ -1,4 +1,4 @@
-package com.example.datanuri_board.dto;
+package com.example.datanuri_board.dto.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class RoleSearchRequestDto {
+public class RoleRequestDto {
 
     private String order_condition;
     private String search_condition;

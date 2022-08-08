@@ -23,20 +23,18 @@ public class BoardSubject extends BaseEntity {
     @NotNull
     private String subject;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "readAuthority")
-    private Role readAuthority;
+    @NotNull
+    private String readAuthority;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "writeAuthority")
-    private Role writeAuthority;
+    @NotNull
+    private String writeAuthority;
 
     @NotNull
     @Size(min = 4, max = 4)
     private String state;
 
     @Builder
-    public BoardSubject(String subject, Role readAuthority, Role writeAuthority, User creator, String state){
+    public BoardSubject(String subject, String readAuthority, String writeAuthority, String state){
         this.subject = subject;
         this.readAuthority = readAuthority;
         this.writeAuthority = writeAuthority;
