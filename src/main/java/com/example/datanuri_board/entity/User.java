@@ -30,9 +30,7 @@ public class User extends BaseEntity {
     @NotEmpty
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "roleId", updatable = false)
-    private Role role;
+    private String role;
 
     @NotEmpty
     private int phoneNumber;
@@ -50,5 +48,11 @@ public class User extends BaseEntity {
 
     @OneToMany(mappedBy = "user")
     private List<Comment> commentList;
+
+    //== 연관관계 메서드 ==//
+    public void addComment(Comment comment){
+        //comment의 writer 설정은 comment에서 함
+        commentList.add(comment);
+    }
 }
 

@@ -7,7 +7,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -43,9 +46,13 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board")
     private List<Comment> comments;
 
-    public void update(String title, String comment) {
-        this.title = title;
-        this.comments = comments;    }
+    //== 게시글을 삭제하면 달려있는 댓글 모두 삭제 ==//
+    @OneToMany(mappedBy = "board", cascade = ALL, orphanRemoval = true)
+    private List<Comment> commentList = new ArrayList<>();
 
-
+    //== 연관관계 편의 메서드 ==//
+    public void addComment(Comment comment){
+        //comment의 Post 설정은 comment에서 함
+        commentList.add(comment);
+    }
 }

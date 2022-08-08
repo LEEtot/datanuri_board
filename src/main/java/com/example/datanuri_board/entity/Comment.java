@@ -4,81 +4,122 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static javax.persistence.FetchType.LAZY;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Comment {
+public class Comment extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
+    @Column(name = "comment_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", updatable = false)
-    private User user;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_id", updatable = false)
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "author_id")
+    private User author;
+
+
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "post_id")
     private Board board;
 
-    private int comment_group;  // 댓글 그룹
+    @ManyToOne(fetch = LAZY)
+    @JoinColumn(name = "parent_id")
+    private Comment parent;
 
-    @ColumnDefault("0")
-    private int comment_order;  // 댓글 내 순서
+    @Lob
+    @Column(nullable = false)
+    private String content;
 
-    @ColumnDefault("0")
-    private int comment_layer;  // 댓글 깊이
+    private boolean isRemoved = false;
 
-    @NotNull
-    @Column(columnDefinition = "TEXT", nullable = false)
-    private String contents;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "author_id", updatable = false)
-    private User author;
-    @Column(name = "write_date")
-    private LocalDateTime writeDate;
+    //== 부모 댓글을 삭제해도 자식 댓글은 남아있음 ==//
+    @OneToMany(mappedBy = "parent")
+    private List<Comment> childList = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "modifier_id", updatable = false)
-    private User modifier;
 
-    @Column(name="modified_date")
-    private LocalDateTime modifiedDate;
-
-    @Column(length = 4)
-    @Size(min = 4, max = 4)
-    private String state;
-    @Builder
-    public Comment(String content,
-                   User author,
-                   LocalDateTime writeDate,
-                   User modifier,
-                   LocalDateTime modifiedDate,
-                   String state,
-                   Board board,
-                   User user)
-    {
-        this.contents = content;
+    //== 연관관계 편의 메서드 ==//
+    public void confirmWriter(User author) {
         this.author = author;
-        this.writeDate = writeDate;
-        this.modifier = modifier;
-        this.modifiedDate = modifiedDate;
-        this.state = state;
-        if(this.board != null){
-            board.getComments().remove(this);
-        }else
-            this.board = board;
-        if(this.user != null){
-            user.getCommentList().remove(this);
-        }else
-            this.user = user;
+        author.addComment(this);
     }
+
+    public void confirmPost(Board board) {
+        this.board = board;
+        board.addComment(this);
+    }
+
+    public void confirmParent(Comment parent) {
+        this.parent = parent;
+        parent.addChild(this);
+    }
+
+    public void addChild(Comment child) {
+        childList.add(child);
+    }
+
+    //== 수정 ==//
+    public void updateContent(String content) {
+        this.content = content;
+    }
+
+    //== 삭제 ==//
+    public void remove() {
+        this.isRemoved = true;
+    }
+
+    @Builder
+    public Comment(User author, Board board, Comment parent, String content) {
+        this.author = author;
+        this.board = board;
+        this.parent = parent;
+        this.content = content;
+        this.isRemoved = false;
+    }
+
+    //== 비즈니스 로직 ==//
+    public List<Comment> findRemovableList() {
+
+        List<Comment> result = new ArrayList<>();
+
+        Optional.ofNullable(this.parent).ifPresentOrElse(
+
+                parentComment -> {//대댓글인 경우 (부모가 존재하는 경우)
+                    if (parentComment.isRemoved() && parentComment.isAllChildRemoved()) {
+                        result.addAll(parentComment.getChildList());
+                        result.add(parentComment);
+                    }
+                },
+
+                () -> {//댓글인 경우
+                    if (isAllChildRemoved()) {
+                        result.add(this);
+                        result.addAll(this.getChildList());
+                    }
+                }
+        );
+
+        return result;
+    }
+
+    //모든 자식 댓글이 삭제되었는지 판단
+    private boolean isAllChildRemoved() {
+        return getChildList().stream()
+                .map(Comment::isRemoved)//지워졌는지 여부로 바꾼다
+                .filter(isRemove -> !isRemove)//지워짐=true, 안지워짐=false이다. filter 값이 false가 있다면 false를 없다면 orElse를 통해 true를 반환한다.
+                .findAny()//지워지지 않은게 하나라도 있다면 false를 반환
+                .orElse(true);//모두 지워졌다면 true를 반환
+
+    }
+
 }

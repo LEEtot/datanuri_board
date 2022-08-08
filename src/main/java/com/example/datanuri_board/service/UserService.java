@@ -1,8 +1,7 @@
 package com.example.datanuri_board.service;
 
-import com.example.datanuri_board.dto.UserResponseDto;
-import com.example.datanuri_board.dto.UserSignupRequestDto;
-import com.example.datanuri_board.dto.UserUpdateRequestDto;
+import com.example.datanuri_board.dto.response.UserResponseDto;
+import com.example.datanuri_board.dto.request.UserRequestDto;
 import com.example.datanuri_board.entity.Role;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
@@ -40,19 +39,19 @@ public class UserService {
 
     /**
      * 회원 가입
-     * @param userSignupRequestDto
+     * @param userRequestDto
      */
     @Transactional
-    public void signup(UserSignupRequestDto userSignupRequestDto) {
+    public void signup(UserRequestDto userRequestDto) {
         User user = User.builder()
-                .email(userSignupRequestDto.getEmail())
-                .password(userSignupRequestDto.getPassword())
-                .name(userSignupRequestDto.getName())
-                .role(userSignupRequestDto.getRole())
-                .phoneNumber(userSignupRequestDto.getPhoneNumber())
-                .signUpApi(userSignupRequestDto.getSignUpApi())
-                .state(userSignupRequestDto.getState())
-                .imgPath(userSignupRequestDto.getImgPath())
+                .email(userRequestDto.getEmail())
+                .password(userRequestDto.getPassword())
+                .name(userRequestDto.getName())
+                .role(userRequestDto.getRole())
+                .phoneNumber(userRequestDto.getPhoneNumber())
+                .signUpApi(userRequestDto.getSignUpApi())
+                .state(userRequestDto.getState())
+                .imgPath(userRequestDto.getImgPath())
                 .build();
         save(user);
     }

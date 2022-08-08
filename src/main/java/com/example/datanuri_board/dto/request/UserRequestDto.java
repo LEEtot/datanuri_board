@@ -1,4 +1,4 @@
-package com.example.datanuri_board.dto;
+package com.example.datanuri_board.dto.request;
 
 import com.example.datanuri_board.entity.Role;
 import lombok.AllArgsConstructor;
@@ -6,13 +6,11 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDateTime;
-
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserSignupRequestDto {
+public class UserRequestDto {
 
     private String email;
     private String password;

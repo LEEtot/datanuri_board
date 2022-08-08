@@ -1,4 +1,4 @@
-package com.example.datanuri_board.dto;
+package com.example.datanuri_board.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
