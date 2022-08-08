@@ -1,4 +1,5 @@
 package com.example.datanuri_board.dto.request;
 
-public class BoardCommentRequest {
+public class CommentRequestDto {
 }
+

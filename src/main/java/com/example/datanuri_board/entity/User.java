@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter @Setter /** 클래스 내 모든 필드의 Getter/Setter 메소드 생성 */
@@ -56,5 +57,8 @@ public class User {
     private String state;
 
     private String imgPath;
+
+    @OneToMany(mappedBy = "user")
+    private List<Comment> commentList;
 }
 

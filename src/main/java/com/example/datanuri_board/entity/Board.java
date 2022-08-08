@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Getter
@@ -52,5 +53,13 @@ public class Board {
 
     @Column(length = 4)
     private String state;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> comments;
+
+    public void update(String title, String comment) {
+        this.title = title;
+        this.comments = comments;    }
+
 
 }
