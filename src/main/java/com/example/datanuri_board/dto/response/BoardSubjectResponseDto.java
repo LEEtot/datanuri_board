@@ -46,4 +46,6 @@ public class BoardSubjectResponseDto {
                 ", state='" + state + '\'' +
                 '}';
     }
+
+
 }

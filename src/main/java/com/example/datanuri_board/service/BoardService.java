@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -41,8 +42,9 @@ public class BoardService {
     /**
      * 게시글 전체조회(최신순)
      */
-    /*public List<BoardResponseDto> findAllById(){
-
-    }*/
+    public List<BoardResponseDto> findBoardByBoardSubjectOrderByCreatedDate(Long boardSubjectId){
+        List<Board> list = boardRepository.findBoardByBoardSubjectOrderByCreatedDate(boardSubjectId);
+        return list.stream().map(BoardResponseDto::new).collect(Collectors.toList());
+    }
 
 }

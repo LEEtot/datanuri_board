@@ -33,6 +33,7 @@ public class BoardSubject extends BaseEntity {
     @Size(min = 4, max = 4)
     private String state;
 
+
     @Builder
     public BoardSubject(String subject, String readAuthority, String writeAuthority, String state){
         this.subject = subject;
@@ -49,5 +50,14 @@ public class BoardSubject extends BaseEntity {
         this.state = state;
     }
 
-
+    @Override
+    public String toString() {
+        return "BoardSubject{" +
+                "id=" + id +
+                ", subject='" + subject + '\'' +
+                ", readAuthority='" + readAuthority + '\'' +
+                ", writeAuthority='" + writeAuthority + '\'' +
+                ", state='" + state + '\'' +
+                '}';
+    }
 }

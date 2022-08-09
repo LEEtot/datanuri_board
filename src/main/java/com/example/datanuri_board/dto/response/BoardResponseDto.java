@@ -1,5 +1,6 @@
 package com.example.datanuri_board.dto.response;
 
+import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.BoardSubject;
 import lombok.Getter;
 
@@ -23,15 +24,15 @@ public class BoardResponseDto {
     private String state;
 
 
-    public BoardResponseDto(Long board_id, BoardSubject boardSubject, String title, String contents, Long view_count, LocalDateTime startDate, LocalDateTime finishDate, String state) {
-        this.board_id = board_id;
-        this.boardSubject = boardSubject;
-        this.title = title;
-        this.contents = contents;
-        this.view_count = view_count;
-        this.startDate = startDate;
-        this.finishDate = finishDate;
-        this.state = state;
+    public BoardResponseDto(Board entity) {
+        this.board_id = entity.getBoard_id();
+        this.boardSubject = entity.getBoardSubject();
+        this.title = entity.getTitle();
+        this.contents = entity.getContents();
+        this.view_count = entity.getView_count();
+        this.startDate = entity.getStartDate();
+        this.finishDate = entity.getFinishDate();
+        this.state = entity.getState();
     }
 
 
