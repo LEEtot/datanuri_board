@@ -1,5 +1,6 @@
 package com.example.datanuri_board.service;
 
+import com.example.datanuri_board.dto.request.SearchDto;
 import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.dto.request.UserRequestDto;
 import com.example.datanuri_board.entity.Role;
@@ -57,13 +58,22 @@ public class UserService {
     }
 
     /**
+     * 회원 탈퇴
+     * @param id
+     */
+    @Transactional
+    public void withdrawal(Long id) {
+        stateUpdate(id, "withdrawal");
+    }
+
+    /**
      * 상태 변경(Activate, Block, Withdrawal)
      * @param id
      * @param state
      */
     @Transactional
     public void stateUpdate(Long id, String state) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = findById(id);
         user.setState(state);
     }
 
@@ -73,7 +83,7 @@ public class UserService {
      * @param role
      */
     @Transactional
-    public void roleUpdate(Long id, Role role) {
+    public void roleUpdate(Long id, String role) {
         User user = userRepository.findById(id).orElseThrow();
         user.setRole(role);
     }
@@ -83,8 +93,8 @@ public class UserService {
      * @param userUpdateRequestDto
      */
     @Transactional
-    public void update(UserUpdateRequestDto userUpdateRequestDto) {
-        User user = userRepository.findById(userUpdateRequestDto.getId()).orElseThrow();
+    public void update(Long id, UserRequestDto userUpdateRequestDto) {
+        User user = userRepository.findById(id).orElseThrow();
         int phoneNumber = userUpdateRequestDto.getPhoneNumber();
         String imgPath = userUpdateRequestDto.getImgPath();
         if(user.getPhoneNumber() != phoneNumber) {
@@ -96,12 +106,21 @@ public class UserService {
     }
 
     /**
-     * id로 User 조회(단건 조회)
+     * id로 User 조회 (단건 조회)
      * @param id
      * @return
      */
-    public UserResponseDto findById(Long id) {
-        return setUserResponseDto(userRepository.findById(id).orElseThrow());
+    private User findById(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
+
+    /**
+     * 회원 정보 조회
+     * @param id
+     * @return
+     */
+    public UserResponseDto getUserData(Long id) {
+        return setUserResponseDto(findById(id));
     }
 
     /**
@@ -127,41 +146,23 @@ public class UserService {
     }
 
     /**
-     * 검색(select - 전체)(다건 조회)
-     * @param email
-     * @param name
+     * 검색 (다건 조회)
+     * @param searchDto
      * @return
      */
-    public List<UserResponseDto> findByEmailContainingOrNameContaining(String email, String name) {
-        List<User> userList = userRepository.findByEmailContainingOrNameContaining(email, name);
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for(User user : userList) {
-            userResponseDtoList.add(setUserResponseDto(user));
+    public List<UserResponseDto> findBySearch(SearchDto searchDto) {
+        List<User> userList = new ArrayList<>();
+        String orderCondition = searchDto.getOrderCondition();
+        String selectCondition = searchDto.getSelectCondition();
+        String searchCondition = searchDto.getSearchCondition();
+        if(selectCondition == "all") {
+            userList = userRepository.findByEmailContainingOrNameContaining(searchCondition, searchCondition);
+        } else if(selectCondition == "name") {
+            userList = userRepository.findByNameContaining(searchCondition);
+        } else if(selectCondition == "email") {
+            userList = userRepository.findByEmailContaining(searchCondition);
+        } else {
         }
-        return userResponseDtoList;
-    }
-
-    /**
-     * 검색(select - email)(다건 조회)
-     * @param email
-     * @return
-     */
-    public List<UserResponseDto> findByEmailContaining(String email) {
-        List<User> userList = userRepository.findByEmailContaining(email);
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for(User user : userList) {
-            userResponseDtoList.add(setUserResponseDto(user));
-        }
-        return userResponseDtoList;
-    }
-
-    /**
-     * 검색(select - name)(다건 조회)
-     * @param name
-     * @return
-     */
-    public List<UserResponseDto> findByNameContaining(String name) {
-        List<User> userList = userRepository.findByNameContaining(name);
         List<UserResponseDto> userResponseDtoList = new ArrayList<>();
         for(User user : userList) {
             userResponseDtoList.add(setUserResponseDto(user));
@@ -178,7 +179,6 @@ public class UserService {
         UserResponseDto userResponseDto = UserResponseDto.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .password(user.getPassword())
                 .name(user.getName())
                 .role(user.getRole())
                 .phoneNumber(user.getPhoneNumber())

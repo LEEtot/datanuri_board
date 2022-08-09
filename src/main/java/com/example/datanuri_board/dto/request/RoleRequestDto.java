@@ -11,7 +11,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class RoleRequestDto {
 
-    private String order_condition;
-    private String search_condition;
-//    private int list_count;
+    private String id;
+    private String name;
+    private String originName;
+    private String description;
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

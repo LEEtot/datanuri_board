@@ -12,10 +12,11 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserRequestDto {
 
+    private Long id;
     private String email;
     private String password;
     private String name;
-    private Role role;
+    private String role;
     private int phoneNumber;
     private String signUpApi;
     private String state;
