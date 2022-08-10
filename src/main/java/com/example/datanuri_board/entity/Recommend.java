@@ -3,25 +3,24 @@ package com.example.datanuri_board.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
-@Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "recommend")
-public class Recommend extends BaseEntity {
+@AllArgsConstructor
+@NoArgsConstructor
+@Data
+@Builder
+@Entity
+public class Recommend implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
-    private Long recommend_id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recommend_id", nullable = false)
+    private long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "userId")
-    private User user;  // 유저(ID)
+    @Column(name = "user_id", nullable = false)
+    private long userId;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "boardId")
-    private Board board;  // 게시글(ID)
+    @Column(name = "board_id", nullable = false)
+    private long boardId;
 }
