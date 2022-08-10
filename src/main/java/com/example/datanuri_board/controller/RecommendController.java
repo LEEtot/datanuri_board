@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 
 @Slf4j
 @RestController
@@ -19,7 +20,7 @@ public class RecommendController    {
     private final RecommendService recommendService;
 
     @PostMapping
-    public ResponseEntity<RecommendDto> recommend(@RequestBody @Valid RecommendDto recommendDto) {
+    public ResponseEntity<RecommendDto> recommend(@RequestBody @Valid RecommendDto recommendDto) throws IOException {
         recommendService.recommend(recommendDto);
         return new ResponseEntity<>(recommendDto, HttpStatus.CREATED);
     }
