@@ -27,7 +27,8 @@ public class BoardTest {
         boardService.save(boardRequestDto);
         System.out.println("보드1 저장");
 
-        List<BoardResponseDto> boards = boardService.findBoardByBoardSubjectOrderByCreatedDate(1L);
+        //List<BoardResponseDto> boards = boardService.findBoardByBoardSubject_IdOrderByCreatedDate(1L);
+
 
     }
 }

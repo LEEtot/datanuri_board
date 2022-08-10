@@ -4,21 +4,23 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Board extends BaseEntity {
+public class Board extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long board_id;
+    private Long boardId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="board_subject_id")
     private BoardSubject boardSubject;
 
@@ -29,7 +31,8 @@ public class Board extends BaseEntity {
     private String contents;
 
     @NotNull
-    private Long view_count;
+    @Column(name = "view_count")
+    private Long viewCount;
 
     @Column(name = "start_date")
     private LocalDateTime startDate;
@@ -37,26 +40,32 @@ public class Board extends BaseEntity {
     @Column(name = "finish_date")
     private LocalDateTime finishDate;
 
-    @Column(length = 4)
+    @Column(length = 4) //avai, bloc, dele
     private String state;
 
+    @Formula("(select count(*) from recommend r where r.board_id = board_id)")
+    private Long recommendCount;
+
     @Builder
-    public Board(BoardSubject boardSubject, String title, String contents, Long view_count, LocalDateTime startDate, LocalDateTime finishDate, String state){
+    public Board(BoardSubject boardSubject, String title, String contents, Long view_count, LocalDateTime startDate, LocalDateTime finishDate, String state, Long recommend_count){
         this.boardSubject = boardSubject;
         this.title = title;
         this.contents = contents;
-        this.view_count = view_count;
+        this.viewCount = view_count;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.state = state;
+        this.recommendCount = recommend_count;
     }
 
-    public void update(BoardSubject boardSubject, String title, String contents, LocalDateTime startDate, LocalDateTime finishDate, String state){
+    public void update(BoardSubject boardSubject, String title, String contents, LocalDateTime startDate, LocalDateTime finishDate, String state, Long viewCount){
         this.boardSubject = boardSubject;
         this.title = title;
         this.contents = contents;
         this.startDate = startDate;
         this.finishDate = finishDate;
         this.state = state;
+        this.viewCount = viewCount;
     }
+
 }

@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "board_subject")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardSubject extends BaseEntity {
+public class BoardSubject extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

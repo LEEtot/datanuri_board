@@ -22,14 +22,17 @@ public class BoardRequestDto {
     private Long boardSubjectId;
     private String title;
     private String contents;
-    private Long view_count;
+    private Long viewCount;
+    private Long recommend_count;
     private LocalDateTime startDate;
     private LocalDateTime finishDate;
     private String creator;
     private String state;
-    private User modifier;
+    private String modifier;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
 
-    @Autowired
+    /*@Autowired
     BoardSubjectRepository boardSubjectRepository;
 
     public Board toEntity(){
@@ -44,7 +47,7 @@ public class BoardRequestDto {
                 .finishDate(finishDate)
                 .state(state)
                 .build();
-    }
+    }*/
 
     @Override
     public String toString() {
@@ -52,13 +55,15 @@ public class BoardRequestDto {
                 "boardSubjectId=" + boardSubjectId +
                 ", title='" + title + '\'' +
                 ", contents='" + contents + '\'' +
-                ", view_count=" + view_count +
+                ", view_count=" + viewCount +
+                ", recommend_count=" + recommend_count +
                 ", startDate=" + startDate +
                 ", finishDate=" + finishDate +
                 ", creator='" + creator + '\'' +
                 ", state='" + state + '\'' +
                 ", modifier=" + modifier +
-                ", boardSubjectRepository=" + boardSubjectRepository +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
                 '}';
     }
 }
