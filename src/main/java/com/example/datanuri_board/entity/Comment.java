@@ -47,15 +47,15 @@ public class Comment extends BaseEntity {
 
 
     //== 연관관계 편의 메서드 ==//
-    public void confirmAuthor(User author) {
-        this.author = author;
-        author.addComment(this);
-    }
-
-    public void confirmBoard(Board board) {
-        this.board = board;
-        board.addComment(this);
-    }
+//    public void confirmAuthor(User author) {
+//        this.author = author;
+//        author.addComment(this);
+//    }
+//
+//    public void confirmBoard(Board board) {
+//        this.board = board;
+//        board.addComment(this);
+//    }
 
     public void confirmParent(Comment parent) {
         this.parent = parent;
