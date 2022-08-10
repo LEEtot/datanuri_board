@@ -1,12 +1,14 @@
 package com.example.datanuri_board.service;
 
+import com.example.datanuri_board.config.SecurityUtil;
 import com.example.datanuri_board.dto.request.SearchDto;
 import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.dto.request.UserRequestDto;
-import com.example.datanuri_board.entity.Role;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
+import io.jsonwebtoken.io.Encoders;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -19,6 +21,7 @@ import java.util.List;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     /**
      * User 저장
@@ -46,7 +49,7 @@ public class UserService {
     public void signup(UserRequestDto userRequestDto) {
         User user = User.builder()
                 .email(userRequestDto.getEmail())
-                .password(userRequestDto.getPassword())
+                .password(passwordEncoder.encode(userRequestDto.getPassword()))
                 .name(userRequestDto.getName())
                 .role(userRequestDto.getRole())
                 .phoneNumber(userRequestDto.getPhoneNumber())
@@ -54,7 +57,7 @@ public class UserService {
                 .state(userRequestDto.getState())
                 .imgPath(userRequestDto.getImgPath())
                 .build();
-        save(user);
+        userRepository.save(user);
     }
 
     /**
@@ -95,7 +98,7 @@ public class UserService {
     @Transactional
     public void update(Long id, UserRequestDto userUpdateRequestDto) {
         User user = userRepository.findById(id).orElseThrow();
-        int phoneNumber = userUpdateRequestDto.getPhoneNumber();
+        String phoneNumber = userUpdateRequestDto.getPhoneNumber();
         String imgPath = userUpdateRequestDto.getImgPath();
         if(user.getPhoneNumber() != phoneNumber) {
             user.setPhoneNumber(phoneNumber);
@@ -168,6 +171,12 @@ public class UserService {
             userResponseDtoList.add(setUserResponseDto(user));
         }
         return userResponseDtoList;
+    }
+
+    public UserResponseDto getMyInfoBySecurity() {
+        return userRepository.findById(SecurityUtil.getCurrentMemberId())
+                .map(this::setUserResponseDto)
+                .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
     }
 
     /**

@@ -14,7 +14,7 @@ import java.util.List;
 @RequestMapping("/api/v1/role")
 public class RoleController {
 
-    private RoleService roleService;
+    private final RoleService roleService;
 
     /**
      * 검색 조건 반영해서 Role 목록 조회 (다건 조회)

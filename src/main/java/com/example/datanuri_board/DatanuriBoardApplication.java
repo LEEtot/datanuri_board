@@ -9,5 +9,6 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class DatanuriBoardApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(DatanuriBoardApplication.class, args);
+		System.out.println(org.springframework.core.SpringVersion.getVersion());
 	}
 }

@@ -18,7 +18,7 @@ public class UserResponseDto {
     private String email;
     private String name;
     private String role;
-    private int phoneNumber;
+    private String phoneNumber;
     private LocalDateTime lastLoginTime;
     private String signUpApi;
     private String state;
