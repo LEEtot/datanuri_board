@@ -48,6 +48,5 @@ public class User extends BaseEntity {
     private String state;
 
     private String imgPath;
-
 }
 

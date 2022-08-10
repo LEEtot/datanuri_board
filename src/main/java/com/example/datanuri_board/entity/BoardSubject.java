@@ -8,13 +8,14 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Entity
 @Table(name = "board_subject")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class BoardSubject extends BaseEntity {
+public class BoardSubject extends BaseEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,11 +34,31 @@ public class BoardSubject extends BaseEntity {
     @Size(min = 4, max = 4)
     private String state;
 
+
     @Builder
     public BoardSubject(String subject, String readAuthority, String writeAuthority, String state){
         this.subject = subject;
         this.readAuthority = readAuthority;
         this.writeAuthority = writeAuthority;
         this.state = state;
+    }
+
+
+   public void update(String subject, String readAuthority, String writeAuthority, String state ){
+        this.subject = subject;
+        this.readAuthority = readAuthority;
+        this.writeAuthority = writeAuthority;
+        this.state = state;
+    }
+
+    @Override
+    public String toString() {
+        return "BoardSubject{" +
+                "id=" + id +
+                ", subject='" + subject + '\'' +
+                ", readAuthority='" + readAuthority + '\'' +
+                ", writeAuthority='" + writeAuthority + '\'' +
+                ", state='" + state + '\'' +
+                '}';
     }
 }
