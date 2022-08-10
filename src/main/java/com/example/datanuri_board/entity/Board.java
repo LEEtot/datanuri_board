@@ -10,6 +10,10 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static javax.persistence.CascadeType.ALL;
 
 @Entity
 @Getter
@@ -67,5 +71,4 @@ public class Board extends BaseEntity implements Serializable {
         this.state = state;
         this.viewCount = viewCount;
     }
-
 }

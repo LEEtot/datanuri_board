@@ -1,4 +1,6 @@
 package com.example.datanuri_board.service;
 
-public class BoardRecommendService {
+public class RecommendService {
+
+
 }

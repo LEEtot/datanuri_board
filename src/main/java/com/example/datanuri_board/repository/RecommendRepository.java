@@ -1,8 +1,11 @@
 package com.example.datanuri_board.repository;
 
 import com.example.datanuri_board.entity.Recommend;
+import com.example.datanuri_board.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface BoardRecommendRepository extends JpaRepository<Recommend, Long> {
+import java.util.Optional;
+
+public interface RecommendRepository extends JpaRepository<Recommend, Long> {
 
 }

@@ -1,16 +1,11 @@
 package com.example.datanuri_board.entity;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.util.Arrays;
-import java.util.Collection;
 
 @Entity
 @Getter @Setter /** 클래스 내 모든 필드의 Getter/Setter 메소드 생성 */
@@ -48,5 +43,6 @@ public class User extends BaseEntity {
     private String state;
 
     private String imgPath;
+
 }
 

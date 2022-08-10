@@ -13,9 +13,13 @@ import javax.persistence.*;
 public class Recommend extends BaseEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(nullable = false)
     private Long recommend_id;
+
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "userId")
+    private User user;  // 유저(ID)
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "boardId")
