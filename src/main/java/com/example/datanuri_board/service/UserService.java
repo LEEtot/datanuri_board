@@ -113,7 +113,7 @@ public class UserService {
      * @param id
      * @return
      */
-    private User findById(Long id) {
+    public User findById(Long id) {
         return userRepository.findById(id).orElseThrow();
     }
 
@@ -202,4 +202,5 @@ public class UserService {
                 .build();
         return userResponseDto;
     }
+
 }
