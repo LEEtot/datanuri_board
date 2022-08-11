@@ -10,7 +10,7 @@ import java.util.List;
 @Getter @Setter
 @Entity
 @EntityListeners(AuditingEntityListener.class)
-public class Comment {
+public class Comment extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "comment_id")
