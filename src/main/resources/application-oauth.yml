@@ -3,34 +3,15 @@ jwt:
   secret: dGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpIHRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaQ
 
 spring:
-  datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost/datanuri_board
-    username: postgres
-    password: 1111
-  jpa:
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-    show-sql: true
-    defer-datasource-initialization: true
-    properties:
-      hibernate:
-        format_sql: true
-        default_batch_fetch_size: 100
-  sql:
-    init:
-      mode: always
-
-#  security:
-#    oauth2.client:
-#      registration:
-#        google:
-#          clientId: '{?? client-id}'
-#          clientSecret: '{?? client-secret}'
-#          scope:
-#            - email
-#            - profile
+  security:
+    oauth2.client:
+      registration:
+        google:
+          clientId: '557184034193-bgfgg1grmuoqvn1n8k0j0uenj0a1h7dr.apps.googleusercontent.com'
+          clientSecret: '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'
+          scope:
+            - email
+            - profile
 #        naver:
 #          clientId: '{??? client-id}'
 #          clientSecret: '{??? client-secret}'
