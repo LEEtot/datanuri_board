@@ -1,14 +1,13 @@
 package com.example.datanuri_board.dto.response;
 
 import com.example.datanuri_board.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import com.example.datanuri_board.entity.User;
+import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,4 +26,25 @@ public class UserResponseDto {
     private LocalDateTime createdDate;
     private String modifier;
     private LocalDateTime modifiedDate;
+
+    public static UserResponseDto of(User user) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(user, UserResponseDto.class);
+
+//        return UserResponseDto.builder()
+//                .id(user.getId())
+//                .email(user.getEmail())
+//                .name(user.getName())
+//                .role(user.getName())
+//                .phoneNumber(user.getPhoneNumber())
+//                .lastLoginTime(user.getLastLoginTime())
+//                .signUpApi(user.getSignUpApi())
+//                .state(user.getState())
+//                .imgPath(user.getImgPath())
+//                .creator(user.getCreator())
+//                .createdDate(user.getCreatedDate())
+//                .modifier(user.getModifier())
+//                .modifiedDate(user.getModifiedDate())
+//                .build();
+    }
 }

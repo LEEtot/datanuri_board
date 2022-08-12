@@ -6,51 +6,36 @@ import com.example.datanuri_board.dto.response.RoleResponseDto;
 import com.example.datanuri_board.entity.Role;
 import com.example.datanuri_board.repository.RoleRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class RoleService {
 
     private final RoleRepository roleRepository;
-
-    /**
-     * Role 저장
-     * @param role
-     */
-    @Transactional
-    public void save(Role role) {
-        roleRepository.save(role);
-    }
-
-    /**
-     * Role 삭제
-     * @param role
-     */
-    @Transactional
-    public void delete(Role role) {
-        roleRepository.delete(role);
-    }
 
     /**
      * Role 생성
      * @param roleRequestDto
      */
     @Transactional
-    public void createRole(RoleRequestDto roleRequestDto) {
-
-        Role role = Role.builder()
-                .id(roleRequestDto.getId())
-                .name(roleRequestDto.getName())
-                .originName(roleRequestDto.getOriginName())
-                .description(roleRequestDto.getDescription())
-                .build();
-        save(role);
+    public Boolean createRole(RoleRequestDto roleRequestDto) {
+        if(!existsById(roleRequestDto.getId())) {
+            roleRepository.save(roleRequestDto.toEntity());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -58,20 +43,16 @@ public class RoleService {
      * @param roleRequestDto
      */
     @Transactional
-    public void updateRole(RoleRequestDto roleRequestDto) {
-        Role role = findById(roleRequestDto.getId());
+    public void updateRole(String id, RoleRequestDto roleRequestDto) {
+        Role role = roleRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 권한이 없습니다."));
         String name = roleRequestDto.getName();
         String originName = roleRequestDto.getOriginName();
         String description = roleRequestDto.getDescription();
-        if(role.getName() != name) {
-            role.setName(name);
-        }
-        if(role.getOriginName() != originName) {
-            role.setOriginName(originName);
-        }
-        if(role.getDescription() != description) {
-            role.setDescription(description);
-        }
+        role.setName(name);
+        role.setOriginName(originName);
+        role.setDescription(description);
     }
 
     /**
@@ -80,8 +61,10 @@ public class RoleService {
      */
     @Transactional
     public void deleteRole(String id) {
-        Role role = findById(id);
-        delete(role);
+        Role role = roleRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 권한이 없습니다."));
+        roleRepository.delete(role);
     }
 
     /**
@@ -89,50 +72,54 @@ public class RoleService {
      * @return
      */
     public List<RoleResponseDto> findAll() {
-        List<Role> roleList = roleRepository.findAll();
-        List<RoleResponseDto> roleResponseDtoList = new ArrayList<>();
-        for(Role role : roleList) {
-            RoleResponseDto roleResponseDto = setRoleResponseDto(role);
-            roleResponseDtoList.add(roleResponseDto);
-        }
-        return roleResponseDtoList;
+        return roleRepository
+                .findAll()
+                .stream()
+                .map(RoleResponseDto::of)
+                .collect(Collectors.toList());
     }
 
     /**
      * Role 검색 조회 (다건 조회)
-     * @param searchDto
+     * @param params
      * @return
      */
-    public List<RoleResponseDto> findBySearch(SearchDto searchDto) {
-        List<Role> roleList = new ArrayList<>();
-        String orderCondition = searchDto.getOrderCondition();
-        String selectCondition = searchDto.getSelectCondition();
-        String searchCondition = searchDto.getSearchCondition();
+    public List<RoleResponseDto> findBySearch(Map<String, String> params) {
+        String orderCondition = params.get("orderCondition");
+        String selectCondition = params.get("selectCondition");
+        String searchCondition = params.get("searchCodition");
         if(selectCondition == "all") {
-            roleList = roleRepository.findByIdContainingOrNameContainingOrOriginNameContaining(searchCondition, searchCondition, searchCondition);
+            return roleRepository
+                    .findByIdContainingOrNameContainingOrOriginNameContaining(searchCondition, searchCondition, searchCondition)
+                    .stream()
+                    .map(RoleResponseDto::of)
+                    .collect(Collectors.toList());
         } else if(selectCondition == "id") {
-            roleList = roleRepository.findByIdContaining(searchCondition);
+            return roleRepository
+                    .findByIdContaining(searchCondition)
+                    .stream()
+                    .map(RoleResponseDto::of)
+                    .collect(Collectors.toList());
         } else if(selectCondition == "name") {
-            roleList = roleRepository.findByNameContaining(searchCondition);
+            return roleRepository
+                    .findByNameContaining(searchCondition)
+                    .stream()
+                    .map(RoleResponseDto::of)
+                    .collect(Collectors.toList());
         } else if(selectCondition == "originName") {
-            roleList = roleRepository.findByOriginNameContaining(searchCondition);
+            return roleRepository
+                    .findByOriginNameContaining(searchCondition)
+                    .stream()
+                    .map(RoleResponseDto::of)
+                    .collect(Collectors.toList());
         } else {
+            log.info("Select Condition Error");
+            return roleRepository
+                    .findAll()
+                    .stream()
+                    .map(RoleResponseDto::of)
+                    .collect(Collectors.toList());
         }
-        List<RoleResponseDto> roleResponseDtoList = new ArrayList<>();
-        for(Role role : roleList) {
-            RoleResponseDto roleResponseDto = setRoleResponseDto(role);
-            roleResponseDtoList.add(roleResponseDto);
-        }
-        return roleResponseDtoList;
-    }
-
-    /**
-     * id로 권한 조회 (단건 조회)
-     * @param id
-     * @return
-     */
-    private Role findById(String id) {
-        return roleRepository.findById(id).orElseThrow();
     }
 
     /**
@@ -141,7 +128,9 @@ public class RoleService {
      * @return
      */
     public RoleResponseDto getRoleData(String id) {
-        return setRoleResponseDto(findById(id));
+        return RoleResponseDto.of(roleRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("일치하는 권한이 없습니다.")));
     }
 
     /**
@@ -151,15 +140,5 @@ public class RoleService {
      */
     public Boolean existsById(String id) {
         return roleRepository.existsById(id);
-    }
-
-    private RoleResponseDto setRoleResponseDto(Role role) {
-        RoleResponseDto roleResponseDto = RoleResponseDto.builder()
-                .id(role.getId())
-                .name(role.getName())
-                .originName(role.getOriginName())
-                .description(role.getDescription())
-                .build();
-        return roleResponseDto;
     }
 }

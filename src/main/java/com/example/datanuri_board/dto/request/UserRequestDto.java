@@ -13,10 +13,6 @@ import lombok.NoArgsConstructor;
 @Builder
 public class UserRequestDto {
 
-    private Long id;
-
-
-
     private String email;
     private String password;
     private String name;
@@ -25,22 +21,6 @@ public class UserRequestDto {
     private String signUpApi;
     private String state;
     private String imgPath;
-
-
-    @Override
-    public String toString() {
-        return "UserRequestDto{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", name='" + name + '\'' +
-                ", role='" + role + '\'' +
-                ", phoneNumber=" + phoneNumber +
-                ", signUpApi='" + signUpApi + '\'' +
-                ", state='" + state + '\'' +
-                ", imgPath='" + imgPath + '\'' +
-                '}';
-    }
 
     public User toEntity() {
         return User.builder()
@@ -53,5 +33,9 @@ public class UserRequestDto {
                 .state(this.getState())
                 .imgPath(this.getImgPath())
                 .build();
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }

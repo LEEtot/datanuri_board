@@ -8,56 +8,38 @@ import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
 import io.jsonwebtoken.io.Encoders;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**
-     * User 저장
-     * @param user
-     */
-    @Transactional
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
-    /**
-     * User 삭제
-     * @param user
-     */
-    @Transactional
-    public void delete(User user) {
-        userRepository.delete(user);
-    }
-
-    /**
      * 회원 가입
      * @param userRequestDto
      */
     @Transactional
-    public void signup(UserRequestDto userRequestDto) {
-        User user = User.builder()
-                .email(userRequestDto.getEmail())
-                .password(passwordEncoder.encode(userRequestDto.getPassword()))
-                .name(userRequestDto.getName())
-                .role(userRequestDto.getRole())
-                .phoneNumber(userRequestDto.getPhoneNumber())
-                .signUpApi(userRequestDto.getSignUpApi())
-                .state(userRequestDto.getState())
-                .imgPath(userRequestDto.getImgPath())
-                .build();
-        userRepository.save(user);
+    public Boolean signup(UserRequestDto userRequestDto) {
+        if(!existsByEmail(userRequestDto.getEmail())) {
+            userRequestDto.setPassword(passwordEncoder.encode(userRequestDto.getPassword()));
+            userRepository.save(userRequestDto.toEntity());
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -66,7 +48,7 @@ public class UserService {
      */
     @Transactional
     public void withdrawal(Long id) {
-        stateUpdate(id, "withdrawal");
+        stateUpdate(id, "S003");
     }
 
     /**
@@ -76,7 +58,9 @@ public class UserService {
      */
     @Transactional
     public void stateUpdate(Long id, String state) {
-        User user = findById(id);
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다."));
         user.setState(state);
     }
 
@@ -87,7 +71,9 @@ public class UserService {
      */
     @Transactional
     public void roleUpdate(Long id, String role) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다"));
         user.setRole(role);
     }
 
@@ -97,24 +83,13 @@ public class UserService {
      */
     @Transactional
     public void update(Long id, UserRequestDto userUpdateRequestDto) {
-        User user = userRepository.findById(id).orElseThrow();
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다"));
         String phoneNumber = userUpdateRequestDto.getPhoneNumber();
         String imgPath = userUpdateRequestDto.getImgPath();
-        if(user.getPhoneNumber() != phoneNumber) {
-            user.setPhoneNumber(phoneNumber);
-        }
-        if(user.getImgPath() != imgPath) {
-            user.setImgPath(imgPath);
-        }
-    }
-
-    /**
-     * id로 User 조회 (단건 조회)
-     * @param id
-     * @return
-     */
-    private User findById(Long id) {
-        return userRepository.findById(id).orElseThrow();
+        user.setPhoneNumber(phoneNumber);
+        user.setImgPath(imgPath);
     }
 
     /**
@@ -123,7 +98,9 @@ public class UserService {
      * @return
      */
     public UserResponseDto getUserData(Long id) {
-        return setUserResponseDto(findById(id));
+        return UserResponseDto.of(userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다")));
     }
 
     /**
@@ -140,66 +117,52 @@ public class UserService {
      * @return
      */
     public List<UserResponseDto> findAll() {
-        List<UserResponseDto> userResponseList = new ArrayList<>();
-        List<User> userList = userRepository.findAll();
-        for(User user : userList) {
-            userResponseList.add(setUserResponseDto(user));
-        }
-        return userResponseList;
+        return userRepository
+                .findAll()
+                .stream()
+                .map(UserResponseDto::of)
+                .collect(Collectors.toList());
     }
 
     /**
      * 검색 (다건 조회)
-     * @param searchDto
+     * @param params
      * @return
      */
-    public List<UserResponseDto> findBySearch(SearchDto searchDto) {
-        List<User> userList = new ArrayList<>();
-        String orderCondition = searchDto.getOrderCondition();
-        String selectCondition = searchDto.getSelectCondition();
-        String searchCondition = searchDto.getSearchCondition();
-        if(selectCondition == "all") {
-            userList = userRepository.findByEmailContainingOrNameContaining(searchCondition, searchCondition);
-        } else if(selectCondition == "name") {
-            userList = userRepository.findByNameContaining(searchCondition);
-        } else if(selectCondition == "email") {
-            userList = userRepository.findByEmailContaining(searchCondition);
+    public List<UserResponseDto> findBySearch(Map<String, String> params) {
+        String orderCondition = params.get("orderCondition");
+        String selectCondition = params.get("selectCondition");
+        String searchCondition = params.get("searchCondition");
+        if(selectCondition.equals("all")) {
+            return userRepository
+                    .findByEmailContainingOrNameContaining(searchCondition, searchCondition)
+                    .stream()
+                    .map(UserResponseDto::of)
+                    .collect(Collectors.toList());
+        } else if(selectCondition.equals("name")) {
+            return userRepository
+                    .findByNameContaining(searchCondition)
+                    .stream()
+                    .map(UserResponseDto::of)
+                    .collect(Collectors.toList());
+        } else if(selectCondition.equals("email")) {
+            return userRepository
+                    .findByEmailContaining(searchCondition)
+                    .stream()
+                    .map(UserResponseDto::of)
+                    .collect(Collectors.toList());
         } else {
+            return userRepository
+                    .findAll()
+                    .stream()
+                    .map(UserResponseDto::of)
+                    .collect(Collectors.toList());
         }
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for(User user : userList) {
-            userResponseDtoList.add(setUserResponseDto(user));
-        }
-        return userResponseDtoList;
     }
 
     public UserResponseDto getMyInfoBySecurity() {
         return userRepository.findById(SecurityUtil.getCurrentMemberId())
-                .map(this::setUserResponseDto)
+                .map(UserResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
-    }
-
-    /**
-     * User 데이터를 UserResponseDto에 적재
-     * @param user
-     * @return
-     */
-    private UserResponseDto setUserResponseDto(User user) {
-        UserResponseDto userResponseDto = UserResponseDto.builder()
-                .id(user.getId())
-                .email(user.getEmail())
-                .name(user.getName())
-                .role(user.getRole())
-                .phoneNumber(user.getPhoneNumber())
-                .lastLoginTime(user.getLastLoginTime())
-                .signUpApi(user.getSignUpApi())
-                .state(user.getState())
-                .imgPath(user.getImgPath())
-                .creator(user.getCreator())
-                .createdDate(user.getCreatedDate())
-                .modifier(user.getModifier())
-                .modifiedDate(user.getModifiedDate())
-                .build();
-        return userResponseDto;
     }
 }
