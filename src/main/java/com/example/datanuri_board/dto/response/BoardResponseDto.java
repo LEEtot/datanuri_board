@@ -19,6 +19,8 @@ public class BoardResponseDto {
     private String state;
     private LocalDateTime createdDate;
     private LocalDateTime modifiedDate;
+    private String creator;
+    private String modifier;
 
     //추천수 값
     private Long recommendCount;
@@ -35,6 +37,8 @@ public class BoardResponseDto {
         this.recommendCount = entity.getRecommendCount();
         this.createdDate = entity.getCreatedDate();
         this.modifiedDate = entity.getModifiedDate();
+        this.creator = entity.getCreator();
+        this.modifier = entity.getModifier();
 
     }
 

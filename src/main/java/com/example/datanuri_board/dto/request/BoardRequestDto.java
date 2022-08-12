@@ -49,6 +49,16 @@ public class BoardRequestDto {
                 .build();
     }*/
 
+    public BoardRequestDto(Long boardSubjectId, String title, String contents, Long viewCount, Long recommend_count, LocalDateTime startDate, LocalDateTime finishDate) {
+        this.boardSubjectId = boardSubjectId;
+        this.title = title;
+        this.contents = contents;
+        this.viewCount = viewCount;
+        this.recommend_count = recommend_count;
+        this.startDate = startDate;
+        this.finishDate = finishDate;
+    }
+
     @Override
     public String toString() {
         return "BoardRequestDto{" +

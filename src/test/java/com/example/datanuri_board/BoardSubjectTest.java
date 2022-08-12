@@ -18,6 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -38,7 +39,7 @@ public class BoardSubjectTest {
 
 
         //게시판 생성
-        BoardSubjectRequestDto requestDto = new BoardSubjectRequestDto();
+/*        BoardSubjectRequestDto requestDto = new BoardSubjectRequestDto();
         requestDto.setSubject("testSubject");
         requestDto.setCreator("main");
         requestDto.setState("post");
@@ -89,18 +90,32 @@ public class BoardSubjectTest {
         Pageable pageable = PageRequest.of(0, 5);
 
         //게시글 최신순으로 전체조회
-        List<BoardResponseDto> boardLast = boardService.findBoardByBoardSubject_IdAndStateOrderByCreatedDateDesc(1L, pageable);
-        for(BoardResponseDto board : boardLast){
+//        List<BoardResponseDto> boardLast = boardService.findBoardByBoardSubject_IdAndStateOrderByCreatedDateDesc(1L, pageable);
+//        for(BoardResponseDto board : boardLast){
+//
+//            System.out.println("board최신순" + board.toString());
+//        }
 
-            System.out.println("board최신순" + board.toString());
+
+        boardRequestDto.setTitle("수정한 게시글타이틀081208120812");
+        boardRequestDto.setContents("게시글타이틀081208120812");
+        boardRequestDto.setViewCount(5L);
+        boardService.update(1L, boardRequestDto);
+*/
+
+        //PageRequest pageRequest = PageRequest.of(5, 5);
+
+        List<String> state = new ArrayList<>();
+        state.add("S001");
+        state.add("S004");
+        List<BoardSubjectResponseDto> lists =  boardSubjectService.listByState(state);
+        for (BoardSubjectResponseDto dto : lists){
+            System.out.println(dto.toString());
         }
 
+        //boardService.findBoardByCreator("main", pageRequest);
 
-        boardRequestDto.setTitle("수정한 게시글타이틀");
-        boardRequestDto.setContents("수정한게시");
-        boardRequestDto.setViewCount(0L);
-        boardService.update(1L, boardRequestDto);
-
+        /*
         //게시글 전체조회(추천순)
         List<BoardResponseDto> boards2 = boardService.findRecommend(1L, pageable);
         System.out.println("boards 뿌리기");
@@ -132,5 +147,6 @@ public class BoardSubjectTest {
 
             System.out.println("상위5개====" + board.toString());
         }
+        */
     }
 }

@@ -2,12 +2,17 @@ package com.example.datanuri_board.controller;
 
 
 import com.example.datanuri_board.dto.request.BoardSubjectRequestDto;
+import com.example.datanuri_board.dto.response.BoardResponseDto;
 import com.example.datanuri_board.dto.response.BoardSubjectResponseDto;
+import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.service.BoardSubjectService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/boardSubject")
@@ -30,9 +35,25 @@ public class BoardSubjectApiController {
     /**
      * 게시판 전체조회
      */
-    @GetMapping("/list")
+    /*@GetMapping("/list")
     public List<BoardSubjectResponseDto> findAll(){
         return boardSubjectService.findAll();
+    }*/
+
+    /**
+     * 게시판 state - S001만 전체조회
+     */
+    @GetMapping("/list/S001")
+    public List<BoardSubjectResponseDto> findAllStateS001(){
+        return boardSubjectService.findBoardSubjectByState("S001");
+    }
+
+    /**
+     * 게시판 state - S002만 전체조회
+     */
+    @GetMapping("/list/S002")
+    public List<BoardSubjectResponseDto> findAllStateS002(){
+        return boardSubjectService.findBoardSubjectByState("S002");
     }
 
     /**
@@ -50,4 +71,14 @@ public class BoardSubjectApiController {
     public Long update(@PathVariable final Long id,@RequestBody final BoardSubjectRequestDto params){
         return boardSubjectService.update(id, params);
     }
+
+    /**
+     * 게시판 삭제 (state="S003"으로 수정)
+     */
+    @GetMapping("/delete/{id}")
+    public Long update(@PathVariable final Long id){
+        return boardSubjectService.updateState(id);
+    }
+
+
 }
