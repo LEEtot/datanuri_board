@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -25,16 +26,19 @@ public class UserController {
 
     /**
      * 검색 조건 반영해서 회원 목록 조회 (다건 조회)
-     * @param orderCondition
-     * @param selectCondition
-     * @param searchCondition
+     * @param params
      * @return
      */
     @GetMapping("/")
-    public List<UserResponseDto> userSearch(@RequestParam("orderCondition") String orderCondition, @RequestParam("selectCondition") String selectCondition, @RequestParam("searchCondition") String searchCondition) {
-        log.info(orderCondition + selectCondition + searchCondition);
-        return userService.findBySearch(orderCondition, selectCondition, searchCondition);
+    public List<UserResponseDto> userSearch(@RequestParam Map<String, String> params) {
+        log.info(params.toString());
+        return userService.findBySearch(params);
     }
+//    @GetMapping("/")
+//    public List<UserResponseDto> userSearch(@RequestParam("orderCondition") String orderCondition, @RequestParam("selectCondition") String selectCondition, @RequestParam("searchCondition") String searchCondition) {
+//        log.info(orderCondition + selectCondition + searchCondition);
+//        return userService.findBySearch(orderCondition, selectCondition, searchCondition);
+//    }
 
     /**
      * 회원 정보 조회 (단건 조회)
@@ -52,7 +56,7 @@ public class UserController {
      * @return
      */
     @GetMapping("/duplicateCheck")
-    public Boolean duplicateCheck(String email) {
+    public Boolean duplicateCheck(@RequestParam("email") String email) {
         return userService.existsByEmail(email);
     }
 
@@ -62,8 +66,11 @@ public class UserController {
      */
     @PostMapping("/signup")
     public void signupUser(@RequestBody UserRequestDto userRequestDto) {
-        log.info(userRequestDto.toString());
-        userService.signup(userRequestDto);
+        if(userService.signup(userRequestDto)) {
+            log.info("회원가입성공");
+        } else {
+            log.info("회원가입실패");
+        }
     }
 
     /**

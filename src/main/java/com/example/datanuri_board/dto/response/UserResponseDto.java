@@ -2,14 +2,12 @@ package com.example.datanuri_board.dto.response;
 
 import com.example.datanuri_board.entity.Role;
 import com.example.datanuri_board.entity.User;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.modelmapper.ModelMapper;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,19 +27,24 @@ public class UserResponseDto {
     private String modifier;
     private LocalDateTime modifiedDate;
 
-    public UserResponseDto(User user) {
-        this.id = user.getId();
-        this.email = user.getEmail();
-        this.name = user.getName();
-        this.role = user.getRole();
-        this.phoneNumber = user.getPhoneNumber();
-        this.lastLoginTime = user.getLastLoginTime();
-        this.signUpApi = user.getSignUpApi();
-        this.state = user.getState();
-        this.imgPath = user.getImgPath();
-        this.creator = user.getCreator();
-        this.createdDate = user.getCreatedDate();
-        this.modifier = user.getModifier();
-        this.modifiedDate = user.getModifiedDate();
+    public static UserResponseDto of(User user) {
+        ModelMapper modelMapper = new ModelMapper();
+        return modelMapper.map(user, UserResponseDto.class);
+
+//        return UserResponseDto.builder()
+//                .id(user.getId())
+//                .email(user.getEmail())
+//                .name(user.getName())
+//                .role(user.getName())
+//                .phoneNumber(user.getPhoneNumber())
+//                .lastLoginTime(user.getLastLoginTime())
+//                .signUpApi(user.getSignUpApi())
+//                .state(user.getState())
+//                .imgPath(user.getImgPath())
+//                .creator(user.getCreator())
+//                .createdDate(user.getCreatedDate())
+//                .modifier(user.getModifier())
+//                .modifiedDate(user.getModifiedDate())
+//                .build();
     }
 }

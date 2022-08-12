@@ -5,10 +5,13 @@ import com.example.datanuri_board.dto.request.SearchDto;
 import com.example.datanuri_board.dto.response.RoleResponseDto;
 import com.example.datanuri_board.service.RoleService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/role")
@@ -18,12 +21,12 @@ public class RoleController {
 
     /**
      * 검색 조건 반영해서 Role 목록 조회 (다건 조회)
-     * @param searchDto
+     * @param params
      * @return
      */
     @GetMapping("/")
-    public List<RoleResponseDto> roleSearch(@RequestBody SearchDto searchDto) {
-        return roleService.findBySearch(searchDto);
+    public List<RoleResponseDto> roleSearch(@RequestParam Map<String, String> params) {
+        return roleService.findBySearch(params);
     }
 
     /**
@@ -38,12 +41,12 @@ public class RoleController {
 
     /**
      * 권한 id 중복 검사
-     * @param roleRequestDto
+     * @param id
      * @return
      */
     @GetMapping("/duplicateCheck")
-    public Boolean duplicateCheck(@RequestBody RoleRequestDto roleRequestDto) {
-        return roleService.existsById(roleRequestDto.getId());
+    public Boolean duplicateCheck(@RequestParam("id") String id) {
+        return roleService.existsById(id);
     }
 
     /**
@@ -52,7 +55,11 @@ public class RoleController {
      */
     @PostMapping("/create")
     public void createRole(@RequestBody RoleRequestDto roleRequestDto) {
-        roleService.createRole(roleRequestDto);
+        if(roleService.createRole(roleRequestDto)) {
+            log.info("권한생성성공");
+        } else {
+            log.info("권한생성실패");
+        }
     }
 
     /**
@@ -61,8 +68,7 @@ public class RoleController {
      */
     @PostMapping("/{roleId}/update")
     public void updateRole(@PathVariable("roleId") String roleId, @RequestBody RoleRequestDto roleRequestDto) {
-        roleRequestDto.setId(roleId);
-        roleService.updateRole(roleRequestDto);
+        roleService.updateRole(roleId, roleRequestDto);
     }
 
     /**
