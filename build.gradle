@@ -28,6 +28,8 @@ dependencies {
 	implementation 'junit:junit:4.13.1'
 	implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.3.8'
 
+	compileOnly 'com.google.api-client:google-api-client:1.32.1'
+
 	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'org.postgresql:postgresql'
 	annotationProcessor 'org.projectlombok:lombok'

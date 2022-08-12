@@ -1,5 +1,6 @@
 package com.example.datanuri_board.config;
 
+import com.example.datanuri_board.oauth2.CustomOauth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,6 +21,8 @@ public class WebSecurityConfig {
     private final TokenProvider tokenProvider;
     private final JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint;
     private final JwtAccessDeniedHandler jwtAccessDeniedHandler;
+
+    private final CustomOauth2UserService customOauth2UserService;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -40,11 +43,18 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/user/login", "/api/v1/user/signup").permitAll()
+                .antMatchers("/api/v1/user/login", "/api/v1/user/signup", "/oauth2/**").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider));
+                .oauth2Login()
+                .userInfoEndpoint()
+                .userService(customOauth2UserService);
+
+//                .and()
+//                .apply(new JwtSecurityConfig(tokenProvider));
+
+
 
         return http.build();
     }
