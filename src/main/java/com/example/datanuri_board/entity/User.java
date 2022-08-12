@@ -44,5 +44,11 @@ public class User extends BaseEntity {
 
     private String imgPath;
 
+    public User update(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
+
 }
 
