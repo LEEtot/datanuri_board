@@ -8,16 +8,19 @@ import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
 import io.jsonwebtoken.io.Encoders;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 @Transactional(readOnly = true)
+@Slf4j
 public class UserService {
 
     private final UserRepository userRepository;
@@ -123,7 +126,9 @@ public class UserService {
      * @return
      */
     public UserResponseDto getUserData(Long id) {
-        return setUserResponseDto(findById(id));
+        User user = findById(id);
+        log.info(user.toString());
+        return setUserResponseDto(user);
     }
 
     /**
@@ -150,26 +155,29 @@ public class UserService {
 
     /**
      * 검색 (다건 조회)
-     * @param searchDto
+     * @param orderCondition
+     * @param selectCondition
+     * @param searchCondition
      * @return
      */
-    public List<UserResponseDto> findBySearch(SearchDto searchDto) {
-        List<User> userList = new ArrayList<>();
-        String orderCondition = searchDto.getOrderCondition();
-        String selectCondition = searchDto.getSelectCondition();
-        String searchCondition = searchDto.getSearchCondition();
-        if(selectCondition == "all") {
+    public List<UserResponseDto> findBySearch(String orderCondition, String selectCondition, String searchCondition) {
+//        List<User> userList = new ArrayList<>();
+        log.info(orderCondition + selectCondition + searchCondition);
+        if(selectCondition.equals("all")) {
+            List<UserResponseDto> dtoList = userRepository.findByEmailContainingOrNameContaining(searchCondition, searchCondition).stream().map(UserResponseDto::new).collect(Collectors.toList());
+
             userList = userRepository.findByEmailContainingOrNameContaining(searchCondition, searchCondition);
-        } else if(selectCondition == "name") {
+        } else if(selectCondition.equals("name")) {
             userList = userRepository.findByNameContaining(searchCondition);
-        } else if(selectCondition == "email") {
+        } else if(selectCondition.equals("email")) {
             userList = userRepository.findByEmailContaining(searchCondition);
         } else {
+            log.info("select condition error");
         }
-        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
-        for(User user : userList) {
-            userResponseDtoList.add(setUserResponseDto(user));
-        }
+//        List<UserResponseDto> userResponseDtoList = new ArrayList<>();
+//        for(User user : userList) {
+//            userResponseDtoList.add(setUserResponseDto(user));
+//        }
         return userResponseDtoList;
     }
 

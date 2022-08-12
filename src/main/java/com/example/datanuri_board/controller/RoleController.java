@@ -32,7 +32,7 @@ public class RoleController {
      * @return
      */
     @GetMapping("/{roleId}/data")
-    public RoleResponseDto getRoleData(String roleId) {
+    public RoleResponseDto getRoleData(@PathVariable("roleId") String roleId) {
         return roleService.getRoleData(roleId);
     }
 
@@ -60,7 +60,7 @@ public class RoleController {
      * @param roleRequestDto
      */
     @PostMapping("/{roleId}/update")
-    public void updateRole(String roleId, @RequestBody RoleRequestDto roleRequestDto) {
+    public void updateRole(@PathVariable("roleId") String roleId, @RequestBody RoleRequestDto roleRequestDto) {
         roleRequestDto.setId(roleId);
         roleService.updateRole(roleRequestDto);
     }
@@ -70,7 +70,7 @@ public class RoleController {
      * @param roleId
      */
     @PostMapping("/{roleId}/delete")
-    public void deleteRole(String roleId) {
+    public void deleteRole(@PathVariable("roleId") String roleId) {
         roleService.deleteRole(roleId);
     }
 }
