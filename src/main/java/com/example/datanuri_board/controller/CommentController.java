@@ -1,65 +1,56 @@
 package com.example.datanuri_board.controller;
 
 import com.example.datanuri_board.dto.CommentDto;
-import com.example.datanuri_board.dto.response.BoardSubjectResponseDto;
 import com.example.datanuri_board.entity.Comment;
-import com.example.datanuri_board.entity.User;
-import com.example.datanuri_board.service.BoardService;
-import com.example.datanuri_board.service.BoardSubjectService;
 import com.example.datanuri_board.service.CommentService;
-import com.example.datanuri_board.service.UserService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import java.util.List;
 
-@Controller
-@RequestMapping("/comment")
-@RequiredArgsConstructor
-@Slf4j
+
+@RestController
+@RequestMapping("/api/v1/comment")
 public class CommentController {
 
-    private final CommentService commentService;
-    private final UserService userService;
-    private final BoardService boardService;
-    private final BoardSubjectService boardSubjectService;
+    @Autowired
+    private CommentService commentService;
 
-    @PostMapping("/create")
-    public String createComment(CommentDto commentDto, HttpSession httpSession) {
+    //  댓글 목록 조회
+    @GetMapping("/{boardId}/comments")
+    public ResponseEntity<List<CommentDto>> comments(@PathVariable Long boardId) {
 
-        String loginId = String.valueOf(Long.parseLong(httpSession.getId()));
-        User author = userService.findById(Long.valueOf(loginId));
+        List<CommentDto> getCommentData = commentService.comments(boardId);
 
-        BoardSubjectResponseDto board = boardSubjectService.findById(Long.valueOf(commentDto.getBoardId()));
-        commentService.createComment(commentDto,board,author);
+        return ResponseEntity.status(HttpStatus.OK).body(getCommentData);
+    }
+    //  댓글 생성
+    @PostMapping("/{boardId}/create")
+    public ResponseEntity<CommentDto> create(@PathVariable Long boardId,
+                                             @RequestBody CommentDto dto) throws IllegalAccessException {
+        CommentDto createDto = commentService.create(boardId, dto);
 
-        long boardId=  Long.parseLong(commentDto.getBoardId());
-
-        return "redirect:/post/read?post="+boardId;
+        return ResponseEntity.status(HttpStatus.OK).body(createDto);
     }
 
-    @PostMapping("/edit")
-    public String editComment(@RequestParam String comment, @RequestParam String content) {
-
-        long commentId = Long.parseLong(comment);
-        commentService.editComment(commentId, content);
-
-        long boardId = commentService.findById(commentId).getBoard().getBoardId();
-        return "redirect:/board/read?board="+boardId;
+    //  댓글 수정
+    @PatchMapping("/{id}")
+    public ResponseEntity<CommentDto> update(@PathVariable Long id,
+                                             @RequestBody CommentDto dto) throws IllegalAccessException {
+        // 서비스에게 위임
+        CommentDto updatedDto = commentService.update(id, dto);
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(updatedDto);
     }
 
-    @GetMapping("/delete")
-    public String deleteComment(@RequestParam String comment,
-                                HttpSession httpSession) {
-
-        long commentId = Long.parseLong(comment);
-        Comment commentToDelete = commentService.findById(commentId);
-
-
-        long boardId = commentToDelete.getBoard().getBoardId();
-        commentService.deleteComment(commentId);
-        return "redirect:/board/read?board="+boardId;
+    //  댓글 삭제
+    @DeleteMapping("/api/comments/{id}")
+    public ResponseEntity<CommentDto> delete(@PathVariable Long id) {
+        // 서비스에게 위임
+        CommentDto deletedDto = commentService.delete(id);
+        // 결과 응답
+        return ResponseEntity.status(HttpStatus.OK).body(deletedDto);
     }
 }

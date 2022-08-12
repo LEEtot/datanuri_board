@@ -1,115 +1,68 @@
 package com.example.datanuri_board.service;
 
-import com.example.datanuri_board.dto.CommentDto;
-import com.example.datanuri_board.dto.response.BoardSubjectResponseDto;
-import com.example.datanuri_board.entity.Comment;
-import com.example.datanuri_board.entity.Form.ActivityForm;
-import com.example.datanuri_board.entity.User;
-import com.example.datanuri_board.repository.CommentRepository;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import com.example.datanuri_board.dto.CommentDto;
+import com.example.datanuri_board.entity.Board;
+import com.example.datanuri_board.entity.Comment;
+import com.example.datanuri_board.repository.BoardRepository;
+import com.example.datanuri_board.repository.CommentRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
-@Transactional(readOnly = true)
 public class CommentService {
 
-    private final CommentRepository commentRepository;
+    @Autowired
+    private CommentRepository commentRepository;
+    @Autowired
+    private BoardRepository boardRepository;
 
-    @Transactional
-    public void createComment(CommentDto commentDto, BoardSubjectResponseDto board, User author){
-        Comment newComment = new Comment();
-
-        if(commentDto.getCommentId()== null){
-            newComment.setLevel(1);
-        }
-
-        else{
-            long supCommentId = Long.parseLong(commentDto.getCommentId());
-            Comment supComment = commentRepository.findById(supCommentId);
-
-            if(!supComment.getLive()){
-                throw new RuntimeException("SuperComment is already dead");
-            }
-            newComment.setLevel(supComment.getLevel()+1);
-            newComment.setSuperComment(supComment);
-            supComment.getSubComment().add(newComment);
-        }
-
-        newComment.setContent(commentDto.getContent().replace("\r\n", "<br>"));
-        newComment.setBoard(board);
-
-        newComment.setAuthor(author.getName());
-        newComment.setAuthor(author.getCreator());
-
-        newComment.setLive(true);
-        commentRepository.save(newComment);
+    // 댓글 목록 조회
+    public List<CommentDto> comments(Long boardId) {
+        return commentRepository.findbyBoardId(boardId)
+                .stream()
+                .map(comment -> CommentDto.createCommentDto(comment))
+                .collect(Collectors.toList());
     }
 
+    // 댓글 생성
     @Transactional
-    public void deleteComment(long commentId){
+    public CommentDto create(Long boardId, CommentDto dto) throws IllegalAccessException {
+        // 게시글 조회 및 예외 발생
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(()-> new IllegalArgumentException("댓글 생성 실패! 대상 게시글이 없습니다."));
 
-        Comment commentToDelete = commentRepository.findById(commentId);
+        Comment comment = Comment.creatComment(dto,board);
+        Comment created = commentRepository.save(comment);
 
-        if(commentToDelete.getSubComment().size()==0){
-            while(commentToDelete!=null){
-                Comment superComment = commentToDelete.getSuperComment();
-                if(superComment ==null){
-                    commentRepository.deleteById(commentToDelete.getId());
-                    break;
-                }
-                superComment.getSubComment().remove(commentToDelete);
-                commentRepository.deleteById(commentToDelete.getId());
-                if(superComment.getSubComment().size()==0 && !superComment.getLive()){
-                    commentToDelete = superComment;
-                }
-                else{ break; }
-            }
-        }
-        else if(commentToDelete!=null){
-            commentToDelete.setContent("삭제된 댓글입니다.");
-            commentToDelete.setLive(false);
-        }
+        return CommentDto.createCommentDto(created);
     }
 
-    public Comment findById(long id){
-        return commentRepository.findById(id);
+    //댓글 수정
+    @Transactional
+    public CommentDto update(Long id, CommentDto dto) throws IllegalAccessException {
+        // 댓글 조회 및 예외 발생
+        Comment target = commentRepository.findById(id)
+                .orElseThrow(()-> new IllegalArgumentException("댓글 수정 실패! 대상 댓글이 없습니다!"));
+
+        target.patch(dto);
+        Comment updated = commentRepository.save(target);
+
+        return CommentDto.createCommentDto(updated);
+
     }
 
     @Transactional
-    public void editComment(long id, String content){
-        Comment comment = commentRepository.findById(id);
-        comment.setContent(content);
-    }
-
-    public ActivityForm getActivityComment(String owner, int page, int postForPage){
-        List<Comment> commentList = commentRepository.getCommentByOwner(owner);
-
-        int totalCnt = commentList.size();
-        int from;
-        int max;
-
-        if((totalCnt-(page * postForPage))>=0){
-            from = totalCnt-(page * postForPage);
-            max = postForPage;
-        }
-        else{
-            from = 0;
-            max = totalCnt % postForPage;
-        }
-
-        List resultList = new ArrayList();
-
-        for(int i=0; i<max; i++){
-            resultList.add(commentList.get(from+max-i-1));
-        }
-
-        ActivityForm resultTuple = new ActivityForm(resultList, totalCnt);
-
-        return resultTuple;
+    public CommentDto delete(Long id) {
+        // 댓글 조회(및 예외 발생)
+        Comment target = commentRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("댓글 삭제 실패! 대상이 없습니다."));
+        commentRepository.delete(target);
+        return CommentDto.createCommentDto(target);
     }
 }
