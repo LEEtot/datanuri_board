@@ -28,8 +28,6 @@ public class BoardService {
 
     private final BoardSubjectRepository boardSubjectRepository;
 
-
-
     private final BoardSubjectService boardSubjectService;
 
     /** 확인O
@@ -135,7 +133,7 @@ public class BoardService {
      * 게시판 리스트 - state = "S001" "S004"
      * 게시글리스트 - 작성자
      */
-    /*public Page<BoardResponseDto> findBoardByCreator(String creator, Pageable pageable){
+    public Page<BoardResponseDto> findBoardByCreator(String creator, Pageable pageable){
         List<String> state = new ArrayList<>();
         state.add("S001");
         state.add("S004");
@@ -148,8 +146,8 @@ public class BoardService {
             boardSubject_Ids.add(boardSubject.getId());
         }
 
-        Page<Board> boards = boardRepository.findBoardByCreatorAndStateAndBoardSubject_IdInOrderByCreatedDate(boardSubject_Ids, creator, "S001", pageable);
+        Page<Board> boards = boardRepository.findBoardByCreatorAndStateAndBoardSubject_IdInOrderByCreatedDate(creator, "S001", boardSubject_Ids, pageable);
         return boards.map(board -> new BoardResponseDto(board));
-    }*/
+    }
 
 }
