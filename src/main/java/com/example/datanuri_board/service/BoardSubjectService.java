@@ -78,9 +78,9 @@ public class BoardSubjectService {
      * 게시판 삭제
      */
     @Transactional
-    public Long updateState(final Long id){
+    public Long updateState(final Long id, String state){
         BoardSubject entity = boardSubjectRepository.findById(id).orElseThrow(() -> new CustomException(ErrorCode.BoardSubject_NOT_FOUND));
-        entity.update(entity.getSubject(),entity.getReadAuthority(),entity.getWriteAuthority(),"S003");
+        entity.update(entity.getSubject(),entity.getReadAuthority(),entity.getWriteAuthority(),state);
         return entity.getId();
     }
 

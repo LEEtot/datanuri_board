@@ -34,7 +34,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findTop5ByBoardSubject_IdAndStateOrderByCreatedDateDesc(Long BoardSubject_Id, String state);
 
 
-//    작성자 본인 게시글리스트 조회
+    //작성자 본인 게시글리스트 조회
     Page<Board> findBoardByCreatorAndStateAndBoardSubject_IdInOrderByCreatedDate(String creator, String state, List<Long> BoardSubject_Ids, Pageable pageable);
 
 

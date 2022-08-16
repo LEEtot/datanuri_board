@@ -42,7 +42,7 @@ public class BoardApiController {
     public Map<Long,List<BoardResponseDto>> mainList() {
 
         Map<Long,List<BoardResponseDto>> map = new HashMap<Long, List<BoardResponseDto>>();
-        List<BoardSubjectResponseDto> boardSubjectList = boardSubjectService.findBoardSubjectByStateAndReadAuthority("S001","R001");
+        List<BoardSubjectResponseDto> boardSubjectList = boardSubjectService.findBoardSubjectByStateAndReadAuthority("S004","R001");
         for (BoardSubjectResponseDto boardSubject : boardSubjectList){
 
             Long boardSubjectId = boardSubject.getId();
@@ -85,12 +85,12 @@ public class BoardApiController {
     /**
      *  자신이 작성한 게시글List 조회. 게시판의 state = "S001","S004"
      */
-   /* @GetMapping("/listByCreator")
+    @GetMapping("/listByCreator")
     public Page<BoardResponseDto> findBoardByCreator(@RequestParam("page") Integer page, @RequestParam("size") Integer size, @RequestParam String creator){
         PageRequest pageRequest = PageRequest.of(page, size);
         return boardService.findBoardByCreator(creator, pageRequest);
 
-    }*/
+    }
 
     /**
      *  게시글List에서 1개의 게시글 select + 조회수 1씩 증가
@@ -121,4 +121,27 @@ public class BoardApiController {
 
     }
 
+    /**
+     *  게시글 S003(delete)
+     */
+    @GetMapping("/delete/{boardId}")
+    public Long deleteBoardByBoardId(@PathVariable Long boardId, @RequestParam String state){
+        return boardService.updateState(boardId, "S003");
+    }
+
+    /**
+     *  게시글 S002(block)
+     */
+    @GetMapping("/block/{boardId}")
+    public Long blockBoardByBoardId(@PathVariable Long boardId){
+        return boardService.updateState(boardId, "S002");
+    }
+
+    /**
+     *  게시글 S001(active)
+     */
+    @GetMapping("/active/{boardId}")
+    public Long activeBoardByBoardId(@PathVariable Long boardId){
+        return boardService.updateState(boardId, "S001");
+    }
 }

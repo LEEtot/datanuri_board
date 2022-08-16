@@ -60,6 +60,17 @@ public class BoardService {
         return entity.getBoardId();
     }
 
+    /** 확인O
+     * 게시글 State 수정 (삭제)
+     */
+    @Transactional
+    public Long updateState(Long BoardId, String state){
+        Board entity = boardRepository.findById(BoardId).orElseThrow();
+        BoardSubject boardSubject = boardSubjectRepository.findById(entity.getBoardSubject().getId()).orElseThrow();
+        entity.update(boardSubject, entity.getTitle(), entity.getContents(), entity.getStartDate(), entity.getFinishDate(), state, entity.getViewCount());
+        return entity.getBoardId();
+    }
+
 
     /** 조건post
      * 게시글 1개조회
@@ -149,5 +160,6 @@ public class BoardService {
         Page<Board> boards = boardRepository.findBoardByCreatorAndStateAndBoardSubject_IdInOrderByCreatedDate(creator, "S001", boardSubject_Ids, pageable);
         return boards.map(board -> new BoardResponseDto(board));
     }
+
 
 }
