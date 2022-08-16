@@ -122,4 +122,8 @@ public class BoardService {
         return list.stream().map(BoardResponseDto::new).collect(Collectors.toList());
     }
 
+
+    public Board getOneBoardById(Long boardId) {
+        return boardRepository.findById(boardId).orElse(null);
+    }
 }
