@@ -8,12 +8,15 @@ import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.service.BoardService;
 import com.example.datanuri_board.service.BoardSubjectService;
+import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
