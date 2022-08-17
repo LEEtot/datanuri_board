@@ -15,18 +15,15 @@ public class Recommend {
     @Id
     Long id;
 
-    //hibernate mapingleri
-    @ManyToOne(fetch = FetchType.LAZY)//user nesnesi hemen gelmesin.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "board_id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)//user silinirse onun tüm postları da silinecektir.
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     Board borad;
 
-    @ManyToOne(fetch = FetchType.LAZY)//user nesnesi hemen gelmesin.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id",nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)//user silinirse onun tüm postları da silinecektir.
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     User user;
-
 }
-

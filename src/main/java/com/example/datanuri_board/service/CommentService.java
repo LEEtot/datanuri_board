@@ -1,68 +1,77 @@
 package com.example.datanuri_board.service;
 
 
-import com.example.datanuri_board.dto.CommentDto;
+import com.example.datanuri_board.dto.request.CommentRequestDto;
 import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.Comment;
-import com.example.datanuri_board.repository.BoardRepository;
+import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.CommentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.example.datanuri_board.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
-import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
+
 
 @Service
 public class CommentService {
-
-    @Autowired
     private CommentRepository commentRepository;
-    @Autowired
-    private BoardRepository boardRepository;
 
-    // 댓글 목록 조회
-    public List<CommentDto> comments(Long boardId) {
-        return commentRepository.findbyBoardId(boardId)
-                .stream()
-                .map(comment -> CommentDto.createCommentDto(comment))
-                .collect(Collectors.toList());
+    private UserRepository userRepository;
+
+    private UserService userService;
+    private BoardService boardService;
+
+    public CommentService(CommentRepository commentRepository, UserService userService, BoardService boardService) {
+        this.commentRepository = commentRepository;
+        this.userService = userService;
+        this.boardService = boardService;
     }
 
-    // 댓글 생성
-    @Transactional
-    public CommentDto create(Long boardId, CommentDto dto) throws IllegalAccessException {
-        // 게시글 조회 및 예외 발생
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(()-> new IllegalArgumentException("댓글 생성 실패! 대상 게시글이 없습니다."));
+    public List<Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
+        if (userId.isPresent() && postId.isPresent()) {
+            return commentRepository.findByUserIdAndBoardId(userId.get(), postId.get());
+        } else if (userId.isPresent()) {
+            return commentRepository.findByUserId(userId.get());
+        } else if (postId.isPresent()) {
+            return commentRepository.findByPostId(postId.get());
+        } else {
+            return commentRepository.findAll();
+        }
 
-        Comment comment = Comment.creatComment(dto,board);
-        Comment created = commentRepository.save(comment);
-
-        return CommentDto.createCommentDto(created);
-    }
-
-    //댓글 수정
-    @Transactional
-    public CommentDto update(Long id, CommentDto dto) throws IllegalAccessException {
-        // 댓글 조회 및 예외 발생
-        Comment target = commentRepository.findById(id)
-                .orElseThrow(()-> new IllegalArgumentException("댓글 수정 실패! 대상 댓글이 없습니다!"));
-
-        target.patch(dto);
-        Comment updated = commentRepository.save(target);
-
-        return CommentDto.createCommentDto(updated);
 
     }
 
-    @Transactional
-    public CommentDto delete(Long id) {
-        // 댓글 조회(및 예외 발생)
-        Comment target = commentRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("댓글 삭제 실패! 대상이 없습니다."));
-        commentRepository.delete(target);
-        return CommentDto.createCommentDto(target);
+    public Comment getOneCommentById(Long commentId) {
+        return commentRepository.findById(commentId).orElse(null);
+    }
+
+    public Comment createOneComment(CommentRequestDto commentRequestDto) {
+        User user = userService.findById(Long.valueOf(commentRequestDto.getAuthor()));
+        Board board = boardService.getOneBoardById(commentRequestDto.getBoard().getBoardId());
+        if (user != null && board != null) {
+            Comment commentToSave = new Comment();
+            commentToSave.setCommentId(commentRequestDto.getCommentId());
+            commentToSave.setBoard(board);
+            commentToSave.setAuthor(user.getName());
+            commentToSave.setContents(commentToSave.getContents());
+            return commentRepository.save(commentToSave);
+        } else
+            return null;
+    }
+
+    public Comment updateOneCommentById(Long commentId, CommentRequestDto commentRequestDto) {
+        Optional<Comment> comment = commentRepository.findById(commentId);
+        if (comment.isPresent()) {
+            Comment commentToUpdate = comment.get();
+            commentToUpdate.setContents(commentRequestDto.getContents());
+            return commentRepository.save(commentToUpdate);
+
+        } else
+            return null;
+    }
+
+    public void deleteOneCommentById(Long commentId) {
+        commentRepository.deleteById(commentId);
     }
 }
