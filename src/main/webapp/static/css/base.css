@@ -1,0 +1,161 @@
+:root {
+    --nav-color: #7a94af;
+    --btn-color: #5e6d7c;
+}
+
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    display: grid;
+    grid-template-columns: 350px auto;
+}
+
+body>* {
+    padding: 10px;
+}
+
+nav {
+    background-color: var(--nav-color);
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 20px;
+}
+
+main {
+    display: grid;
+    grid-template-columns: 50% 50%;
+    grid-template-rows: 50% 50%;
+    gap: 10px;
+    place-items: center;
+    max-width: 1750px;
+}
+
+ol,ul{
+    padding: 0;
+    margin: 0;
+}
+
+li{
+    list-style-type: none;
+}
+
+a{
+    color: black;
+    text-decoration: none;
+}
+
+.ul_m10 >  *{
+    margin: 10px;
+    text-align: center;
+    height: 35px;
+    padding-top: 5px;
+    display: block;
+}
+
+
+
+.board_tb>table {
+    min-width: 600px;
+}
+
+.itemS004{
+    background-color: #bbd0e4;
+}
+
+.itemS001{
+    background-color: #89aece;
+}
+
+.admin_menu{
+    margin-top: 20px;
+}
+
+.admin_menu > li{
+    background-color: #4e6577;
+}
+
+.boardItem{
+    font-size: 16px;
+
+}
+
+.btn-wsmall {
+    width: 150px;
+    display: inline;
+}
+
+.btn-user {
+    color: #fff;
+    background-color: var(--btn-color);
+    border-color: var(--btn-color);
+    margin: 10px;
+}
+
+.nav_btns {
+    display: flex;
+    justify-content: center;
+
+}
+
+.nav_logo {
+    border: 1px solid black;
+    height: 130px;
+    margin-bottom: 20px;
+}
+
+.profile_img {
+    width: 130px;
+    height: 130px;
+    border: 1px solid black;
+    display: inline-block;
+}
+
+
+/*main메뉴 테이블*/
+
+.board_tb{
+    margin: 20px;
+    min-width: 750px;
+}
+
+.board_tb h3{
+    font-weight: bold;
+}
+
+.list-group-container{
+    width: 720px;
+    margin-top: 20px;
+}
+
+.board_tab{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+.board_tab:nth-child(2n-1){
+    background-color: #f2f4f7;
+}
+
+
+.tab_teim1{
+    width: 55%;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.tab_item4{
+    font-size: 14px;
+}
+
+.mr_12{
+    margin-right: 12px;
+    width: 60px;
+}
+
+
