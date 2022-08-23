@@ -22,7 +22,6 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
 
-    @NotEmpty
     private String password;
 
     @NotEmpty
@@ -30,15 +29,12 @@ public class User extends BaseEntity {
 
     private String role;
 
-    @NotEmpty
     private String phoneNumber;
 
     private LocalDateTime lastLoginTime;
 
-    @NotEmpty
     private String signUpApi;
 
-    @NotEmpty
     @Size(min = 4, max = 4)
     private String state;
 
