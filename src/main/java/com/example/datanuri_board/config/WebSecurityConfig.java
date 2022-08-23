@@ -43,11 +43,7 @@ public class WebSecurityConfig {
                 .anyRequest().authenticated()
 
                 .and()
-                .apply(new JwtSecurityConfig(tokenProvider))
-
-                .and()
-                .oauth2Login()
-                .userInfoEndpoint().userService(tokenProvider);
+                .apply(new JwtSecurityConfig(tokenProvider));
 
         return http.build();
     }

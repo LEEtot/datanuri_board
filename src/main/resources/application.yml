@@ -1,0 +1,32 @@
+# jwt secret key
+jwt:
+  secret: dGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpIHRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaQ
+
+
+spring:
+  sql:
+    init:
+      mode: always
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/datanuri_board
+    username: postgres
+    password: 1111
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+    show-sql: true
+    defer-datasource-initialization: true
+
+logging:
+  level:
+    org:
+      hibernate:
+        type:
+          descriptor:
+            sql:
+              BasicBinder: trace
