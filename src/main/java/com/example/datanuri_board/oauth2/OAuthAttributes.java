@@ -3,10 +3,12 @@ package com.example.datanuri_board.oauth2;
 import com.example.datanuri_board.entity.User;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.util.Map;
 
 @Getter
+@ToString
 public class OAuthAttributes {
     private Map<String, Object> attributes; // OAuth2 반환하는 유저 정보 Map
     private String nameAttributeKey;
@@ -44,6 +46,8 @@ public class OAuthAttributes {
         return User.builder()
                 .name(name)
                 .email(email)
+                .state("S001")
+                .role("R001")
                 .build();
     }
 

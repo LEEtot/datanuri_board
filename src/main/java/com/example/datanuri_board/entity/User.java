@@ -27,6 +27,7 @@ public class User extends BaseEntity {
     @NotEmpty
     private String name;
 
+    @NotEmpty
     private String role;
 
     private String phoneNumber;
@@ -35,6 +36,7 @@ public class User extends BaseEntity {
 
     private String signUpApi;
 
+    @NotEmpty
     @Size(min = 4, max = 4)
     private String state;
 

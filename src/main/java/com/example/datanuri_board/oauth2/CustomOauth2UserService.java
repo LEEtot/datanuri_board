@@ -1,8 +1,11 @@
 package com.example.datanuri_board.oauth2;
 
+import com.example.datanuri_board.config.TokenProvider;
+import com.example.datanuri_board.dto.TokenDto;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
@@ -14,12 +17,14 @@ import org.springframework.stereotype.Service;
 
 import java.util.Collections;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequest, OAuth2User> {
 
     private final UserRepository userRepository;
 
+    private final TokenProvider tokenProvider;
 
     @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
@@ -36,6 +41,8 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
         OAuthAttributes attributes = OAuthAttributes.of(registrationId, userNameAttributeName, oAuth2User.getAttributes());
         User user = saveOrUpdate(attributes);
 
+        log.info(userRequest.getAccessToken().getTokenValue());
+
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole())),
                 attributes.getAttributes(),
                 attributes.getNameAttributeKey());
@@ -43,6 +50,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     // 유저 생성 및 수정 서비스 로직
     private User saveOrUpdate(OAuthAttributes attributes) {
+        log.info(attributes.toString());
         User user = userRepository.findByEmail(attributes.getEmail())
                 .map(entity -> entity.update(attributes.getName(), attributes.getPhoneNumber()))
                 .orElse(attributes.toEntity());

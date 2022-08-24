@@ -56,13 +56,39 @@ public class TokenProvider {
 
         String id = authentication.getName();
 
-
-
         String accessToken = Jwts.builder()
                 .setClaims(createClaims(userResponseDto))
                 .setExpiration(tokenExpiresIn)
                 .setSubject(id)
                 .claim(AUTHORITIES_KEY, authorities)
+                .signWith(key, SignatureAlgorithm.HS512)
+                .compact();
+
+        return TokenDto.builder()
+                .grantType(BEARER_TYPE)
+                .accessToken(accessToken)
+                .tokenExpiresIn(tokenExpiresIn.getTime())
+                .build();
+    }
+
+    public TokenDto generateOauth2TokenDto(UserResponseDto userResponseDto) {
+
+        String authority = userResponseDto.getRole();
+
+        long now = (new Date()).getTime();
+
+
+        Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
+
+        System.out.println(tokenExpiresIn);
+
+        Long id = userResponseDto.getId();
+
+        String accessToken = Jwts.builder()
+                .setClaims(createClaims(userResponseDto))
+                .setExpiration(tokenExpiresIn)
+                .setSubject(id.toString())
+                .claim(AUTHORITIES_KEY, authority)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
