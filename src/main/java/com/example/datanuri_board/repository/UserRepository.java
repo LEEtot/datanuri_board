@@ -1,8 +1,6 @@
 package com.example.datanuri_board.repository;
 
-import com.example.datanuri_board.cache.CacheLogin;
 import com.example.datanuri_board.entity.User;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

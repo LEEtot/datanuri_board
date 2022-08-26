@@ -173,4 +173,28 @@ public class UserService {
                 .map(UserResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
     }
+    /**
+     * User 데이터를 UserResponseDto에 적재
+     * @param user
+     * @return
+     */
+    private UserResponseDto setUserResponseDto(User user) {
+        UserResponseDto userResponseDto = UserResponseDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .role(user.getRole())
+                .phoneNumber(user.getPhoneNumber())
+                .lastLoginTime(user.getLastLoginTime())
+                .signUpApi(user.getSignUpApi())
+                .state(user.getState())
+                .imgPath(user.getImgPath())
+                .creator(user.getCreator())
+                .createdDate(user.getCreatedDate())
+                .modifier(user.getModifier())
+                .modifiedDate(user.getModifiedDate())
+                .build();
+        return userResponseDto;
+    }
+
 }

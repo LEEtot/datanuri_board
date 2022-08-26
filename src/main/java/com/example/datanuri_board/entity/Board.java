@@ -1,5 +1,6 @@
 package com.example.datanuri_board.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +12,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static javax.persistence.CascadeType.ALL;
 
@@ -53,6 +56,7 @@ public class Board extends BaseEntity implements Serializable {
     @Formula("(select count(*) from recommend r where r.board_id = board_id)")
     private Long recommendCount;
 
+
     @Builder
     public Board(BoardSubject boardSubject, String title, String contents, Long view_count, LocalDateTime startDate, LocalDateTime finishDate, String state, Long recommend_count){
         this.boardSubject = boardSubject;
@@ -74,4 +78,5 @@ public class Board extends BaseEntity implements Serializable {
         this.state = state;
         this.viewCount = viewCount;
     }
+
 }
