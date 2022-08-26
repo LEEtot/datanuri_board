@@ -1,9 +1,7 @@
 package com.example.datanuri_board.config;
 
 import com.example.datanuri_board.dto.TokenDto;
-import com.example.datanuri_board.dto.request.UserRequestDto;
 import com.example.datanuri_board.dto.response.UserResponseDto;
-import com.example.datanuri_board.service.UserService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -41,11 +39,7 @@ public class TokenProvider {
 
 
     // 토큰 생성
-    public TokenDto generateTokenDto(Authentication authentication, UserResponseDto userResponseDto) {
-
-        String authorities = authentication.getAuthorities().stream()
-                .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(","));
+    public TokenDto generateTokenDto(UserResponseDto userResponseDto) {
 
         long now = (new Date()).getTime();
 
@@ -54,41 +48,11 @@ public class TokenProvider {
 
         System.out.println(tokenExpiresIn);
 
-        String id = authentication.getName();
-
         String accessToken = Jwts.builder()
                 .setClaims(createClaims(userResponseDto))
                 .setExpiration(tokenExpiresIn)
-                .setSubject(id)
-                .claim(AUTHORITIES_KEY, authorities)
-                .signWith(key, SignatureAlgorithm.HS512)
-                .compact();
-
-        return TokenDto.builder()
-                .grantType(BEARER_TYPE)
-                .accessToken(accessToken)
-                .tokenExpiresIn(tokenExpiresIn.getTime())
-                .build();
-    }
-
-    public TokenDto generateOauth2TokenDto(UserResponseDto userResponseDto) {
-
-        String authority = userResponseDto.getRole();
-
-        long now = (new Date()).getTime();
-
-
-        Date tokenExpiresIn = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
-
-        System.out.println(tokenExpiresIn);
-
-        Long id = userResponseDto.getId();
-
-        String accessToken = Jwts.builder()
-                .setClaims(createClaims(userResponseDto))
-                .setExpiration(tokenExpiresIn)
-                .setSubject(id.toString())
-                .claim(AUTHORITIES_KEY, authority)
+                .setSubject(userResponseDto.getId().toString())
+                .claim(AUTHORITIES_KEY, userResponseDto.getRole())
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 

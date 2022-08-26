@@ -9,6 +9,7 @@ import com.example.datanuri_board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -116,4 +117,5 @@ public class UserController {
     public TokenDto login(@RequestBody UserRequestDto userRequestDto) {
         return authService.login(userRequestDto);
     }
+
 }

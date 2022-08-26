@@ -2,6 +2,7 @@ package com.example.datanuri_board.oauth2;
 
 import com.example.datanuri_board.config.TokenProvider;
 import com.example.datanuri_board.dto.TokenDto;
+import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import java.nio.file.attribute.UserPrincipal;
 import java.util.Collections;
 
 @Slf4j
@@ -24,9 +26,6 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
 
     private final UserRepository userRepository;
 
-    private final TokenProvider tokenProvider;
-
-    @Override
     public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
         OAuth2UserService<OAuth2UserRequest, OAuth2User> delegate = new DefaultOAuth2UserService();
         OAuth2User oAuth2User = delegate.loadUser(userRequest);
@@ -42,6 +41,7 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
         User user = saveOrUpdate(attributes);
 
         log.info(userRequest.getAccessToken().getTokenValue());
+        log.info(userRequest.getAccessToken().getTokenType().toString());
 
         return new DefaultOAuth2User(Collections.singleton(new SimpleGrantedAuthority(user.getRole())),
                 attributes.getAttributes(),
@@ -55,5 +55,11 @@ public class CustomOauth2UserService implements OAuth2UserService<OAuth2UserRequ
                 .map(entity -> entity.update(attributes.getName(), attributes.getPhoneNumber()))
                 .orElse(attributes.toEntity());
         return userRepository.save(user);
+    }
+
+    public UserResponseDto getUserDataByEmail(String email) {
+        return UserResponseDto.of(userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다")));
     }
 }
