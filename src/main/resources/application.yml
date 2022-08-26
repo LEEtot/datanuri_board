@@ -18,6 +18,19 @@ spring:
     init:
       mode: always
 
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+    static-path-pattern: /resources/static/**
+
+  devtools:
+    restart:
+      enabled: true
+
+  thymeleaf:
+    cache: false
+
   # Security OAuth
   security:
     oauth2.client:
@@ -78,3 +91,9 @@ spring:
 
 jwt:
   secret: dGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpIHRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaQ
+
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true

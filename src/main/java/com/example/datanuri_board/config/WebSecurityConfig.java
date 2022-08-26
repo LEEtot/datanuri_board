@@ -1,9 +1,7 @@
 package com.example.datanuri_board.config;
 
-import com.example.datanuri_board.dto.TokenDto;
 import com.example.datanuri_board.oauth2.CustomOauth2SuccessHandler;
 import com.example.datanuri_board.oauth2.CustomOauth2UserService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
@@ -11,18 +9,10 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -57,7 +47,7 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .antMatchers("/api/v1/user/login", "/api/v1/user/signup", "/oauth2/**", "/api/v1/user/login/google").permitAll()
+                .antMatchers("/api/v1/user/login", "/api/v1/user/signup", "/", "/board/**", "/api/main", "/resources/**", "/api/board/**", "/api/boardSubject/**", "/oauth2/**", "/api/v1/user/login/google").permitAll()
                 .anyRequest().authenticated()
 
                 .and()
