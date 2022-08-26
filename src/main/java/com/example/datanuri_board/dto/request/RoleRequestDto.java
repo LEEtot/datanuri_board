@@ -1,5 +1,6 @@
 package com.example.datanuri_board.dto.request;
 
+import com.example.datanuri_board.entity.Role;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -16,7 +17,12 @@ public class RoleRequestDto {
     private String originName;
     private String description;
 
-    public void setId(String id) {
-        this.id = id;
+    public Role toEntity() {
+        return Role.builder()
+                .id(this.getId())
+                .name(this.getName())
+                .originName(this.getOriginName())
+                .description(this.getDescription())
+                .build();
     }
 }

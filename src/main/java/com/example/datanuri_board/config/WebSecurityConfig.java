@@ -40,7 +40,8 @@ public class WebSecurityConfig {
 
                 .and()
                 .authorizeRequests()
-                .anyRequest().permitAll()
+                .antMatchers("/api/v1/user/login", "/api/v1/user/signup", "/", "/board/**", "/api/main", "/resources/**", "/api/board/**", "/api/boardSubject/**").permitAll()
+                .anyRequest().authenticated()
 
                 .and()
                 .apply(new JwtSecurityConfig(tokenProvider));

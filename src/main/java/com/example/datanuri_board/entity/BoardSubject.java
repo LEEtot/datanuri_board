@@ -25,14 +25,14 @@ public class BoardSubject extends BaseEntity implements Serializable {
     private String subject;
 
     @NotNull
-    private String readAuthority;
+    private String readAuthority; //R001 일반유저  R002 운영자  R003 관리자
 
     @NotNull
-    private String writeAuthority;
+    private String writeAuthority; //R001  R002  R003
 
     @NotNull
     @Size(min = 4, max = 4)
-    private String state;
+    private String state; //S001 - 활동O  S002 - block  S003 - 활동X S004 - 메인4개.수정불가
 
 
     @Builder

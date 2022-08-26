@@ -1,6 +1,9 @@
 package com.example.datanuri_board.config;
 
 import com.example.datanuri_board.dto.TokenDto;
+import com.example.datanuri_board.dto.request.UserRequestDto;
+import com.example.datanuri_board.dto.response.UserResponseDto;
+import com.example.datanuri_board.service.UserService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
@@ -15,9 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Date;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,7 +27,7 @@ public class TokenProvider {
 
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 60;
     private final Key key;
 
 
@@ -40,7 +41,7 @@ public class TokenProvider {
 
 
     // 토큰 생성
-    public TokenDto generateTokenDto(Authentication authentication) {
+    public TokenDto generateTokenDto(Authentication authentication, UserResponseDto userResponseDto) {
 
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)
@@ -53,10 +54,15 @@ public class TokenProvider {
 
         System.out.println(tokenExpiresIn);
 
+        String id = authentication.getName();
+
+
+
         String accessToken = Jwts.builder()
-                .setSubject(authentication.getName())
-                .claim(AUTHORITIES_KEY, authorities)
+                .setClaims(createClaims(userResponseDto))
                 .setExpiration(tokenExpiresIn)
+                .setSubject(id)
+                .claim(AUTHORITIES_KEY, authorities)
                 .signWith(key, SignatureAlgorithm.HS512)
                 .compact();
 
@@ -106,5 +112,13 @@ public class TokenProvider {
         } catch (ExpiredJwtException e) {
             return e.getClaims();
         }
+    }
+
+    private Map<String, Object> createClaims(UserResponseDto userResponseDto) { // payload
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("email",userResponseDto.getEmail());
+        claims.put("name", userResponseDto.getName());
+        return claims;
     }
 }

@@ -47,8 +47,11 @@ public class Board extends BaseEntity implements Serializable {
     @Column(name = "finish_date")
     private LocalDateTime finishDate;
 
-    @Column(length = 4) //avai, bloc, dele
-    private String state;
+    @Column(length = 4)
+    private String state; //S001 - 활동O  S002 - block  S003 - 활동X
+
+
+
 
     @Formula("(select count(*) from recommend r where r.board_id = board_id)")
     private Long recommendCount;

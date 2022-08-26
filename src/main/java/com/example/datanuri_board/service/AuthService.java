@@ -20,12 +20,13 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
+    private final UserService userService;
 
     public TokenDto login(UserRequestDto requestDto) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(requestDto.getEmail(), requestDto.getPassword());
 
         Authentication authentication = managerBuilder.getObject().authenticate(authenticationToken);
 
-        return tokenProvider.generateTokenDto(authentication);
+        return tokenProvider.generateTokenDto(authentication, userService.getUserData(Long.parseLong(authentication.getName())));
     }
 }
