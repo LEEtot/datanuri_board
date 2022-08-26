@@ -13,6 +13,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByNameContaining(String name);
     List<User> findByEmailContainingOrNameContaining(String email, String name);
 
+    Optional<User> findByEmailAndSignUpApi(String email, String signUpApi);
+
     Optional<User> findByEmail(String email);
 
     Boolean existsByEmail(String email);

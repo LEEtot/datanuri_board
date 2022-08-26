@@ -22,7 +22,6 @@ public class User extends BaseEntity {
     @Column(unique = true)
     private String email;
 
-    @NotEmpty
     private String password;
 
     @NotEmpty
