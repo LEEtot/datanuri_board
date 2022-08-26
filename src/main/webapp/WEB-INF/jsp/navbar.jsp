@@ -29,7 +29,7 @@
 
     <ul class="board_menu admin_menu ul_m10">
         <li class="boardItem btn">회원관리</li>
-        <li class="boardItem btn">게시판관리</li>
+        <li class="boardItem btn" ><a href="<%=request.getContextPath()%>/boardsubject/boardsubjectList">게시판관리</a></li>
     </ul>
 </nav>
 </body>

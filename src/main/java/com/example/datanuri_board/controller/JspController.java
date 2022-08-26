@@ -20,4 +20,11 @@ public class JspController {
         mav.addObject("boardSubjectId",boardSubjectId);
         return mav;
     }
+
+    @RequestMapping("/boardsubject/boardsubjectList")
+    public ModelAndView boardsubjectList(ModelAndView mav){
+        mav.setViewName("boardsubject/boardsubjectList");
+        //mav.addObject("boardSubjectId",boardSubjectId);
+        return mav;
+    }
 }
