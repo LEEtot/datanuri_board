@@ -31,10 +31,12 @@
         <li class="boardItem btn">회원관리</li>
         <li class="boardItem btn">게시판관리</li>
     </ul>
-    <a>boardList 이동</a>
 </nav>
 </body>
 <script>
+
+
+
     $.ajax({
         type:"get",
         url:"<%=request.getContextPath()%>/api/boardSubject/list/S004",
@@ -43,7 +45,8 @@
         $("#board_menu_ul").empty();
         let board_menu_li = "";
         $.each(data, function(idx,item){
-            board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/'>"+item.subject+"</a></li>";
+            //console.log(item);
+            board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/boardList/"+item.id+"'>"+item.subject+"</a></li>";
             $("#board_menu_ul").append(board_menu_li);
         });
     })
@@ -55,7 +58,7 @@
     }).done(function(data){
         let board_menu_li = "";
         $.each(data,function(idx,item){
-            board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/'>"+item.subject+"</a></li>";
+            board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/boardList/"+item.id+"'>"+item.subject+"</a></li>";
             $("#board_menu_ul").append(board_menu_li);
         })
     })
