@@ -24,7 +24,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    @GetMapping("")
+    @GetMapping("/list")
     public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> boardId){
         return commentService.getAllCommentsWithParam(userId,boardId);
     }
