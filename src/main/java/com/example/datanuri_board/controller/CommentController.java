@@ -11,9 +11,16 @@ import java.util.Optional;
 
 
 @RestController
+//@RequiredArgsConstructor
 @RequestMapping("")
 public class CommentController {
 
+    /**
+     * 에러 1. 의존성 주입 시
+     * @Autowired 어노테이션
+     * or
+     * @RequiredArgsConstructor + 변수에 final 표기
+     */
     @Autowired
     private CommentService commentService;
 
@@ -28,12 +35,12 @@ public class CommentController {
     }
 
 
-    @PostMapping
+    @PostMapping("")
     public Comment createOneComment(@RequestBody CommentRequestDto commentRequestDto){
         return commentService.createOneComment(commentRequestDto);
     }
 
-    @PutMapping
+    @PutMapping("")
     public Comment updateOneComment(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto){
         return  commentService.updateOneCommentById(commentId,commentRequestDto);
     }

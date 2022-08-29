@@ -15,6 +15,13 @@ import java.util.stream.Collectors;
 
 @Service
 public class RecommendService {
+
+    /**
+     * Repository 함수명 수정 -> service 내 함수명 수정
+     *
+     */
+
+
     @Autowired
     private RecommendRepository recommendRepository;
     @Autowired
@@ -25,14 +32,14 @@ public class RecommendService {
     public List<RecommendResponse> getAllRecommendWithParam(Optional<Long> userId, Optional<Long> boardId) {
         List<Recommend> list;
         if(userId.isPresent() && boardId.isPresent()){
-            list = recommendRepository.findByUserIdAndBoardId(userId.get(),boardId.get());
+            list = recommendRepository.findByUserIdAndBoard_BoardId(userId.get(),boardId.get());
         } else if (userId.isPresent()) {
             list = recommendRepository.findByUserId(userId.get());
         } else if (boardId.isPresent()) {
-            list = recommendRepository.findByBoardId(boardId.get());
+            list = recommendRepository.findByBoard_BoardId(boardId.get());
         }else
             list = recommendRepository.findAll();
-        return list.stream().map(recommend -> new RecommendResponse(recommend)).collect(Collectors.toList());
+        return list.stream().map(RecommendResponse::new).collect(Collectors.toList());
     }
 
 
@@ -44,7 +51,7 @@ public class RecommendService {
         if (user != null && board != null) {
             Recommend recommendToSave = new Recommend();
             recommendToSave.setId(request.getId());
-            recommendToSave.setBorad(board);
+            recommendToSave.setBoard(board);
             recommendToSave.setUser(user);
 
             return recommendRepository.save(recommendToSave);

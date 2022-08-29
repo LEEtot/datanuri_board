@@ -9,9 +9,14 @@ public class RecommendResponse {
     Long userId;
     Long boardId;
 
+
+    /**
+     * 변수 명 수정 (주의 부탁드립니다!)
+     * .getBorad() -> .getBoard()
+     */
     public RecommendResponse(Recommend entity){
         this.id = entity.getId();
         this.userId = entity.getUser().getId();
-        this.boardId = entity.getBorad().getBoardId();
+        this.boardId = entity.getBoard().getBoardId();
     }
 }
