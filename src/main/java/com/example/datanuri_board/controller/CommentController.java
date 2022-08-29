@@ -11,13 +11,13 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/v1/comment")
+@RequestMapping("")
 public class CommentController {
 
     @Autowired
     private CommentService commentService;
 
-    @GetMapping
+    @GetMapping("")
     public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> boardId){
         return commentService.getAllCommentsWithParam(userId,boardId);
     }
@@ -39,7 +39,7 @@ public class CommentController {
     }
 
     @DeleteMapping("/{commentId}")
-    public void deleteOneCOmment(@PathVariable Long commentId){
+    public void deleteOneComment(@PathVariable Long commentId){
         commentService.deleteOneCommentById(commentId);
     }
 

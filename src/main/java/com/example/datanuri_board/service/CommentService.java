@@ -7,6 +7,7 @@ import com.example.datanuri_board.entity.Comment;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.CommentRepository;
 import com.example.datanuri_board.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,11 +16,13 @@ import java.util.Optional;
 
 @Service
 public class CommentService {
+    @Autowired
     private CommentRepository commentRepository;
-
+    @Autowired
     private UserRepository userRepository;
-
+    @Autowired
     private UserService userService;
+    @Autowired
     private BoardService boardService;
 
     public CommentService(CommentRepository commentRepository, UserService userService, BoardService boardService) {
@@ -28,13 +31,13 @@ public class CommentService {
         this.boardService = boardService;
     }
 
-    public List<Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> postId) {
-        if (userId.isPresent() && postId.isPresent()) {
-            return commentRepository.findByUserIdAndBoardId(userId.get(), postId.get());
+    public List<Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> boardId) {
+        if (userId.isPresent() && boardId.isPresent()) {
+            return commentRepository.findByUserIdAndBoardId(userId.get(), boardId.get());
         } else if (userId.isPresent()) {
             return commentRepository.findByUserId(userId.get());
-        } else if (postId.isPresent()) {
-            return commentRepository.findByPostId(postId.get());
+        } else if (boardId.isPresent()) {
+            return commentRepository.findByBoardId(boardId.get());
         } else {
             return commentRepository.findAll();
         }

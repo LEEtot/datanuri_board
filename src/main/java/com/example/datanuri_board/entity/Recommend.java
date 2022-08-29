@@ -9,7 +9,7 @@ import javax.persistence.*;
 
 @Entity
 @Data
-@Table(name="p_like")
+@Table(name="recommend")
 public class Recommend {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
