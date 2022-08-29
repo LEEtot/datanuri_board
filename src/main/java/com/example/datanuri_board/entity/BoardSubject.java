@@ -4,6 +4,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -34,13 +35,16 @@ public class BoardSubject extends BaseEntity implements Serializable {
     @Size(min = 4, max = 4)
     private String state; //S001 - 활동O  S002 - block  S003 - 활동X S004 - 메인4개.수정불가
 
+    @Formula("(select count(*) from board b where b.board_subject_id = id and b.state ='S001')")
+    private Long boardsCount;
 
     @Builder
-    public BoardSubject(String subject, String readAuthority, String writeAuthority, String state){
+    public BoardSubject(String subject, String readAuthority, String writeAuthority, String state, Long boardsCount){
         this.subject = subject;
         this.readAuthority = readAuthority;
         this.writeAuthority = writeAuthority;
         this.state = state;
+        this.boardsCount = boardsCount;
     }
 
 

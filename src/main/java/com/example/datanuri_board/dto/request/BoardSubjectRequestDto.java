@@ -19,6 +19,7 @@ public class BoardSubjectRequestDto {
     private String creator;
     private String state;
     private User modifier;
+    private Long boardsCount;
 
 
     public BoardSubject toEntity(){
