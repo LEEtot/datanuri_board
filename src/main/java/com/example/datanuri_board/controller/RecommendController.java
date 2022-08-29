@@ -18,8 +18,8 @@ public class RecommendController {
     private RecommendService recommendService;
 
     @GetMapping
-    public List<RecommendResponse> getAllRecommends(@RequestParam Optional<Long> userId, @RequestBody Optional<Long> postId) {
-        return recommendService.getAllRecommendWithParam(userId, postId);
+    public List<RecommendResponse> getAllRecommends(@RequestParam Optional<Long> userId, @RequestBody Optional<Long> boardId) {
+        return recommendService.getAllRecommendWithParam(userId, boardId);
     }
 
     @PostMapping
@@ -28,12 +28,12 @@ public class RecommendController {
     }
 
     @GetMapping("/{recommendId}")
-    public Recommend getOneRecommend(@PathVariable Long likeId) {
-        return recommendService.getOneRecommendById(likeId);
+    public Recommend getOneRecommend(@PathVariable Long recommendId) {
+        return recommendService.getOneRecommendById(recommendId);
     }
 
     @DeleteMapping("/{recommendId}")
-    public void deleteOneRecommend(@PathVariable Long likeId) {
-        recommendService.deleteOneRecommendById(likeId);
+    public void deleteOneRecommend(@PathVariable Long recommendId) {
+        recommendService.deleteOneRecommendById(recommendId);
     }
 }

@@ -9,6 +9,7 @@ import com.example.datanuri_board.repository.CommentRepository;
 import com.example.datanuri_board.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -49,6 +50,7 @@ public class CommentService {
         return commentRepository.findById(commentId).orElse(null);
     }
 
+    @Transactional
     public Comment createOneComment(CommentRequestDto commentRequestDto) {
         User user = userService.findById(Long.valueOf(commentRequestDto.getAuthor()));
         Board board = boardService.getOneBoardById(commentRequestDto.getBoard().getBoardId());
@@ -63,6 +65,7 @@ public class CommentService {
             return null;
     }
 
+    @Transactional
     public Comment updateOneCommentById(Long commentId, CommentRequestDto commentRequestDto) {
         Optional<Comment> comment = commentRepository.findById(commentId);
         if (comment.isPresent()) {

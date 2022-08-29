@@ -11,7 +11,7 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("")
+@RequestMapping("/api/comment")
 public class CommentController {
 
     @Autowired
@@ -22,18 +22,18 @@ public class CommentController {
         return commentService.getAllCommentsWithParam(userId,boardId);
     }
 
-    @GetMapping("/{commentId}")
+    @GetMapping("")
     public Comment getOneComment(@PathVariable Long commentId){
         return  commentService.getOneCommentById(commentId);
     }
 
 
-    @PostMapping
+    @PostMapping("")
     public Comment createOneComment(@RequestBody CommentRequestDto commentRequestDto){
         return commentService.createOneComment(commentRequestDto);
     }
 
-    @PutMapping
+    @PutMapping("")
     public Comment updateOneComment(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto){
         return  commentService.updateOneCommentById(commentId,commentRequestDto);
     }
