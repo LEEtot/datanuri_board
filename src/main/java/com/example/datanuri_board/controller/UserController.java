@@ -1,15 +1,12 @@
 package com.example.datanuri_board.controller;
 
 import com.example.datanuri_board.dto.TokenDto;
-import com.example.datanuri_board.dto.request.SearchDto;
 import com.example.datanuri_board.dto.request.UserRequestDto;
 import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.service.AuthService;
 import com.example.datanuri_board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

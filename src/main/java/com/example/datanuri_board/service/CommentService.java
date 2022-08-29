@@ -6,8 +6,7 @@ import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.Comment;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.CommentRepository;
-import com.example.datanuri_board.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,29 +15,40 @@ import java.util.Optional;
 
 
 @Service
+@RequiredArgsConstructor
 public class CommentService {
-    @Autowired
-    private CommentRepository commentRepository;
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private BoardService boardService;
 
-    public CommentService(CommentRepository commentRepository, UserService userService, BoardService boardService) {
-        this.commentRepository = commentRepository;
-        this.userService = userService;
-        this.boardService = boardService;
-    }
+    /**
+     * 생성자는 주로 롬복(rombok) 어노테이션을 활용합니다.
+     *
+     * 주로 사용하는 생성자 어노테이션은
+     * @RequiredArgsConstructor
+     * @NoArgsConstructor
+     * @AllArgsConstructor
+     * 이렇게 3가지이고 인터넷에 간단하게 검색하시면 잘 나와있습니다.
+     *
+     * 기존 함수명을 활용한 생성자도 동작하지만 특별한 상황이 아니면 의존성을 주입할때는 controller에 명시한 주입 방법을 사용합니다.
+     *
+     * 수정 내용
+     * contructor 삭제
+     * @RequiredArgsConstructor + final 명시
+     *
+     * repository 함수 수정 -> service 내 함수명 수정
+     */
+
+    private final CommentRepository commentRepository;
+
+//    private final UserRepository userRepository;
+    private final UserService userService;
+    private final BoardService boardService;
 
     public List<Comment> getAllCommentsWithParam(Optional<Long> userId, Optional<Long> boardId) {
         if (userId.isPresent() && boardId.isPresent()) {
-            return commentRepository.findByUserIdAndBoardId(userId.get(), boardId.get());
+            return commentRepository.findByUserIdAndBoard_BoardId(userId.get(), boardId.get());
         } else if (userId.isPresent()) {
             return commentRepository.findByUserId(userId.get());
         } else if (boardId.isPresent()) {
-            return commentRepository.findByBoardId(boardId.get());
+            return commentRepository.findByBoard_BoardId(boardId.get());
         } else {
             return commentRepository.findAll();
         }

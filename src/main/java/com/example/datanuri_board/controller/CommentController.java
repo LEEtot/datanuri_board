@@ -11,9 +11,16 @@ import java.util.Optional;
 
 
 @RestController
+//@RequiredArgsConstructor
 @RequestMapping("/api/comment")
 public class CommentController {
 
+    /**
+     * 에러 1. 의존성 주입 시
+     * @Autowired 어노테이션
+     * or
+     * @RequiredArgsConstructor + 변수에 final 표기
+     */
     @Autowired
     private CommentService commentService;
 
