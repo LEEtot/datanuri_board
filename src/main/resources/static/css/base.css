@@ -158,11 +158,43 @@ a{
     display: flex;
     align-items: center;
 }
+.boardsubjectList_tab{
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
 .board_tab:nth-child(2n-1){
     background-color: #f2f4f7;
 }
 .boardList_tab:nth-child(2n-1){
     background-color: #f2f4f7;
+}
+.boardsubjectList_tab:nth-child(2n-1){
+    background-color: #f2f4f7;
+
+}
+
+.boardsubjectList-head{
+    background-color: #dee2e6;
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.tab_item_subjecttitle{
+    width: 25%;
+}
+
+.tab_item_subjectnum, .tab_item_readAuth, .tab_item_writeAuth, .tab_item_boardsCount, .tab_item_modibtn, .tab_item_subjectcreator{
+    width: 120px;
+}
+
+.tab_item_subjectstate{
+    width: 100px;
+}
+
+.tab_item_createdDate{
+    width: 270px;
 }
 
 .tab_item_title{
@@ -272,4 +304,35 @@ a{
 
 .a-active{
     color: #0d6efd;
+}
+
+
+.boardsubject_btn{
+    height: 50px;
+}
+
+#boardSubjectList_basictb{
+    margin-bottom: 50px;
+}
+
+.modi-btn{
+    background-color: #bbd0e4;
+    border-color: #bbd0e4;
+    width: 100px;
+}
+
+.modal-body{
+    font-size: 20px;
+}
+
+.modal-title{
+    font-size: 1.3rem;
+}
+
+.modal-item{
+    margin-bottom: 20px;
+}
+
+.input-subjecttitle{
+    width: 400px;
 }
