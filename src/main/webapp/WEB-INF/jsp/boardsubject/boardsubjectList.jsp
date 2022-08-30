@@ -228,6 +228,9 @@
                             </fieldset>
                         </div>
 
+                            <input name="id" hidden>
+
+
                     </div>
 
                     <!-- Modal footer -->
@@ -252,6 +255,7 @@
         $("input[id='writeAuth2_"+writeAuth+"']").attr("checked","checked");
         $("input[id ='modal-modititle']").val(subject);
         $("input[id='state_"+state+"']").attr("checked","checked");
+        $("input[name='id']").val(id);
         $("#btn-delete").on('click',function(){
             location.href='<%=request.getContextPath()%>/boardsubject/delete?boardsubjectId='+id;
         })

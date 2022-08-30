@@ -29,12 +29,12 @@
             datatype:"json",
         }).done(function(data){
             console.log(data);
-            $("#board_menu_ul").empty();
+            $("#board_menu_ul_S004").empty();
             let board_menu_li = "";
             $.each(data, function(idx,item){
                 //console.log(item);
                 board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/boardList/"+item.id+"'>"+item.subject+"</a></li>";
-                $("#board_menu_ul").append(board_menu_li);
+                $("#board_menu_ul_S004").append(board_menu_li);
             });
         })
 
@@ -47,11 +47,11 @@
             dataType:"json"
         }).done(function(data){
             let board_menu_li = "";
-
+            $("#board_menu_ul_S001").empty();
             $.each(data,function(idx,item){
 
                 board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/boardList/"+item.id+"'>"+item.subject+"</a></li>";
-                $("#board_menu_ul").append(board_menu_li);
+                $("#board_menu_ul_S001").append(board_menu_li);
             })
         })
     }

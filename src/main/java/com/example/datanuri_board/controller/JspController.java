@@ -29,6 +29,7 @@ public class JspController {
     public ModelAndView boardList(ModelAndView mav,@PathVariable(required = false) Long boardSubjectId){
         mav.setViewName("board/boardList");
         mav.addObject("boardSubjectId",boardSubjectId);
+        mav.addObject("boardSubject",boardSubjectService.findById(boardSubjectId));
         return mav;
     }
 

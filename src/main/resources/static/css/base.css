@@ -62,7 +62,13 @@ a{
     display: block;
 }
 
-
+.nav_logo{
+    background-repeat : no-repeat;
+    background-size : 300px;
+    padding: 10px;
+    height: 130px;
+    margin-bottom: 20px;
+}
 
 .board_tb>table {
     min-width: 600px;
@@ -111,11 +117,6 @@ a{
 
 }
 
-.nav_logo {
-    border: 1px solid black;
-    height: 130px;
-    margin-bottom: 20px;
-}
 
 .profile_img {
     width: 130px;

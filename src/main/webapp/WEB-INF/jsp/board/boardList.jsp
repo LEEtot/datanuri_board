@@ -3,7 +3,7 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <div class="m_70 boardList-main">
-    <h1 class="boardsubject-title"></h1>
+    <h1 class="boardsubject-title">${boardSubject.subject}</h1>
 
 
     <div class="search-div">
@@ -55,17 +55,15 @@
 
 
     //게시판TITLE값 리턴
-    function getBoardSubjectTitle(subjectId){
+    /*function getBoardSubjectTitle(subjectId){
         $.ajax({
             type:"get",
             url:"<%=request.getContextPath()%>/api/boardSubject/select/"+subjectId,
             dataType:"json"
         }).done(function(data){
-            $(".boardsubject-title").empty();
-            $(".boardsubject-title").append(data.subject);
             return data.subject;
         })
-    }
+    }*/
     //날짜포맷
     function dateFomrmat(date){
         var dateString = date.replace("T"," ").replace(/\..*/,'');
@@ -230,9 +228,8 @@
     }
 
     $(document).ready(function(){
-        getBoardSubjectTitle(`${boardSubjectId}`);
-
         getBoardList("listLatest");
+        console.log(`${boardSubject}`);
         //paging(totalElements, requestParam.size, totalPages, requestParam.page+1);
     })
 </script>
