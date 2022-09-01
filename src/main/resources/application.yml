@@ -1,0 +1,99 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost/datanuri_board
+    username: postgres
+    password: 1111
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    defer-datasource-initialization: true
+    properties:
+      hibernate:
+        format_sql: true
+        default_batch_fetch_size: 100
+  sql:
+    init:
+      mode: always
+
+  mvc:
+    view:
+      prefix: /WEB-INF/jsp/
+      suffix: .jsp
+    static-path-pattern: /resources/static/**
+
+  devtools:
+    restart:
+      enabled: true
+
+  thymeleaf:
+    cache: false
+
+  # Security OAuth
+  security:
+    oauth2.client:
+      registration:
+        google:
+          clientId: 557184034193-bgfgg1grmuoqvn1n8k0j0uenj0a1h7dr.apps.googleusercontent.com
+          clientSecret: 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
+          scope:
+            - email
+            - profile
+#        facebook:
+#          clientId: '{페이스북 client-id}'
+#          clientSecret: '{페이스북 client-secret}'
+#          scope:
+#            - email
+#            - public_profile
+#        naver:
+#          clientId: '{네이버 client-id}'
+#          clientSecret: '{네이버 client-secret}'
+#          clientAuthenticationMethod: post
+#          authorizationGrantType: authorization_code
+#          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+#          scope:
+#            - nickname
+#            - email
+#            - profile_image
+#          clientName: Naver
+#        kakao:
+#          clientId: '{카카오 client-id}'
+#          clientSecret: '{카카오 client-secret}'
+#          clientAuthenticationMethod: post
+#          authorizationGrantType: authorization_code
+#          redirectUri: "{baseUrl}/{action}/oauth2/code/{registrationId}"
+#          scope:
+#            - profile_nickname
+#            - profile_image
+#            - account_email
+#          clientName: Kakao
+      # Provider 설정
+#      provider:
+#        naver:
+#          authorizationUri: https://nid.naver.com/oauth2.0/authorize
+#          tokenUri: https://nid.naver.com/oauth2.0/token
+#          userInfoUri: https://openapi.naver.com/v1/nid/me
+#          userNameAttribute: response
+#        kakao:
+#          authorizationUri: https://kauth.kakao.com/oauth/authorize
+#          tokenUri: https://kauth.kakao.com/oauth/token
+#          userInfoUri: https://kapi.kakao.com/v2/user/me
+#          userNameAttribute: id
+
+## cors 설정
+#cors:
+#  allowed-origins: 'http://localhost:3000'
+#  allowed-methods: GET,POST,PUT,DELETE,OPTIONS
+#  allowed-headers: '*'
+#  max-age: 3600
+
+jwt:
+  secret: dGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpdGVzdGRhdGFudXJpIHRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaXRlc3RkYXRhbnVyaQ
+
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true

@@ -17,25 +17,23 @@ public class User extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long Id;
 
     @Column(unique = true)
     private String email;
 
-    @NotEmpty
     private String password;
 
     @NotEmpty
     private String name;
 
+    @NotEmpty
     private String role;
 
-    @NotEmpty
     private String phoneNumber;
 
     private LocalDateTime lastLoginTime;
 
-    @NotEmpty
     private String signUpApi;
 
     @NotEmpty
@@ -43,6 +41,12 @@ public class User extends BaseEntity {
     private String state;
 
     private String imgPath;
+
+    public User update(String name, String phoneNumber) {
+        this.name = name;
+        this.phoneNumber = phoneNumber;
+        return this;
+    }
 
 }
 

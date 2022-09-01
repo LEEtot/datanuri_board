@@ -1,19 +1,16 @@
 package com.example.datanuri_board.service;
 
 import com.example.datanuri_board.config.SecurityUtil;
-import com.example.datanuri_board.dto.request.SearchDto;
 import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.dto.request.UserRequestDto;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
-import io.jsonwebtoken.io.Encoders;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -104,6 +101,17 @@ public class UserService {
     }
 
     /**
+     * 회원 정보 조회
+     * @param email
+     * @return
+     */
+    public UserResponseDto getUserDataByEmail(String email) {
+        return UserResponseDto.of(userRepository
+                .findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다")));
+    }
+
+    /**
      * email 중복 검사
      * @param email
      * @return
@@ -165,4 +173,28 @@ public class UserService {
                 .map(UserResponseDto::of)
                 .orElseThrow(() -> new RuntimeException("로그인 유저 정보가 없습니다"));
     }
+    /**
+     * User 데이터를 UserResponseDto에 적재
+     * @param user
+     * @return
+     */
+    private UserResponseDto setUserResponseDto(User user) {
+        UserResponseDto userResponseDto = UserResponseDto.builder()
+                .id(user.getId())
+                .email(user.getEmail())
+                .name(user.getName())
+                .role(user.getRole())
+                .phoneNumber(user.getPhoneNumber())
+                .lastLoginTime(user.getLastLoginTime())
+                .signUpApi(user.getSignUpApi())
+                .state(user.getState())
+                .imgPath(user.getImgPath())
+                .creator(user.getCreator())
+                .createdDate(user.getCreatedDate())
+                .modifier(user.getModifier())
+                .modifiedDate(user.getModifiedDate())
+                .build();
+        return userResponseDto;
+    }
+
 }

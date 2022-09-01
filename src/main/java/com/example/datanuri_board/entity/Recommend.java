@@ -1,27 +1,29 @@
 package com.example.datanuri_board.entity;
 
-import lombok.*;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.Data;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@Table(name = "recommend")
-public class Recommend extends BaseEntity {
-
+@Data
+@Table(name="p_like")
+public class Recommend {
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(nullable = false)
-    private Long recommend_id;
+    Long id;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "userId")
-    private User user;  // 유저(ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "board_id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    Board borad;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "boardId")
-    private Board board;  // 게시글(ID)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id",nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonIgnore
+    User user;
 }

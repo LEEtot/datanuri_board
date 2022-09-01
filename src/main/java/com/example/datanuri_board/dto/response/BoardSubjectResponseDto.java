@@ -1,5 +1,6 @@
 package com.example.datanuri_board.dto.response;
 
+import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.entity.Role;
 import com.example.datanuri_board.entity.User;
@@ -8,7 +9,7 @@ import lombok.Getter;
 import java.time.LocalDateTime;
 
 @Getter
-public class BoardSubjectResponseDto {
+public class BoardSubjectResponseDto extends Board {
 
     private Long id;
     private String subject;

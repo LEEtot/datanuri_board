@@ -1,34 +1,39 @@
-//package com.example.datanuri_board.controller;
-//
-//import com.example.datanuri_board.dto.RecommendDto;
-//import com.example.datanuri_board.service.RecommendService;
-//import lombok.RequiredArgsConstructor;
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.http.HttpStatus;
-//import org.springframework.http.ResponseEntity;
-//import org.springframework.web.bind.annotation.*;
-//
-//import javax.validation.Valid;
-//import java.io.IOException;
-//
-//@Slf4j
-//@RestController
-//@RequiredArgsConstructor
-//@RequestMapping("/api/recommend")
-//public class RecommendController    {
-//
-//    private final RecommendService recommendService;
-//
-//    @PostMapping
-//    public ResponseEntity<RecommendDto> recommend(@RequestBody @Valid RecommendDto recommendDto) throws IOException {
-//        recommendService.recommend(recommendDto);
-//        return new ResponseEntity<>(recommendDto, HttpStatus.CREATED);
-//    }
-//
-//    @DeleteMapping
-//    public ResponseEntity<RecommendDto> unRecommend(@RequestBody @Valid RecommendDto recommendDto){
-//        recommendService.unRecommend(recommendDto);
-//        return new ResponseEntity<>(recommendDto, HttpStatus.OK);
-//    }
-//
-//}
+package com.example.datanuri_board.controller;
+
+import com.example.datanuri_board.dto.request.RecommendRequest;
+import com.example.datanuri_board.dto.response.RecommendResponse;
+import com.example.datanuri_board.entity.Recommend;
+import com.example.datanuri_board.service.RecommendService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Optional;
+
+@RestController
+@RequestMapping("/Recommend")
+public class RecommendController {
+
+    @Autowired
+    private RecommendService recommendService;
+
+    @GetMapping
+    public List<RecommendResponse> getAllLikes(@RequestParam Optional<Long> userId, @RequestBody Optional<Long> postId) {
+        return recommendService.getAllRecommendWithParam(userId, postId);
+    }
+
+    @PostMapping
+    public Recommend createOneLike(@RequestBody RecommendRequest request) {
+        return recommendService.createOneRecommend(request);
+    }
+
+    @GetMapping("/{recommendId}")
+    public Recommend getOneLike(@PathVariable Long likeId) {
+        return recommendService.getOneRecommendById(likeId);
+    }
+
+    @DeleteMapping("/{recommendId}")
+    public void deleteOneLike(@PathVariable Long likeId) {
+        recommendService.deleteOneRecommendById(likeId);
+    }
+}
