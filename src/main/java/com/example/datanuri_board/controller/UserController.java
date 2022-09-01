@@ -116,4 +116,9 @@ public class UserController {
     public TokenDto login(@RequestBody UserRequestDto userRequestDto) {
         return authService.login(userRequestDto);
     }
+
+    @GetMapping("/me")
+    public UserResponseDto me(){
+        return userService.getMyInfoBySecurity();
+    }
 }

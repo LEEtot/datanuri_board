@@ -33,6 +33,7 @@ main {
     grid-template-rows: 50% 50%;
     gap: 10px;
     max-width: 1750px;
+    min-height: 950px;
 }
 
 .boardList-main{
@@ -336,4 +337,29 @@ a{
 
 .input-subjecttitle{
     width: 400px;
+}
+
+.btn-login{
+    width: 100%;
+}
+
+.login-container{
+    width: 500px;
+}
+
+.dis-none{
+    display: none;
+}
+.user_info{
+    display: flex;
+    align-items: center;
+    padding: 12px;
+}
+#user_name{
+
+    margin-left: 10px;
+
+}
+.user-login-divs{
+    height: 325px;
 }

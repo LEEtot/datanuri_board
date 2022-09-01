@@ -21,7 +21,6 @@
 
 <script>
 
-
     function getBoardSubjectList(){
         $.ajax({
             type:"get",
@@ -56,9 +55,55 @@
         })
     }
 
+    let token = localStorage.getItem('token');
+    let me;
+    function meInfo(){
+        console.log(token);
+            var base64Url = token.split('.')[1];
+            var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+            var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+                return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+            }).join(''));
+
+            console.log(JSON.parse(jsonPayload));
+            return (JSON.parse(jsonPayload));
+
+
+    }
+
+    function navibarLogin(){
+        console.log(me.name);
+        $("#user_name").html(me.name);
+
+        if ($(".user-login-divs").hasClass('dis-none')) {
+            $(".user-login-divs").removeClass("dis-none");
+            $("#login-btn-div").addClass("dis-none");
+        }
+        if(me.auth == "R001" || me.auth == "R002"){
+            $("#admin-menu-ul").removeClass("dis-none");
+        }
+    }
+
+    function navibarNoLogin(){
+        $("#login-btn-div").removeClass("dis-none");
+    }
+
+    function logout(){
+        localStorage.removeItem('token');
+        location.href="<%=request.getContextPath()%>/"
+    }
+
     $(document).ready(function(){
         getBoardSubjectList();
         getBoardSubjectList2();
+        if(token != null){
+            me = meInfo();
+            navibarLogin();
+        } else{
+            navibarNoLogin();
+        }
+
+
     })
 </script>
 </html>

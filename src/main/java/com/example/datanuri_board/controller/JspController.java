@@ -1,13 +1,13 @@
 package com.example.datanuri_board.controller;
 
+import com.example.datanuri_board.dto.TokenDto;
 import com.example.datanuri_board.dto.request.BoardSubjectRequestDto;
+import com.example.datanuri_board.dto.request.UserRequestDto;
+import com.example.datanuri_board.service.AuthService;
 import com.example.datanuri_board.service.BoardSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -19,9 +19,22 @@ public class JspController {
     @Autowired
     BoardSubjectService boardSubjectService;
 
+    @Autowired
+    AuthService authService;
+
     @RequestMapping("/")
     public String main(){
         return "main";
+    }
+
+    @RequestMapping("/loginPage")
+    public String loginPage(){
+        return "/login";
+    }
+
+    @RequestMapping("/signupPage")
+    public String signupPage(){
+        return "/signupPage";
     }
 
 
