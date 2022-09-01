@@ -197,4 +197,13 @@ public class UserService {
         return userResponseDto;
     }
 
+    /**
+     * id로 User 조회 (단건 조회)
+     * @param id
+     * @return
+     */
+    public User findById(Long id) {
+        return userRepository.findById(id).orElseThrow();
+    }
+
 }
