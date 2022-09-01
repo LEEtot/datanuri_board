@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Recommend")
+@RequestMapping("/api/recommend")
 public class RecommendController {
 
     @Autowired

@@ -12,11 +12,14 @@ div.btn-submit {
 
 input.board-input {
     background: white;
+    width:100%;
+    align-items:center;
 }
 
 textarea.board-textarea {
     background: white;
     height: 270px;
+    width: 100%;
     resize: none;
 }
 
@@ -31,4 +34,9 @@ span.subtitle {
     margin-left: 5px;
     margin-top: 15px;
 }
-
+.profile_img {
+    width: 70px;
+    height: 70px;
+    border: 1px solid black;
+    display: inline-block;
+}
