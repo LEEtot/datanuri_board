@@ -17,8 +17,8 @@
                 <span>작성자</span>
             </div>
             <form name="write" id="boardwrite-form">
-                <span class="board-input">게시판 선택</span>
-                <select name="boardSubjectId " class="board-select">
+                <span class="subtitle">게시판 선택</span>
+                <select name="boardSubjectIdgit" class="board-select">
                     <c:forEach var="boardsubject" items="${boardSubjectBasic}">
                         <option value="${boardsubject.id}">${boardsubject.subject}</option>
                     </c:forEach>
@@ -26,7 +26,6 @@
                 <span class="subtitle">제목</span>
                 <input name="title" class="board-input" placeholder="title" maxlength="60"/>
                 <span class="subtitle">내용</span>
-                <input name="state" class="board-input" placeholder="title" value="S001"/>
                 <textarea name="contents" class="board-textarea" placeholder="content"></textarea>
                 <div class="btn-submit">
                     <button id="btn-submit" class="btn btn-primary">작성</button>
