@@ -118,4 +118,8 @@ public class UserController {
         return authService.login(userRequestDto);
     }
 
+    @GetMapping("/me")
+    public UserResponseDto me(){
+        return userService.getMyInfoBySecurity();
+    }
 }

@@ -21,6 +21,8 @@ public class BoardSubjectResponseDto extends Board {
     private LocalDateTime modifiedDate;
     private String state;
 
+    private Long boardsCount;
+
     public BoardSubjectResponseDto(BoardSubject entity){
         this.id = entity.getId();
         this.subject = entity.getSubject();
@@ -31,6 +33,7 @@ public class BoardSubjectResponseDto extends Board {
         this.modifier = entity.getModifier();
         this.modifiedDate = entity.getModifiedDate();
         this.state = entity.getState();
+        this.boardsCount = entity.getBoardsCount();
     }
 
     @Override
