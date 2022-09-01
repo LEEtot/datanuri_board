@@ -11,35 +11,42 @@ import java.util.Optional;
 
 
 @RestController
-@RequestMapping("/api/v1/comment")
+//@RequiredArgsConstructor
+@RequestMapping("/api/comment")
 public class CommentController {
 
+    /**
+     * 에러 1. 의존성 주입 시
+     * @Autowired 어노테이션
+     * or
+     * @RequiredArgsConstructor + 변수에 final 표기
+     */
     @Autowired
     private CommentService commentService;
 
-    @GetMapping
+    @GetMapping("/list")
     public List<Comment> getAllComments(@RequestParam Optional<Long> userId, @RequestParam Optional<Long> boardId){
         return commentService.getAllCommentsWithParam(userId,boardId);
     }
 
-    @GetMapping("/{commentId}")
+    @GetMapping("/get")
     public Comment getOneComment(@PathVariable Long commentId){
         return  commentService.getOneCommentById(commentId);
     }
 
 
-    @PostMapping
+    @PostMapping("/create")
     public Comment createOneComment(@RequestBody CommentRequestDto commentRequestDto){
         return commentService.createOneComment(commentRequestDto);
     }
 
-    @PutMapping
+    @PutMapping("/update")
     public Comment updateOneComment(@PathVariable Long commentId,@RequestBody CommentRequestDto commentRequestDto){
         return  commentService.updateOneCommentById(commentId,commentRequestDto);
     }
 
     @DeleteMapping("/{commentId}")
-    public void deleteOneCOmment(@PathVariable Long commentId){
+    public void deleteOneComment(@PathVariable Long commentId){
         commentService.deleteOneCommentById(commentId);
     }
 

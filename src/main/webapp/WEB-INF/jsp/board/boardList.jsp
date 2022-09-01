@@ -9,7 +9,8 @@
     <div class="search-div">
         <input type="text" placeholder="검색할 제목을 입력하세요" class="search-input m_12" id="search-title">
         <button class="btn ok-btn m_12" onclick="getBoardListBySearch()">찾기</button>
-        <button class="btn write-btn m_12">새글 쓰기</button>
+        <button class="btn write-btn m_12" onclick="boardInsert()">새글 쓰기</button>
+
     </div>
 
 
@@ -75,6 +76,10 @@
         selectedPage = 1;
         getBoardList(bysorting);
     }
+
+    function boardInsert() {
+        location.href = "/board/boardWrite";
+    };
 
 
     function getBoardList(sorting){

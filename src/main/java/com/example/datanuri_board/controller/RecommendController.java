@@ -11,29 +11,29 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/Recommend")
+@RequestMapping("/api/recommend")
 public class RecommendController {
 
     @Autowired
     private RecommendService recommendService;
 
     @GetMapping
-    public List<RecommendResponse> getAllLikes(@RequestParam Optional<Long> userId, @RequestBody Optional<Long> postId) {
-        return recommendService.getAllRecommendWithParam(userId, postId);
+    public List<RecommendResponse> getAllRecommends(@RequestParam Optional<Long> userId, @RequestBody Optional<Long> boardId) {
+        return recommendService.getAllRecommendWithParam(userId, boardId);
     }
 
     @PostMapping
-    public Recommend createOneLike(@RequestBody RecommendRequest request) {
+    public Recommend createOneRecommend(@RequestBody RecommendRequest request) {
         return recommendService.createOneRecommend(request);
     }
 
     @GetMapping("/{recommendId}")
-    public Recommend getOneLike(@PathVariable Long likeId) {
-        return recommendService.getOneRecommendById(likeId);
+    public Recommend getOneRecommend(@PathVariable Long recommendId) {
+        return recommendService.getOneRecommendById(recommendId);
     }
 
     @DeleteMapping("/{recommendId}")
-    public void deleteOneLike(@PathVariable Long likeId) {
-        recommendService.deleteOneRecommendById(likeId);
+    public void deleteOneRecommend(@PathVariable Long recommendId) {
+        recommendService.deleteOneRecommendById(recommendId);
     }
 }
