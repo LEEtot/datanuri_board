@@ -26,16 +26,11 @@ public class Comment extends BaseEntity {
 
     @Column
     private String contents;  // content
+    
     @Column
     private String author;  // author
 
     @Column(length = 4) //Post, Block, Delete
     private String state;  //   state
 
-    public void update(Board board, String contents, String author, String state) {
-        this.board = board;
-        this.contents = contents;
-        this.author = author;
-        this.state = state;
-    }
 }
