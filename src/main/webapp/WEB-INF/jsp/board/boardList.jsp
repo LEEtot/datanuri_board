@@ -54,6 +54,7 @@
     let totalElements = 0; //전체요소들 수
     let totalPages = 1; //페이지 전체수
 
+    let boardSubjectWriteAuth = '';
 
     //게시판TITLE값 리턴
     /*function getBoardSubjectTitle(subjectId){
@@ -78,8 +79,20 @@
     }
 
     function boardInsert() {
-        location.href = "/board/boardWrite";
-    };
+        console.log(boardSubjectWriteAuth);
+
+            if(me.auth == "R001"){
+                //getBoardList("listLatest");
+            }else if(me.auth == "R002" && boardSubjectWriteAuth !== "R001"){
+                //getBoardList("listLatest");
+            } else if(me.auth == "R003" && boardSubjectWriteAuth == "R003"){
+                //getBoardList("listLatest");
+            } else {
+                alert("해당게시판에 글쓰기권한이 없습니다!");
+                return false;
+            }
+        //location.href = "/board/boardWrite";
+    }
 
 
     function getBoardList(sorting){
@@ -233,8 +246,24 @@
     }
 
     $(document).ready(function(){
-        getBoardList("listLatest");
-        console.log(`${boardSubject}`);
+        //console.log(me.auth);
+        let boardSubjectReadAuth = `${boardSubject.readAuthority}`;
+        boardSubjectWriteAuth =`${boardSubject.writeAuthority}`;
+        console.log(boardSubjectReadAuth);
+        console.log()
+        if(me.auth == "R001"){
+            getBoardList("listLatest");
+        }else if(me.auth == "R002" && boardSubjectReadAuth !== "R001"){
+            getBoardList("listLatest");
+        } else if(me.auth == "R003" && boardSubjectReadAuth == "R003"){
+            getBoardList("listLatest");
+        } else {
+            alert("해당글에 접근권한이 없습니다!");
+            location.replace("/");
+        }
+
+
+
         //paging(totalElements, requestParam.size, totalPages, requestParam.page+1);
     })
 </script>

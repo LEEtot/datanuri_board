@@ -37,6 +37,11 @@ public class JspController {
         return "/signupPage";
     }
 
+    @RequestMapping("/noAuth")
+    public String noAuth(){
+        return "/noAuth";
+    }
+
 
     @RequestMapping("/board/boardList/{boardSubjectId}")
     public ModelAndView boardList(ModelAndView mav,@PathVariable(required = false) Long boardSubjectId){
@@ -76,5 +81,16 @@ public class JspController {
         boardSubjectService.updateState(boardsubjectId, "S003");
 
         return "redirect:boardsubjectList";
+    }
+
+    @RequestMapping(value = "/user/userList")
+    public ModelAndView userList(ModelAndView mav){
+        mav.setViewName("user/userList");
+        /*mav.addObject("boardSubjectBasic", boardSubjectService.findBoardSubjectByState("S004"));
+        List<String> state = new ArrayList<String>();
+        state.add("S001");
+        state.add("S002");
+        mav.addObject("boardSubjectModi",boardSubjectService.listByState(state));*/
+        return mav;
     }
 }

@@ -26,7 +26,7 @@ public class BoardSubject extends BaseEntity implements Serializable {
     private String subject;
 
     @NotNull
-    private String readAuthority; //R001 일반유저  R002 운영자  R003 관리자
+    private String readAuthority; //R001 운영자  R002 관리자  R003 일반유저
 
     @NotNull
     private String writeAuthority; //R001  R002  R003

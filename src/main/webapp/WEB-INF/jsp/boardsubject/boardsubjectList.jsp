@@ -6,7 +6,7 @@
 <div class="m_70 boardList-main">
     <h1 class="boardsubject-title">게시판 관리</h1>
 
-    <div class="boardsubject_btn"><button class="btn write-btn m_12" type="button" data-bs-toggle="modal" data-bs-target="#myModal">게시판 추가</button></div>
+    <div class="boardsubject_btn"><button class="btn write-btn m_12" type="button" data-bs-toggle="modal" data-bs-target="#myModal" id="modalAddbtn">게시판 추가</button></div>
 
 
 
@@ -19,7 +19,7 @@
                 <div class="tab_item mr_12 tab_item_readAuth">쓰기권한</div>
                 <div class="tab_item mr_12 tab_item_writeAuth">읽기권한</div>
                 <div class="tab_item mr_12 tab_item_boardsCount">게시글 수</div>
-                <div class='tab_item mr_12 tab_item_subjectcreator'>생성자</div>
+                <%--<div class='tab_item mr_12 tab_item_subjectcreator'>생성자</div>--%>
                 <div class='tab_item mr_12 tab_item_createdDate'>생성일</div>
                 <div class="tab_item mr_12 tab_item_modibtn"></div>
             </li>
@@ -30,20 +30,20 @@
                     <div class="tab_item mr_12 tab_item_subjecttitle">${boardSubjectBasic.subject}</div>
                     <div class="tab_item mr_12 tab_item_readAuth">
                         <c:choose>
-                            <c:when test="${boardSubjectBasic.readAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubjectBasic.readAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubjectBasic.readAuthority eq 'R003'}">관리자</c:when>
+                            <c:when test="${boardSubjectBasic.readAuthority eq 'R001'}">운영자</c:when>
+                            <c:when test="${boardSubjectBasic.readAuthority eq 'R002'}">관리자</c:when>
+                            <c:when test="${boardSubjectBasic.readAuthority eq 'R003'}">일반유저</c:when>
                         </c:choose>
                     </div>
                     <div class="tab_item mr_12 tab_item_writeAuth">
                         <c:choose>
-                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R003'}">관리자</c:when>
+                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R001'}">운영자</c:when>
+                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R002'}">관리자</c:when>
+                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R003'}">일반유저</c:when>
                         </c:choose>
                     </div>
                     <div class="tab_item mr_12 tab_item_boardsCount">${boardSubjectBasic.boardsCount}</div>
-                    <div class='tab_item mr_12 tab_item_subjectcreator'>${boardSubjectBasic.creator}</div>
+                    <%--<div class='tab_item mr_12 tab_item_subjectcreator'>${boardSubjectBasic.creator}</div>--%>
                     <div class='tab_item mr_12 tab_item_createdDate'>
                         <fmt:parseDate var="resultRegDt" value="${boardSubjectBasic.createdDate}" pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
                         <fmt:formatDate value="${resultRegDt}" pattern="yyyy-MM-dd HH:mm" />
@@ -69,7 +69,7 @@
                 <div class="tab_item mr_12 tab_item_readAuth">쓰기권한</div>
                 <div class="tab_item mr_12 tab_item_writeAuth">읽기권한</div>
                 <div class="tab_item mr_12 tab_item_boardsCount">게시글 수</div>
-                <div class='tab_item mr_12 tab_item_subjectcreator'>생성자</div>
+                <%--<div class='tab_item mr_12 tab_item_subjectcreator'>생성자</div>--%>
                 <div class='tab_item mr_12 tab_item_subjectstate'>상태</div>
                 <div class='tab_item mr_12 tab_item_createdDate'>생성일</div>
                 <div class="tab_item mr_12 tab_item_modibtn"></div>
@@ -81,20 +81,20 @@
                     <div class="tab_item mr_12 tab_item_subjecttitle">${boardSubject.subject}</div>
                     <div class="tab_item mr_12 tab_item_readAuth">
                         <c:choose>
-                            <c:when test="${boardSubject.readAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubject.readAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubject.readAuthority eq 'R003'}">관리자</c:when>
+                            <c:when test="${boardSubject.readAuthority eq 'R001'}">운영자</c:when>
+                            <c:when test="${boardSubject.readAuthority eq 'R002'}">관리자</c:when>
+                            <c:when test="${boardSubject.readAuthority eq 'R003'}">일반유저</c:when>
                         </c:choose>
                     </div>
                     <div class="tab_item mr_12 tab_item_writeAuth">
                         <c:choose>
-                            <c:when test="${boardSubject.writeAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubject.writeAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubject.writeAuthority eq 'R003'}">관리자</c:when>
+                            <c:when test="${boardSubject.writeAuthority eq 'R001'}">운영자</c:when>
+                            <c:when test="${boardSubject.writeAuthority eq 'R002'}">관리자</c:when>
+                            <c:when test="${boardSubject.writeAuthority eq 'R003'}">일반유저</c:when>
                         </c:choose>
                     </div>
                     <div class="tab_item mr_12 tab_item_boardsCount">${boardSubject.boardsCount}</div>
-                    <div class='tab_item mr_12 tab_item_subjectcreator'>${boardSubject.creator}</div>
+                    <%--<div class='tab_item mr_12 tab_item_subjectcreator'>${boardSubject.creator}</div>--%>
                     <div class='tab_item mr_12 tab_item_subjectstate'>
                         <c:choose>
                             <c:when test="${boardSubject.state eq 'S001'}">visible</c:when>
@@ -137,11 +137,11 @@
                             <legend class="modal-title">읽기 권한</legend>
 
                             <input type="radio" id="readAuth_R001" name="readAuthority" value="R001" checked>
-                            <label for="readAuth_R001">일반유저</label>
+                            <label for="readAuth_R001">운영자</label>
                             <input type="radio" id="readAuth_R002" name="readAuthority" value="R002">
-                            <label for="readAuth_R002">운영자</label>
+                            <label for="readAuth_R002">관리자</label>
                             <input type="radio" id="readAuth_R003" name="readAuthority" value="R003">
-                            <label for="readAuth_R003">관리자</label>
+                            <label for="readAuth_R003">일반유저</label>
                         </fieldset>
                     </div>
 
@@ -150,15 +150,14 @@
                             <legend class="modal-title">쓰기 권한</legend>
 
                             <input type="radio" id="writeAuth_R001" name="writeAuthority" value="R001" checked>
-                            <label for="writeAuth_R001">일반유저</label>
+                            <label for="writeAuth_R001">운영자</label>
                             <input type="radio" id="writeAuth_R002" name="writeAuthority" value="R002">
-                            <label for="writeAuth_R002">운영자</label>
+                            <label for="writeAuth_R002">관리자</label>
                             <input type="radio" id="writeAuth_R003" name="writeAuthority" value="R003">
-                            <label for="writeAuth_R003">관리자</label>
+                            <label for="writeAuth_R003">일반유저</label>
                         </fieldset>
                     </div>
                     <input name="state" value="S001" hidden>
-
                 </div>
 
                 <!-- Modal footer -->
@@ -260,10 +259,16 @@
             location.href='<%=request.getContextPath()%>/boardsubject/delete?boardsubjectId='+id;
         })
     }
+
+    function checkJwt(){
+        $.ajax({
+            type:"GET",
+            url:"/"
+        })
+    }
     $(document).ready(function(){
-        console.log(`${boardSubjectModi}`);
-
-
+        console.log(me);
+        $(".creator-input").val(me.name);
     })
 
 
