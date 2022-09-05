@@ -232,6 +232,10 @@ a{
 
 }
 
+.ml_12{
+    margin-left: 12px;
+}
+
 .m_70{
     margin: 70px;
 }
@@ -355,11 +359,18 @@ a{
     align-items: center;
     padding: 12px;
 }
-#user_name{
 
-    margin-left: 10px;
-
-}
-.user-login-divs{
+/*.user-login-divs{
     height: 325px;
+}*/
+
+#check-msg{
+    color: #e22424;
+    font-size: 20px;
+}
+
+.main-profile-img{
+    width: 120px;
+    height: 120px;
+    border: 1px solid black;
 }

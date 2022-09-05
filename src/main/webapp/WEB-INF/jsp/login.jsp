@@ -13,6 +13,7 @@
                 <label for="pwd">Password:</label>
                 <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="password">
             </div>
+            <span id="check-msg" class="dis-none">이메일이나 비밀번호를 확인해주세요</span>
             <div class="form-check mb-3">
                 <%--<label class="form-check-label">
                     <input class="form-check-input" type="checkbox" name="remember"> Remember me
@@ -25,13 +26,7 @@
 
 <script type="text/javascript">
 
-    function objectifyForm(formArray) {//serializeArray data function
-        var returnArray = {};
-        for (var i = 0; i < formArray.length; i++) {
-            returnArray[formArray[i]['name']] = formArray[i]['value'];
-        }
-        return returnArray;
-    }
+
 
     function loginsubmit(){
         var formsubmitSerialArray  = $('#form-login').serializeArray() // serialize 사용
@@ -53,7 +48,7 @@
             },
             error : function(request, status, error) {
                 console.log(status);
-
+                $("#check-msg").removeClass("dis-none");
             }
         })
     }

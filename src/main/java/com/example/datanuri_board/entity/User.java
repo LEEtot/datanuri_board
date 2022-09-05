@@ -1,6 +1,7 @@
 package com.example.datanuri_board.entity;
 
 import lombok.*;
+import org.hibernate.annotations.Formula;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
@@ -36,9 +37,10 @@ public class User extends BaseEntity {
 
     private String signUpApi;
 
+
     @NotEmpty
     @Size(min = 4, max = 4)
-    private String state;
+    private String state; //S001 - 활동O  S002 - block  S003 - 활동X
 
     private String imgPath;
 
