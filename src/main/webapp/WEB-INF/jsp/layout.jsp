@@ -14,6 +14,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/resources/static/css/base.css" />
     <link rel="stylesheet" href="/resources/static/css/boardWrite.css"/>
+    <link rel="stylesheet" href="/resources/static/css/boarddetail.css"/>
 </head>
 <body>
 <tiles:insertAttribute name="left"/>

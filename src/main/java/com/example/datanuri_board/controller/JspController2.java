@@ -1,10 +1,10 @@
 package com.example.datanuri_board.controller;
 
 import com.example.datanuri_board.dto.request.CommentRequestDto;
-import com.example.datanuri_board.entity.Comment;
 import com.example.datanuri_board.service.BoardService;
 import com.example.datanuri_board.service.BoardSubjectService;
 import com.example.datanuri_board.service.CommentService;
+import com.example.datanuri_board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +22,8 @@ public class JspController2 {
     @Autowired
     BoardService boardService;
     @Autowired
+    UserService userService;
+    @Autowired
     CommentService commentService;
 
 
@@ -34,10 +36,11 @@ public class JspController2 {
         return mav;
     }
 
-    @RequestMapping("/board/boardDetail")
-    public ModelAndView boardDetail(ModelAndView mav){
+    @RequestMapping("/board/boardDetail/{boardId}")
+    public ModelAndView boardDetail(ModelAndView mav, @PathVariable(required = false) Long boardId){
         mav.setViewName("board/boardDetail");
-        mav.addObject("board");
+        mav.addObject("boardId",boardId);
+        mav.addObject("board",boardService.findBoardByBoardId(boardId));
         return mav;
     }
 

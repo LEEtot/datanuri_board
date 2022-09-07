@@ -114,7 +114,7 @@
             $.each(data.content,function(idx,item){
                 var indexNum = data.totalElements - (data.pageable.offset) -idx;
 
-                var list_group_item = "<li class='list-group-item boardList_tab'><div class='tab_item mr_12 tab_item_num'>"+indexNum+"</div><div class='tab_item tab_item_title'><a href='#'>"+item.title+"</a></div> <div class='tab_item mr_12 tab_item_recommend'>추천수 : "+item.recommendCount+"</div> <div class='tab_item mr_12 tab_item_viewCount'>조회수 : "+item.viewCount+"</div> <div class='tab_item tab_item_creator_modifier'>작성자 : "+item.creator+"</span> <br> 작성일 : <span> "+dateFomrmat(item.createdDate)+"</span>   수정일 : <span> "+dateFomrmat(item.modifiedDate)+"</span></div> </li>";
+                var list_group_item = "<li class='list-group-item boardList_tab'><div class='tab_item mr_12 tab_item_num'>"+indexNum+"</div><div class='tab_item tab_item_title'><a href='board/boardDetail/{board.boardId}'>"+item.title+"</a></div> <div class='tab_item mr_12 tab_item_recommend'>추천수 : "+item.recommendCount+"</div> <div class='tab_item mr_12 tab_item_viewCount'>조회수 : "+item.viewCount+"</div> <div class='tab_item tab_item_creator_modifier'>작성자 : "+item.creator+"</span> <br> 작성일 : <span> "+dateFomrmat(item.createdDate)+"</span>   수정일 : <span> "+dateFomrmat(item.modifiedDate)+"</span></div> </li>";
                 $(".boardlist-group-container").append(list_group_item);
                 boardSubject_title=item.boardSubject.subject
 

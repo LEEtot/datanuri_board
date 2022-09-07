@@ -5,11 +5,11 @@
     <h1 class="boardsubject-title">게시글 작성</h1>
     <section class="article-detail table-common con row">
         <div class="article-writer cell">
-            <div class="user_info">
-                <div class="profile_img">프로필</div>
-                <span>작성자</span>
-            </div>
             <form name="write" id="boardwrite-form">
+                <div class="user_info">
+                    <div class="profile_img">프로필</div>
+                    <span>작성자 ${user.name}</span>
+                </div>
                 <span class="subtitle">게시판 선택</span>
                 <select name="boardSubjectId" class="board-select">
                     <c:forEach var="boardsubject" items="${boardSubjectBasic}">
@@ -20,7 +20,7 @@
                 <input name="title" class="board-input" placeholder="title" maxlength="60"/>
                 <span class="subtitle">내용</span>
                 <textarea name="contents" class="board-textarea" placeholder="content"></textarea>
-                <input name="state" class="board-input"  value="S001"/>
+                <input type="hidden" name="state" class="board-input"  value="S001"/>
                 <div class="btn-submit">
                     <button id="btn-submit" class="btn btn-primary" onclick="boardWrite();">작성</button>
                     <a type="button" class="btn btn-primary" href="javascript:history.back()">취소</a>

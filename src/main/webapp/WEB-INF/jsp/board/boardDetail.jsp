@@ -1,16 +1,12 @@
-<%@ page language="java" contentType="text/html; charset=utf-8" pageEncoding="utf-8" isELIgnored="false" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>${board.title}</title>
-    <link rel="stylesheet" href="/resources/static/css/boarddetail.css"/>
-</head>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+         pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <div id="${board.boardId}" class="board_wrap">
     <div class="board_content_box">
         <div class="board_header">
             <div class="board_title">
-                <span><c:if test="${board.boardsubject != '없음'}">[${board.boardsubject}]</c:if> ${board.title}</span>
+                <span> ${board.title}</span>
             </div>
             <div class="writer_info">
                 <div>
@@ -20,13 +16,13 @@
                                 <img src="/resources/static/img/null_profile.png" class="view_profile article_profile"/>
                             </c:when>
                             <c:otherwise>
-                                <img src=" ">
+                                <img src="${user.imgPath}">
                             </c:otherwise>
                         </c:choose>
                     </div>
                     <div class="profile_area">
                         <div class="writer_nickname">
-                            <span id="m${user.userId}" class="user">${user.username}</span>
+                            <span id="m${user.userId}" class="user">${user.name}</span>
                         </div>
                         <div class="write_time">
                             <span>${board.createdDate}</span>
@@ -40,7 +36,7 @@
         </div>
         <div class="board_container">
             <div class="board_viewer">
-                ${board.content}
+                ${board.contents}
             </div>
             <div class="comment_box">
             </div>
@@ -52,8 +48,6 @@
                 <div id="comment_area${comment.commentId}" class="comment_area">
                     <img src="/{userId}/data?&imageFileName=${user.imgPath}"
                          class="view_profile ">
-                        <%--<img id="profile${status.index}" src="" class="view_profile"/>--%>
-                        <%--<input type="hidden" id="imgValue${status.index}" value="${reply.memberId}:${reply.profilePhoto}"/>--%>
                     <div class="comment_content">
                         <div class="comment_nick_box">
                                         <span class="comment_nickname member"
