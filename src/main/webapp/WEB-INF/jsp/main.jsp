@@ -34,6 +34,7 @@
 
 <script type="text/javascript">
 
+
     function getBoardSubjectTitle(subjectId){
         $.ajax({
             type:"get",
@@ -44,10 +45,7 @@
         })
     }
 
-    function dateFomrmat(date){
-        var dateString = date.replace("T"," ").replace(/\..*/,'');
-        return dateString;
-    }
+
     function getBoardMain(){
         $.ajax({
             type:"get",

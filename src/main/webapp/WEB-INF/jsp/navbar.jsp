@@ -88,7 +88,7 @@
     }
 
     let token = localStorage.getItem('token');
-    let me;
+    let me ='';
     function meInfo(){
         console.log(token);
         var base64Url = token.split('.')[1];
@@ -142,6 +142,34 @@
             returnArray[formArray[i]['name']] = formArray[i]['value'];
         }
         return returnArray;
+    }
+
+    function dateFomrmat(date){
+        if(date==null){
+            return "";
+        }
+        var dateString = date.replace("T"," ").replace(/\..*/,'');
+        return dateString;
+    }
+
+    function roleName(role){
+        if(role == "R001"){
+            return "운영자";
+        } else if(role == "R002"){
+            return "관리자";
+        } else{
+            return "일반회원";
+        }
+    }
+
+    function stateName(state){
+        if(state == "S001"){
+            return "일반";
+        } else if(state == "S002"){
+            return "정지";
+        } else if(state == "S003"){
+            return "탈퇴";
+        }
     }
 
     $(document).ready(function(){

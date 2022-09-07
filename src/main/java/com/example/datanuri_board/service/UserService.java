@@ -62,6 +62,28 @@ public class UserService {
     }
 
     /**
+     * 상태 변경(Activate, Block, Withdrawal)
+     */
+    @Transactional
+    public void stateUpdates(List<Long> ids, String state) {
+        for(Long id:ids){
+            User user = userRepository
+                    .findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다."));
+            user.setState(state);
+        }
+
+    }
+
+    @Transactional
+    public void lastLoginTimeUpdate(Long id) {
+        User user = userRepository
+                .findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다."));
+        user.updateLastLogin();
+    }
+
+    /**
      * 권한 변경
      * @param id
      * @param role
@@ -72,6 +94,20 @@ public class UserService {
                 .findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다"));
         user.setRole(role);
+    }
+
+    /**
+     * 권한들 변경
+     */
+    @Transactional
+    public void roleUpdates(List<Long> ids, String role) {
+        for(Long id : ids){
+            User user = userRepository
+                    .findById(id)
+                    .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다"));
+            user.setRole(role);
+        }
+
     }
 
     /**
@@ -195,6 +231,10 @@ public class UserService {
                 .modifiedDate(user.getModifiedDate())
                 .build();
         return userResponseDto;
+    }
+
+    public List<UserResponseDto> findByRoleAndStateIn(String role, List<String> states){
+        return userRepository.findByRoleAndStateInOrderById(role, states).stream().map(UserResponseDto::of).collect(Collectors.toList());
     }
 
     /**
