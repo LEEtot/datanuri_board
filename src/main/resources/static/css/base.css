@@ -154,6 +154,7 @@ a{
 .boardList_tb{
     /*width: 1440px;*/
     margin-top: 15px;
+    text-align: center;
 }
 
 .boardList_tab{
@@ -373,4 +374,45 @@ a{
     width: 120px;
     height: 120px;
     border: 1px solid black;
+}
+
+.tab_item_w150{
+    width: 150px;
+}
+
+.tab_item_w250{
+    width: 250px;
+}
+
+.mb-150{
+    margin-bottom: 150px;
+}
+
+.tab_item_w90{
+    width: 50px;
+}
+
+.btn-wbig{
+    width: 250px;
+}
+
+.btn-admin {
+    color: #fff;
+    background-color: var(--btn-color);
+    border-color: var(--btn-color);
+}
+
+.admin-btns {
+    display: flex;
+    justify-content: right;
+}
+
+.admin-btns > *{
+    margin-left: 15px;
+}
+
+input[type=checkbox] {
+
+    zoom: 1.2;
+
 }

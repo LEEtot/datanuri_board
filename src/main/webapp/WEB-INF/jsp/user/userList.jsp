@@ -6,112 +6,216 @@
 <div class="m_70 boardList-main">
     <h1 class="boardsubject-title">회원 관리</h1>
 
+    <div id="userList-S002-div" class="dis-none">
     <h3>관리자 목록</h3>
-    <div class="boardList_tb" id="userList-R">
+    <div class="boardList_tb mb-150" >
         <ul class="boardsubjectlist-group-container">
             <li class="list-group-item boardsubjectList-head">
-                <div class="tab_item mr_12 tab_item_subjectnum">회원번호</div>
-                <div class="tab_item mr_12 tab_item_subjecttitle">이메일</div>
-                <div class="tab_item mr_12 tab_item_readAuth">이름</div>
-                <div class="tab_item mr_12 tab_item_writeAuth">역할</div>
-                <div class="tab_item mr_12 tab_item_boardsCount">핸드폰번호</div>
-                <div class='tab_item mr_12 tab_item_subjectcreator'>생성자</div>
-                <div class='tab_item mr_12 tab_item_createdDate'>생성일</div>
-                <div class="tab_item mr_12 tab_item_modibtn"></div>
+                <div class="tab_item mr_12 tab_item_w150">회원번호</div>
+                <div class="tab_item mr_12 tab_item_w250">이메일</div>
+                <div class="tab_item mr_12 tab_item_w150">이름</div>
+                <div class="tab_item mr_12 tab_item_w150">역할</div>
+                <div class='tab_item mr_12 tab_item_w150'>상태</div>
+                <div class="tab_item mr_12 tab_item_w150">핸드폰번호</div>
+                <div class='tab_item mr_12 tab_item_w250'>마지막 로그인시간</div>
+                <div class='tab_item mr_12 tab_item_w250'>생성일</div>
+                <div class="tab_item mr_12 tab_item_w150">권한해제</div>
             </li>
+            <div id="userList-R002">
 
-           <%-- <c:forEach var="boardSubjectBasic" items="${boardSubjectBasic}">
-                <li class="list-group-item boardsubjectList_tab">
-                    <div class="tab_item mr_12 tab_item_subjectnum">${boardSubjectBasic.id}</div>
-                    <div class="tab_item mr_12 tab_item_subjecttitle">${boardSubjectBasic.subject}</div>
-                    <div class="tab_item mr_12 tab_item_readAuth">
-                        <c:choose>
-                            <c:when test="${boardSubjectBasic.readAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubjectBasic.readAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubjectBasic.readAuthority eq 'R003'}">관리자</c:when>
-                        </c:choose>
-                    </div>
-                    <div class="tab_item mr_12 tab_item_writeAuth">
-                        <c:choose>
-                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubjectBasic.writeAuthority eq 'R003'}">관리자</c:when>
-                        </c:choose>
-                    </div>
-                    <div class="tab_item mr_12 tab_item_boardsCount">${boardSubjectBasic.boardsCount}</div>
-                    <div class='tab_item mr_12 tab_item_subjectcreator'>${boardSubjectBasic.creator}</div>
-                    <div class='tab_item mr_12 tab_item_createdDate'>
-                        <fmt:parseDate var="resultRegDt" value="${boardSubjectBasic.createdDate}" pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
-                        <fmt:formatDate value="${resultRegDt}" pattern="yyyy-MM-dd HH:mm" />
-                    </div>
-                    <div class="tab_item mr_12 tab_item_modibtn"></div>
-                </li>
-            </c:forEach>--%>
-
+            </div>
         </ul>
+    </div>
     </div>
 
 
     <h3>일반회원 목록</h3>
-    <%--<ul id="orderby" class="boardSubject_order">
-        <li><a href="javascript:;" onclick="javascript:getBoardList('listLatest');" class="order-alink a-active">게시판 번호순</a></li>
-        <li><a href="#" onclick="javascript:getBoardList('listRecommend');" class="order-alink">게시글 순</a></li>
-    </ul>--%>
-    <div class="boardList_tb" id="boardSubjectList_moditb">
+    <div class="admin-btns">
+    <button id="toR002-btn" class="btn btn-admin btn-wbig dis-none" onclick="btnClickActive('updatesR002')">관리자 권한 부여</button>
+    <button class="btn btn-admin btn-wsmall" onclick="btnClickActive('updatesS002')">정지</button>
+        <button class="btn btn-admin btn-wsmall" onclick="btnClickActive('updatesS001')">정지풀기</button>
+    <button class="btn btn-admin btn-wsmall" onclick="btnClickActive('updatesS003')">탈퇴</button>
+    </div>
+    <div class="boardList_tb mb-150" >
         <ul class="boardsubjectlist-group-container">
             <li class="list-group-item boardsubjectList-head">
-                <div class="tab_item mr_12 tab_item_subjectnum">게시판번호</div>
-                <div class="tab_item mr_12 tab_item_subjecttitle">이름</div>
-                <div class="tab_item mr_12 tab_item_readAuth">쓰기권한</div>
-                <div class="tab_item mr_12 tab_item_writeAuth">읽기권한</div>
-                <div class="tab_item mr_12 tab_item_boardsCount">게시글 수</div>
-                <div class='tab_item mr_12 tab_item_subjectcreator'>생성자</div>
-                <div class='tab_item mr_12 tab_item_subjectstate'>상태</div>
-                <div class='tab_item mr_12 tab_item_createdDate'>생성일</div>
-                <div class="tab_item mr_12 tab_item_modibtn"></div>
+                <div class="tab_item mr_12 tab_item_w50"><input type="checkbox" onclick="chckAll()" id="chckAll-btn"></div>
+                <div class="tab_item mr_12 tab_item_w150">회원번호</div>
+                <div class="tab_item mr_12 tab_item_w250">이메일</div>
+                <div class="tab_item mr_12 tab_item_w150">이름</div>
+                <div class="tab_item mr_12 tab_item_w150">역할</div>
+                <div class='tab_item mr_12 tab_item_w150'>상태</div>
+                <div class="tab_item mr_12 tab_item_w150">핸드폰번호</div>
+                <div class='tab_item mr_12 tab_item_w250'>마지막 로그인시간</div>
+                <div class='tab_item mr_12 tab_item_w250'>생성일</div>
             </li>
+            <div id="userList-R003">
 
-            <%--<c:forEach var="boardSubject" items="${boardSubjectModi}">
-                <li class="list-group-item boardsubjectList_tab">
-                    <div class="tab_item mr_12 tab_item_subjectnum">${boardSubject.id}</div>
-                    <div class="tab_item mr_12 tab_item_subjecttitle">${boardSubject.subject}</div>
-                    <div class="tab_item mr_12 tab_item_readAuth">
-                        <c:choose>
-                            <c:when test="${boardSubject.readAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubject.readAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubject.readAuthority eq 'R003'}">관리자</c:when>
-                        </c:choose>
-                    </div>
-                    <div class="tab_item mr_12 tab_item_writeAuth">
-                        <c:choose>
-                            <c:when test="${boardSubject.writeAuthority eq 'R001'}">일반유저</c:when>
-                            <c:when test="${boardSubject.writeAuthority eq 'R002'}">운영자</c:when>
-                            <c:when test="${boardSubject.writeAuthority eq 'R003'}">관리자</c:when>
-                        </c:choose>
-                    </div>
-                    <div class="tab_item mr_12 tab_item_boardsCount">${boardSubject.boardsCount}</div>
-                    <div class='tab_item mr_12 tab_item_subjectcreator'>${boardSubject.creator}</div>
-                    <div class='tab_item mr_12 tab_item_subjectstate'>
-                        <c:choose>
-                            <c:when test="${boardSubject.state eq 'S001'}">visible</c:when>
-                            <c:when test="${boardSubject.state eq 'S002'}">nonvisible</c:when>
-                        </c:choose>
-                    </div>
-                    <div class='tab_item mr_12 tab_item_createdDate'>
-                        <fmt:parseDate var="resultRegDt" value="${boardSubject.createdDate}" pattern="yyyy-MM-dd'T'HH:mm" type="both"/>
-                        <fmt:formatDate value="${resultRegDt}" pattern="yyyy-MM-dd HH:mm" />
-                    </div>
-                    <div class="tab_item mr_12 tab_item_modibtn"><button class="modi-btn btn" type="button" data-bs-toggle="modal" data-bs-target="#myModalModi" onclick="modalModiOpen(`${boardSubject.subject}`,`${boardSubject.state}`,`${boardSubject.readAuthority}`,`${boardSubject.writeAuthority}`,`${boardSubject.id}`)">수정하기</button></div>
-                </li>
-            </c:forEach>--%>
+            </div>
         </ul>
     </div>
 </div>
 
 <script type="text/javascript">
-    function getUserList(){
+    function getUserListR002(){
+        console.log(token);
+        $("#userList-R002").empty();
         $.ajax({
-            url: '<%=request.getContextPath()%>/'
+            url: '<%=request.getContextPath()%>/api/v1/user/userListR002',
+            type:'get',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.setRequestHeader("Authorization", "Bearer "+ token);
+            },
+            dataType : "json",
+            success : function(data){
+                console.log(data);
+
+                $.each(data,function(idx,item){
+                var userLi = '<li class="list-group-item boardList_tab"> '+
+                    '<div class="tab_item mr_12 tab_item_w150">'+item.id+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w250">'+item.email+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w150">'+item.name+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w150">'+roleName(item.role)+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w150">'+stateName(item.state)+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w150">'+item.phoneNumber+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w250">'+dateFomrmat(item.lastLoginTime)+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w250">'+dateFomrmat(item.createdDate)+'</div>' +
+                    '<div class="tab_item mr_12 tab_item_w150"><button class="modi-btn btn" type="button" onclick="updateRole('+item.id+')">권한해제</button></div>' +
+                '</li>'
+                $("#userList-R002").append(userLi);
+                })
+            }
         })
     }
+
+    function getUserListR003(){
+        console.log(token);
+        $("#userList-R003").empty();
+        $.ajax({
+            url: '<%=request.getContextPath()%>/api/v1/user/userListR003',
+            type:'get',
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.setRequestHeader("Authorization", "Bearer "+ token);
+            },
+            dataType : "json",
+
+            success : function(data){
+                console.log(data);
+
+                $.each(data,function(idx,item){
+                    var userLi = '<li class="list-group-item boardList_tab"> '+
+                        '<div class="tab_item mr_12 tab_item_w50"><input type="checkbox" class="chck" value="'+item.id+'"></div>'+
+                        '<div class="tab_item mr_12 tab_item_w150">'+item.id+'</div>' +
+                        '<div class="tab_item mr_12 tab_item_w250">'+item.email+'</div>' +
+                        '<div class="tab_item mr_12 tab_item_w150">'+item.name+'</div>' +
+                        '<div class="tab_item mr_12 tab_item_w150">'+roleName(item.role)+'</div>' +
+                        '<div class="tab_item mr_12 tab_item_w150">'+stateName(item.state)+'</div>' +
+                        '<div class="tab_item mr_12 tab_item_w150">'+item.phoneNumber+'</div>' +
+                        '<div class="tab_item mr_12 tab_item_w250">'+dateFomrmat(item.lastLoginTime)+'</div>' +
+                        '<div class="tab_item mr_12 tab_item_w250">'+dateFomrmat(item.createdDate)+'</div>' +
+
+                        '</li>'
+                    $("#userList-R003").append(userLi);
+                })
+            }
+        })
+    }
+
+    /*체크박스 전체선택*/
+    function chckAll(){
+        if($("#chckAll-btn").is(':checked')){
+            $("input[class=chck]").prop("checked",true);
+        }else{
+            $("input[class=chck]").prop("checked",false);
+        }
+    }
+
+    $(document).on("click","input:checkbox[class=chck]",function(e){
+
+        var chks = document.getElementsByClassName("chck");
+        var chksChecked = 0;
+
+        for(var i =0; i<chks.length; i++){
+            var cbox = chks[i];
+
+            if(cbox.checked){
+                chksChecked++;
+            }
+        }
+
+        if(chks.length == chksChecked){
+            $("#chckAll-btn").prop("checked",true);
+        } else{
+            $("#chckAll-btn").prop("checked",false);
+        }
+    })
+
+    function getChckId(){
+        var chckArray = [];
+
+        $("input:checkbox[class=chck]:checked").each(function(){
+            chckArray.push(this.value);
+        })
+        return chckArray;
+    }
+
+    function updateRole(reqId){
+        console.log(reqId);
+        $.ajax({
+            type:"get",
+            url:"<%=request.getContextPath()%>/api/v1/user/updateR003?reqId="+reqId,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.setRequestHeader("Authorization", "Bearer "+ token);
+            },
+            success : function(){
+                checkAuth();
+            },
+            error : function(request, status, error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+        })
+    }
+
+    function btnClickActive(how){
+        var ids = getChckId();
+
+        ids = JSON.stringify(ids);
+        console.log(ids);
+        $.ajax({
+            type : "post",
+            url : "<%=request.getContextPath()%>/api/v1/user/"+how,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("Content-type","application/json");
+                xhr.setRequestHeader("Authorization", "Bearer "+ token);
+            },
+
+            data : ids,
+            success : function(){
+                checkAuth();
+            },
+            error:function(request,status,error){
+                alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+            }
+
+        })
+    }
+
+    function checkAuth(){
+        console.log(me);
+        if(me.auth=="R001"){
+            $("#userList-S002-div").removeClass('dis-none');
+            $("#toR002-btn").removeClass('dis-none');
+            getUserListR002();
+            getUserListR003();
+        } else if(me.auth=='R002'){
+            getUserListR003();
+        }
+    }
+
+    $(document).ready(function(){
+        checkAuth();
+    })
 </script>

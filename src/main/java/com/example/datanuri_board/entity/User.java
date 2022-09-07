@@ -50,5 +50,9 @@ public class User extends BaseEntity {
         return this;
     }
 
+    public void updateLastLogin(){
+        this.lastLoginTime = LocalDateTime.now();
+    }
+
 }
 

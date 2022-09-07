@@ -14,6 +14,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -108,6 +109,13 @@ public class UserController {
         userService.roleUpdate(userId, userRequestDto.getRole());
     }
 
+    @GetMapping("/roleUpdateToR001/{userId}")
+    public void roleUpdateToR001(@PathVariable("userId") Long userId){
+        userService.roleUpdate(userId,"R001");
+    }
+
+
+
     /**
      * 상태 수정 (block 처리)
      * @param userId
@@ -120,6 +128,8 @@ public class UserController {
 
     @PostMapping("/login")
     public TokenDto login(@RequestBody UserRequestDto userRequestDto) {
+        Long userId = userService.getUserDataByEmail(userRequestDto.getEmail()).getId();
+        userService.lastLoginTimeUpdate(userId);
         return authService.login(userRequestDto);
     }
 
@@ -127,4 +137,55 @@ public class UserController {
     public UserResponseDto me(){
         return userService.getMyInfoBySecurity();
     }
+
+    @GetMapping("/userListR002")
+    public List<UserResponseDto> userListR002(){
+        List<String> states = new ArrayList<String>();
+        states.add("S001");
+        states.add("S002");
+        return userService.findByRoleAndStateIn("R002", states);
+    }
+
+    @GetMapping("/userListR003")
+    public List<UserResponseDto> userListR003(){
+        List<String> states = new ArrayList<String>();
+        states.add("S001");
+        states.add("S002");
+        return userService.findByRoleAndStateIn("R003", states);
+    }
+
+    /* 일반 */
+    @PostMapping("/updatesS001")
+    public void updatesS001(@RequestBody List<Long> ids){
+
+        userService.stateUpdates(ids, "S001");
+    }
+
+    /* 정지 */
+    @PostMapping("/updatesS002")
+    public void updatesS002(@RequestBody List<Long> ids){
+
+        userService.stateUpdates(ids, "S002");
+    }
+
+    /* 탈퇴 */
+    @PostMapping("/updatesS003")
+    public void updatesS003(@RequestBody List<Long> ids){
+
+        userService.stateUpdates(ids, "S003");
+    }
+
+     /* 관리자 권한 부여 */
+    @PostMapping("/updatesR002")
+    public void updatesR002(@RequestBody List<Long> ids){
+        userService.roleUpdates(ids, "R002");
+    }
+
+    /* 관리자 권한 해제 */
+    @GetMapping("/updateR003")
+    public void updatesR003(@RequestParam("reqId") Long id){
+        userService.roleUpdate(id, "R003");
+    }
+
+
 }
