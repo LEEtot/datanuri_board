@@ -54,7 +54,7 @@
             url:"<%=request.getContextPath()%>/api/board/mainList",
             dataType:"json"
         }).done(function(data){
-            //console.log(data);
+            console.log(data);
             let value_index = 0;
             //let list_ul = document.getElementsByClassName("list-group-container");
 

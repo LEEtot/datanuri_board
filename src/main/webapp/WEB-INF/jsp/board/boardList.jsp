@@ -54,6 +54,7 @@
     let totalElements = 0; //전체요소들 수
     let totalPages = 1; //페이지 전체수
 
+    let boardSubjectWriteAuth = '';
 
     //게시판TITLE값 리턴
     /*function getBoardSubjectTitle(subjectId){
@@ -78,8 +79,20 @@
     }
 
     function boardInsert() {
-        location.href = "/board/boardWrite";
-    };
+        console.log(boardSubjectWriteAuth);
+
+            if(me.auth == "R001"){
+                //getBoardList("listLatest");
+            }else if(me.auth == "R002" && boardSubjectWriteAuth !== "R001"){
+                //getBoardList("listLatest");
+            } else if(me.auth == "R003" && boardSubjectWriteAuth == "R003"){
+                //getBoardList("listLatest");
+            } else {
+                alert("해당게시판에 글쓰기권한이 없습니다!");
+                return false;
+            }
+        //location.href = "/board/boardWrite";
+    }
 
 
     function getBoardList(sorting){
@@ -101,7 +114,7 @@
             $.each(data.content,function(idx,item){
                 var indexNum = data.totalElements - (data.pageable.offset) -idx;
 
-                var list_group_item = "<li class='list-group-item boardList_tab'><div class='tab_item mr_12 tab_item_num'>"+indexNum+"</div><div class='tab_item tab_item_title'><a href='#'>"+item.title+"</a></div> <div class='tab_item mr_12 tab_item_recommend'>추천수 : "+item.recommendCount+"</div> <div class='tab_item mr_12 tab_item_viewCount'>조회수 : "+item.viewCount+"</div> <div class='tab_item tab_item_creator_modifier'>작성자 : "+item.creator+"</span> <br> 작성일 : <span> "+dateFomrmat(item.createdDate)+"</span>   수정일 : <span> "+dateFomrmat(item.modifiedDate)+"</span></div> </li>";
+                var list_group_item = "<li class='list-group-item boardList_tab'><div class='tab_item mr_12 tab_item_num'>"+indexNum+"</div><div class='tab_item tab_item_title'><a href='board/boardDetail/{board.boardId}'>"+item.title+"</a></div> <div class='tab_item mr_12 tab_item_recommend'>추천수 : "+item.recommendCount+"</div> <div class='tab_item mr_12 tab_item_viewCount'>조회수 : "+item.viewCount+"</div> <div class='tab_item tab_item_creator_modifier'>작성자 : "+item.creator+"</span> <br> 작성일 : <span> "+dateFomrmat(item.createdDate)+"</span>   수정일 : <span> "+dateFomrmat(item.modifiedDate)+"</span></div> </li>";
                 $(".boardlist-group-container").append(list_group_item);
                 boardSubject_title=item.boardSubject.subject
 
@@ -233,8 +246,24 @@
     }
 
     $(document).ready(function(){
-        getBoardList("listLatest");
-        console.log(`${boardSubject}`);
+        //console.log(me.auth);
+        let boardSubjectReadAuth = `${boardSubject.readAuthority}`;
+        boardSubjectWriteAuth =`${boardSubject.writeAuthority}`;
+        console.log(boardSubjectReadAuth);
+        console.log()
+        if(me.auth == "R001"){
+            getBoardList("listLatest");
+        }else if(me.auth == "R002" && boardSubjectReadAuth !== "R001"){
+            getBoardList("listLatest");
+        } else if(me.auth == "R003" && boardSubjectReadAuth == "R003"){
+            getBoardList("listLatest");
+        } else {
+            alert("해당글에 접근권한이 없습니다!");
+            location.replace("/");
+        }
+
+
+
         //paging(totalElements, requestParam.size, totalPages, requestParam.page+1);
     })
 </script>

@@ -13,15 +13,20 @@
 
     <div class="user-login-divs dis-none">
     <div class="user_info">
-        <div class="profile_img">프로필</div>
-        <h3 id="user_name"></h3>
+        <div class="main-profile-img">프로필</div>
+        <div>
+            <h4 id="user_name" class="ml_12"></h4>
+            <h5 id="user-role" class="ml_12"></h5>
+        </div>
+
+
     </div>
     <div class="nav_btns">
         <button type="button" class="btn btn-user btn-wsmall">마이페이지</button>
         <button type="button" class="btn btn-user btn-wsmall" onclick="logout()">로그아웃</button>
     </div>
         <ul class="board_menu admin_menu ul_m10 dis-none" id="admin-menu-ul">
-            <li class="boardItem btn">회원관리</li>
+            <li class="boardItem btn"><a href="<%=request.getContextPath()%>/user/userList">회원관리</a></li>
             <li class="boardItem btn" ><a href="<%=request.getContextPath()%>/boardsubject/boardsubjectList">게시판관리</a></li>
         </ul>
     </div>
@@ -46,5 +51,110 @@
 
 </nav>
 </body>
+<script>
 
+    function getBoardSubjectList(){
+        $.ajax({
+            type:"get",
+            url:"<%=request.getContextPath()%>/api/boardSubject/list/S004",
+            datatype:"json",
+        }).done(function(data){
+            console.log(data);
+            $("#board_menu_ul_S004").empty();
+            let board_menu_li = "";
+            $.each(data, function(idx,item){
+                //console.log(item);
+                board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/boardList/"+item.id+"'>"+item.subject+"</a></li>";
+                $("#board_menu_ul_S004").append(board_menu_li);
+            });
+        })
+
+    }
+
+    function getBoardSubjectList2(){
+        $.ajax({
+            type:"get",
+            url:"<%=request.getContextPath()%>/api/boardSubject/list/S001",
+            dataType:"json"
+        }).done(function(data){
+            let board_menu_li = "";
+            $("#board_menu_ul_S001").empty();
+            $.each(data,function(idx,item){
+
+                board_menu_li = "<li class='boardItem btn item"+item.state+"' ><a href='<%=request.getContextPath()%>/board/boardList/"+item.id+"'>"+item.subject+"</a></li>";
+                $("#board_menu_ul_S001").append(board_menu_li);
+            })
+        })
+    }
+
+    let token = localStorage.getItem('token');
+    let me;
+    function meInfo(){
+        console.log(token);
+        var base64Url = token.split('.')[1];
+        var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+        var jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        }).join(''));
+
+        console.log(JSON.parse(jsonPayload));
+        return (JSON.parse(jsonPayload));
+
+
+    }
+
+    function navibarLogin(){
+        console.log(me.name);
+        $("#user_name").html(me.name);
+
+        var role = "";
+
+        if(me.auth == "R001"){
+            role = "운영자";
+        } else if(me.auth == "R002"){
+            role = "관리자";
+        } else if(me.auth =="R003"){
+            role = "사용자";
+        }
+        $("#user-role").html(role);
+
+        if ($(".user-login-divs").hasClass('dis-none')) {
+            $(".user-login-divs").removeClass("dis-none");
+            $("#login-btn-div").addClass("dis-none");
+        }
+        if(me.auth == "R001" || me.auth == "R002"){
+            $("#admin-menu-ul").removeClass("dis-none");
+        }
+    }
+
+    function navibarNoLogin(){
+        $("#login-btn-div").removeClass("dis-none");
+    }
+
+    function logout(){
+        localStorage.removeItem('token');
+        location.href="<%=request.getContextPath()%>/"
+    }
+
+    function objectifyForm(formArray) {//serializeArray data function
+        var returnArray = {};
+        for (var i = 0; i < formArray.length; i++) {
+            returnArray[formArray[i]['name']] = formArray[i]['value'];
+        }
+        return returnArray;
+    }
+
+    $(document).ready(function(){
+        getBoardSubjectList();
+        getBoardSubjectList2();
+        if(token != null){
+            me = meInfo();
+            navibarLogin();
+        } else{
+            navibarNoLogin();
+        }
+
+
+    })
+</script>
 </html>

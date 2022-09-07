@@ -1,13 +1,13 @@
 package com.example.datanuri_board.controller;
 
-import com.example.datanuri_board.dto.request.BoardSubjectRequestDto;
+import com.example.datanuri_board.dto.request.CommentRequestDto;
 import com.example.datanuri_board.service.BoardService;
 import com.example.datanuri_board.service.BoardSubjectService;
+import com.example.datanuri_board.service.CommentService;
+import com.example.datanuri_board.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.ArrayList;
@@ -21,6 +21,10 @@ public class JspController2 {
     BoardSubjectService boardSubjectService;
     @Autowired
     BoardService boardService;
+    @Autowired
+    UserService userService;
+    @Autowired
+    CommentService commentService;
 
 
     @RequestMapping("/board/boardWrite")
@@ -32,11 +36,19 @@ public class JspController2 {
         return mav;
     }
 
-    @RequestMapping("/board/boardDetail")
-    public ModelAndView boardDetail(ModelAndView mav){
+    @RequestMapping("/board/boardDetail/{boardId}")
+    public ModelAndView boardDetail(ModelAndView mav, @PathVariable(required = false) Long boardId){
         mav.setViewName("board/boardDetail");
-        mav.addObject("");
+        mav.addObject("boardId",boardId);
+        mav.addObject("board",boardService.findBoardByBoardId(boardId));
         return mav;
     }
 
+    @RequestMapping(value="/comment/delete")
+    public String boardsubjectDelete(@RequestParam Long boardId, CommentRequestDto commentRequestDto){
+        commentService.updateOneCommentById(boardId,commentRequestDto);
+
+        return "redirect:boardDetail";
+    }
 }
+

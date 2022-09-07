@@ -42,7 +42,7 @@ public class BoardApiController {
     public Map<Long,List<BoardResponseDto>> mainList() {
 
         Map<Long,List<BoardResponseDto>> map = new HashMap<Long, List<BoardResponseDto>>();
-        List<BoardSubjectResponseDto> boardSubjectList = boardSubjectService.findBoardSubjectByStateAndReadAuthority("S004","R001");
+        List<BoardSubjectResponseDto> boardSubjectList = boardSubjectService.findBoardSubjectByStateAndReadAuthority("S004","R003");
         for (BoardSubjectResponseDto boardSubject : boardSubjectList){
 
             Long boardSubjectId = boardSubject.getId();

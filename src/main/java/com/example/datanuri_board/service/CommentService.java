@@ -38,7 +38,6 @@ public class CommentService {
 
     private final CommentRepository commentRepository;
 
-//    private final UserRepository userRepository;
     private final UserService userService;
     private final BoardService boardService;
 
@@ -52,10 +51,7 @@ public class CommentService {
         } else {
             return commentRepository.findAll();
         }
-
-
     }
-
     public Comment getOneCommentById(Long commentId) {
         return commentRepository.findById(commentId).orElse(null);
     }

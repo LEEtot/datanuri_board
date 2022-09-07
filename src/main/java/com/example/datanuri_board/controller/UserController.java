@@ -8,6 +8,7 @@ import com.example.datanuri_board.service.AuthService;
 import com.example.datanuri_board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -66,12 +67,16 @@ public class UserController {
      * @param userRequestDto
      */
     @PostMapping("/signup")
-    public void signupUser(@RequestBody UserRequestDto userRequestDto) {
+    public String signupUser(@RequestBody UserRequestDto userRequestDto) {
+
         if(userService.signup(userRequestDto)) {
             log.info("회원가입성공");
+            return "성공";
         } else {
             log.info("회원가입실패");
+            return "실패";
         }
+        
     }
 
     /**
