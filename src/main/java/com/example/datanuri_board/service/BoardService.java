@@ -3,10 +3,12 @@ package com.example.datanuri_board.service;
 import com.example.datanuri_board.dto.request.BoardRequestDto;
 import com.example.datanuri_board.dto.response.BoardResponseDto;
 import com.example.datanuri_board.dto.response.BoardSubjectResponseDto;
+import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.repository.BoardRepository;
 import com.example.datanuri_board.repository.BoardSubjectRepository;
+import com.example.datanuri_board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,6 +30,8 @@ public class BoardService {
     private final BoardSubjectRepository boardSubjectRepository;
 
     private final BoardSubjectService boardSubjectService;
+
+    private final UserRepository userService;
 
     /** 확인O
      * 게시글 생성
@@ -136,7 +140,17 @@ public class BoardService {
      */
     public List<BoardResponseDto> findTop5ByBoardSubject_IdAndStateOrderByCreatedDateDesc(Long BoardSubject_Id){
         List<Board> list = boardRepository.findTop5ByBoardSubject_IdAndStateOrderByCreatedDateDesc(BoardSubject_Id, "S001");
-        return list.stream().map(BoardResponseDto::new).collect(Collectors.toList());
+        List<BoardResponseDto> boards = list.stream().map(BoardResponseDto::new).collect(Collectors.toList());
+        /*for(BoardResponseDto board : boards){
+            System.out.println(board.getCreator());
+            Long boardId = Long.parseLong(board.getCreator());
+            UserResponseDto userDto = UserResponseDto.of(userService
+                    .findById(boardId)
+                    .orElseThrow(() -> new IllegalArgumentException("해당하는 유저가 없습니다")));
+            board.setCreatorName(userDto.getName());
+            //board.setCreatorName().getName());
+        }*/
+        return boards;
     }
 
     /**

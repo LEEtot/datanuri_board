@@ -22,7 +22,7 @@
         <li><a href="#" onclick="javascript:getBoardList('listView');" class="order-alink">조회순</a></li>
     </ul>
 
-    <div class="boardList_tb">
+    <div class="boardList_TB mt-12">
         <ul class="boardlist-group-container">
 
         </ul>
@@ -79,19 +79,22 @@
     }
 
     function boardInsert() {
-        console.log(boardSubjectWriteAuth);
+        console.log(boardSubjectId);
 
             if(me.auth == "R001"){
                 //getBoardList("listLatest");
+                location.href = "<%=request.getContextPath()%>/board/boardWrite/"+boardSubjectId;
             }else if(me.auth == "R002" && boardSubjectWriteAuth !== "R001"){
                 //getBoardList("listLatest");
+                location.href = "<%=request.getContextPath()%>/board/boardWrite/"+boardSubjectId;
             } else if(me.auth == "R003" && boardSubjectWriteAuth == "R003"){
                 //getBoardList("listLatest");
+                location.href = "<%=request.getContextPath()%>/board/boardWrite/"+boardSubjectId;
             } else {
                 alert("해당게시판에 글쓰기권한이 없습니다!");
                 return false;
             }
-        //location.href = "/board/boardWrite";
+        //
     }
 
 
@@ -113,8 +116,7 @@
             console.log(data);
             $.each(data.content,function(idx,item){
                 var indexNum = data.totalElements - (data.pageable.offset) -idx;
-
-                var list_group_item = "<li class='list-group-item boardList_tab'><div class='tab_item mr_12 tab_item_num'>"+indexNum+"</div><div class='tab_item tab_item_title'><a href='board/boardDetail/{board.boardId}'>"+item.title+"</a></div> <div class='tab_item mr_12 tab_item_recommend'>추천수 : "+item.recommendCount+"</div> <div class='tab_item mr_12 tab_item_viewCount'>조회수 : "+item.viewCount+"</div> <div class='tab_item tab_item_creator_modifier'>작성자 : "+item.creator+"</span> <br> 작성일 : <span> "+dateFomrmat(item.createdDate)+"</span>   수정일 : <span> "+dateFomrmat(item.modifiedDate)+"</span></div> </li>";
+                var list_group_item = "<li class='list-group-item boardList_tab'><div class='tab_item mr_12 tab_item_num'>"+indexNum+"</div><div class='tab_item tab_item_title'><a href='<%=request.getContextPath()%>/board/boardDetail/"+item.boardId+"'>"+item.title+"</a></div> <div class='tab_item mr_12 tab_item_recommend'>추천수 : "+item.recommendCount+"</div> <div class='tab_item mr_12 tab_item_viewCount'>조회수 : "+item.viewCount+"</div> <div class='tab_item tab_item_creator_modifier'>작성자 : "+item.creator+"</span> <br> 작성일 : <span> "+dateFomrmat(item.createdDate)+"</span>   수정일 : <span> "+dateFomrmat(item.modifiedDate)+"</span></div> </li>";
                 $(".boardlist-group-container").append(list_group_item);
                 boardSubject_title=item.boardSubject.subject
 
@@ -249,8 +251,8 @@
         //console.log(me.auth);
         let boardSubjectReadAuth = `${boardSubject.readAuthority}`;
         boardSubjectWriteAuth =`${boardSubject.writeAuthority}`;
-        console.log(boardSubjectReadAuth);
-        console.log()
+        console.log(`${boardSubject}`);
+
         if(me.auth == "R001"){
             getBoardList("listLatest");
         }else if(me.auth == "R002" && boardSubjectReadAuth !== "R001"){
