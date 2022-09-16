@@ -6,9 +6,9 @@ spring:
     password: 1111
   jpa:
     generate-ddl: true
-#    hibernate:
+    hibernate:
 #      ddl-auto: create
-    show-sql: true
+#    show-sql: true
     defer-datasource-initialization: true
     properties:
       hibernate:

@@ -20,19 +20,19 @@ public class CommentService {
 
     /**
      * 생성자는 주로 롬복(rombok) 어노테이션을 활용합니다.
-     *
+     * <p>
      * 주로 사용하는 생성자 어노테이션은
+     *
      * @RequiredArgsConstructor
      * @NoArgsConstructor
-     * @AllArgsConstructor
-     * 이렇게 3가지이고 인터넷에 간단하게 검색하시면 잘 나와있습니다.
-     *
+     * @AllArgsConstructor 이렇게 3가지이고 인터넷에 간단하게 검색하시면 잘 나와있습니다.
+     * <p>
      * 기존 함수명을 활용한 생성자도 동작하지만 특별한 상황이 아니면 의존성을 주입할때는 controller에 명시한 주입 방법을 사용합니다.
-     *
+     * <p>
      * 수정 내용
      * contructor 삭제
      * @RequiredArgsConstructor + final 명시
-     *
+     * <p>
      * repository 함수 수정 -> service 내 함수명 수정
      */
 
@@ -52,23 +52,21 @@ public class CommentService {
             return commentRepository.findAll();
         }
     }
+
     public Comment getOneCommentById(Long commentId) {
         return commentRepository.findById(commentId).orElse(null);
     }
 
     @Transactional
     public Comment createOneComment(CommentRequestDto commentRequestDto) {
-        User user = userService.findById(Long.valueOf(commentRequestDto.getAuthor()));
+        User user = userService.findById(Long.valueOf(commentRequestDto.getUser().getId()));
         Board board = boardService.getOneBoardById(commentRequestDto.getBoard().getBoardId());
-        if (user != null && board != null) {
-            Comment commentToSave = new Comment();
-            commentToSave.setCommentId(commentRequestDto.getCommentId());
-            commentToSave.setBoard(board);
-            commentToSave.setAuthor(user.getName());
-            commentToSave.setContents(commentToSave.getContents());
-            return commentRepository.save(commentToSave);
-        } else
-            return null;
+        Comment commentToSave = new Comment();
+        commentToSave.setCommentId(commentRequestDto.getCommentId());
+        commentToSave.setBoard(board);
+        commentToSave.setAuthor(user.getName());
+        commentToSave.setContents(commentToSave.getContents());
+        return commentRepository.save(commentToSave);
     }
 
     @Transactional

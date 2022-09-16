@@ -1,6 +1,7 @@
 package com.example.datanuri_board.dto.request;
 
 import com.example.datanuri_board.entity.Board;
+import com.example.datanuri_board.entity.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +17,7 @@ public class CommentRequestDto {
     private Long commentId;
     private Board board;
     private String contents;
-    private String author;
+    private User user;
     private String state;
     private String creator;
     private String modifier;

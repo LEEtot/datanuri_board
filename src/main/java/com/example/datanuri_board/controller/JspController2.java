@@ -1,5 +1,6 @@
 package com.example.datanuri_board.controller;
 
+import com.example.datanuri_board.dto.request.BoardSubjectRequestDto;
 import com.example.datanuri_board.dto.request.CommentRequestDto;
 import com.example.datanuri_board.service.BoardService;
 import com.example.datanuri_board.service.BoardSubjectService;
@@ -44,11 +45,6 @@ public class JspController2 {
         return mav;
     }
 
-    @RequestMapping(value="/comment/delete")
-    public String boardsubjectDelete(@RequestParam Long boardId, CommentRequestDto commentRequestDto){
-        commentService.updateOneCommentById(boardId,commentRequestDto);
 
-        return "redirect:boardDetail";
-    }
 }
 

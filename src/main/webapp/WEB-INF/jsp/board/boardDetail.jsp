@@ -46,8 +46,6 @@
             <ul class="comment_list">
                 <c:forEach var="comment" items="${comment}">
                 <div id="comment_area${comment.commentId}" class="comment_area">
-                    <img src="/{userId}/data?&imageFileName=${user.imgPath}"
-                         class="view_profile ">
                     <div class="comment_content">
                         <div class="comment_nick_box">
                                         <span class="comment_nickname member"
@@ -77,12 +75,13 @@
             </ul>
         </div>
         <div class="comment_writer">
-            <form name="commentForm" method="post" onsubmit="return false;">
-                <div class="comment_writer_name">${User.name}</div>
-                <textarea class="comment_write_input" placeholder="댓글을 남겨보세요"
+            <form id="commentForm" name="commentForm" method="post">
+                <%--<div name= "author" class="comment_writer_name">${User.name}</div>--%>
+                <textarea name ="content" class="comment_write_input" placeholder="댓글을 남겨보세요"
                           onkeydown="resize(this)"></textarea>
+                    <input type="hidden" name="state" value="S001"/>
                 <div class="comment_writer_button">
-                    <button class="btn btn-primary" onclick="writecomment(0)">등록</button>
+                    <button type="button" class="btn btn-primary" onclick="writecomment();">등록</button>
                 </div>
             </form>
         </div>
@@ -95,7 +94,7 @@
     </div>
 </div>
 </div>
-<script>
+<script type="text/javascript">
     function objectifyForm(formArray) {  //serializeArray data function
         var returnArray = {};
         for (var i = 0; i < formArray.length; i++) {
@@ -104,11 +103,7 @@
         return returnArray;
     }
 
-    $(document).ready(function () {
-        $('#writecomment').click($.write);
-    });
-
-    $.write = function () {
+    function writecomment() {
         let formsubmitSerialArray  = $('#commentForm').serializeArray(); // serialize 사용
         let formsubmit = JSON.stringify(objectifyForm(formsubmitSerialArray));
         console.log(formsubmit);
@@ -126,6 +121,10 @@
         });
     }
 
+    function resize(obj) {
+        obj.style.height = "0px";
+        obj.style.height = (10+obj.scrollHeight)+"px";
+    }
 </script>
 
 
