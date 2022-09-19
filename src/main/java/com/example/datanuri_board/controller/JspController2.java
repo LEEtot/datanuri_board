@@ -28,12 +28,10 @@ public class JspController2 {
     CommentService commentService;
 
 
-    @RequestMapping("/board/boardWrite")
-    public ModelAndView boardsubjectList(ModelAndView mav){
+    @RequestMapping("/board/boardWrite/{boardSubjectId}")
+    public ModelAndView boardsubjectList(ModelAndView mav, @PathVariable("boardSubjectId") Long boardSubjectId){
         mav.setViewName("board/boardWrite");
-        mav.addObject("boardSubjectBasic", boardSubjectService.findBoardSubjectByState("S001"));
-        List<String> state = new ArrayList<String>();
-        mav.addObject("boardSubject",boardSubjectService.listByState(state));
+        mav.addObject("selectedBoardSubject",boardSubjectService.findById(boardSubjectId));
         return mav;
     }
 

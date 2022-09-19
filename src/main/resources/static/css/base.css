@@ -416,3 +416,30 @@ input[type=checkbox] {
     zoom: 1.2;
 
 }
+
+.mt-12{
+    margin-top: 12px;
+}
+
+
+.selectedSubject-title{
+    font-size: 22px;
+}
+
+.myPage-userInfo{
+    display: flex;
+}
+
+.myprofile-img{
+    width: 200px;
+    border: 1px solid black;
+    height: 200px;
+}
+
+.myInfo{
+    margin-left: 50px;
+}
+
+.myInfo-Cnt{
+    margin-top: 100px;
+}

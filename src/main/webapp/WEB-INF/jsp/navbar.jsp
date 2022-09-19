@@ -22,7 +22,7 @@
 
     </div>
     <div class="nav_btns">
-        <button type="button" class="btn btn-user btn-wsmall">마이페이지</button>
+        <button type="button" class="btn btn-user btn-wsmall" onclick="location.href='<%=request.getContextPath()%>/user/myPage'">마이페이지</button>
         <button type="button" class="btn btn-user btn-wsmall" onclick="logout()">로그아웃</button>
     </div>
         <ul class="board_menu admin_menu ul_m10 dis-none" id="admin-menu-ul">

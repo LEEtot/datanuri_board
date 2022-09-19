@@ -16,8 +16,8 @@
             <li class="list-group-item boardsubjectList-head">
                 <div class="tab_item mr_12 tab_item_subjectnum">게시판번호</div>
                 <div class="tab_item mr_12 tab_item_subjecttitle">이름</div>
-                <div class="tab_item mr_12 tab_item_readAuth">쓰기권한</div>
-                <div class="tab_item mr_12 tab_item_writeAuth">읽기권한</div>
+                <div class="tab_item mr_12 tab_item_readAuth">읽기권한</div>
+                <div class="tab_item mr_12 tab_item_writeAuth">쓰기권한</div>
                 <div class="tab_item mr_12 tab_item_boardsCount">게시글 수</div>
                 <%--<div class='tab_item mr_12 tab_item_subjectcreator'>생성자</div>--%>
                 <div class='tab_item mr_12 tab_item_createdDate'>생성일</div>

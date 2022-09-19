@@ -8,6 +8,7 @@ import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.service.BoardService;
 import com.example.datanuri_board.service.BoardSubjectService;
+import com.example.datanuri_board.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +36,9 @@ public class BoardApiController {
     @Autowired
     private BoardSubjectService boardSubjectService;
 
+    @Autowired
+    UserService userService;
+
     /**
      *  main페이지에 4개 게시판 *5개 게시글 리스트
      */
@@ -46,9 +50,15 @@ public class BoardApiController {
         for (BoardSubjectResponseDto boardSubject : boardSubjectList){
 
             Long boardSubjectId = boardSubject.getId();
-            map.put(boardSubjectId, boardService.findTop5ByBoardSubject_IdAndStateOrderByCreatedDateDesc(boardSubjectId));
+            List<BoardResponseDto> boardList = boardService.findTop5ByBoardSubject_IdAndStateOrderByCreatedDateDesc(boardSubjectId);
+            /*for(BoardResponseDto boards : boardList){
+                //boards.setCreatorName(userService.getUserData(Long.valueOf(boards.getCreator())).getName());
+                System.out.println((boards.getCreator()));
+            }*/
+            map.put(boardSubjectId, boardList);
 
         }
+
         return map;
     }
 
@@ -108,6 +118,8 @@ public class BoardApiController {
      */
     @PostMapping("/save")
     public Long saveBoard(@RequestBody BoardRequestDto boardRequestDto){
+        boardRequestDto.setViewCount(0L);
+        boardRequestDto.setRecommend_count(0L);
         return boardService.save(boardRequestDto);
 
     }

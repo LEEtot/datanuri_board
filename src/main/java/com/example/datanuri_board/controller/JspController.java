@@ -93,4 +93,9 @@ public class JspController {
         mav.addObject("boardSubjectModi",boardSubjectService.listByState(state));*/
         return mav;
     }
+
+    @RequestMapping(value = "/user/myPage")
+    public String mypage(){
+        return "/user/myPage";
+    }
 }
