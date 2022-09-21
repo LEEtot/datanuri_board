@@ -99,8 +99,6 @@
 
         console.log(JSON.parse(jsonPayload));
         return (JSON.parse(jsonPayload));
-
-
     }
 
     function navibarLogin(){

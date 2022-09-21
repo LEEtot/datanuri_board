@@ -8,8 +8,8 @@
         <div class="article-writer cell">
             <form name="write" id="boardwrite-form">
                 <div class="user_info">
-                    <div class="profile_img">프로필</div>
-                    <span>작성자 </span>
+                    <div class="write-profile_img">프로필</div>
+                    <span id="board_writer">작성자</span>
                 </div>
 
                 <span class="selectedSubject-title" id="selectedSubject-title">${selectedBoardSubject.subject}</span>
@@ -49,7 +49,7 @@
         }).done(function(data){
             alert('글이 등록되었습니다.');
             console.log('<%=request.getContextPath()%>/api/board/save');
-            /*window.location.href = "<%=request.getContextPath()%>/board/boardDetail/${boardId}";*/
+            <%--window.location.href = "<%=request.getContextPath()%>/board/boardDetail/${boardId}";--%>
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
@@ -66,9 +66,8 @@
 
 
 $(document).ready(function(){
-    console.log(token);
-    console.log(me);
     console.log(`${selectedBoardSubject}`);
+    document.getElementById("board_writer").textContent=me.name;
 })
 </script>
 

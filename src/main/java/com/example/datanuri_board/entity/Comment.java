@@ -4,6 +4,7 @@ package com.example.datanuri_board.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 
 @Entity
@@ -26,11 +27,15 @@ public class Comment extends BaseEntity {
 
     @Column
     private String contents;  // content
-    
+
     @Column
     private String author;  // author
 
     @Column(length = 4) //Post, Block, Delete
     private String state;  //   state
 
+    public void update(String contents, String state) {
+        this.contents = contents;
+        this.state = state;
+    }
 }

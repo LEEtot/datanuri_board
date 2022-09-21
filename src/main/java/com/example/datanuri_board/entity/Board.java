@@ -1,5 +1,6 @@
 package com.example.datanuri_board.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -49,9 +50,6 @@ public class Board extends BaseEntity implements Serializable {
 
     @Column(length = 4)
     private String state; //S001 - 활동O  S002 - block  S003 - 활동X
-
-
-
 
     @Formula("(select count(*) from recommend r where r.board_id = board_id)")
     private Long recommendCount;

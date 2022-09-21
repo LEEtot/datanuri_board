@@ -1,11 +1,16 @@
 package com.example.datanuri_board.service;
 
 
+import com.example.datanuri_board.dto.request.BoardRequestDto;
 import com.example.datanuri_board.dto.request.CommentRequestDto;
+import com.example.datanuri_board.dto.response.CommentResponseDto;
 import com.example.datanuri_board.entity.Board;
+import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.entity.Comment;
 import com.example.datanuri_board.entity.User;
+import com.example.datanuri_board.repository.BoardRepository;
 import com.example.datanuri_board.repository.CommentRepository;
+import com.example.datanuri_board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +42,8 @@ public class CommentService {
      */
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     private final UserService userService;
     private final BoardService boardService;
@@ -58,18 +65,17 @@ public class CommentService {
 
     @Transactional
     public Comment createOneComment(CommentRequestDto commentRequestDto) {
-        User user = userService.findById(Long.valueOf(commentRequestDto.getAuthor()));
-        Board board = boardService.getOneBoardById(commentRequestDto.getBoard().getBoardId());
-        if (user != null && board != null) {
+        Board Board = boardRepository.findBoardByBoardId(commentRequestDto.getBoard().getBoardId());
+        User user = userRepository.findById(commentRequestDto.getUser().getId()).orElse(null);
             Comment commentToSave = new Comment();
             commentToSave.setCommentId(commentRequestDto.getCommentId());
-            commentToSave.setBoard(board);
+            commentToSave.setBoard(Board);
+            commentToSave.setUser(user);
             commentToSave.setAuthor(user.getName());
             commentToSave.setContents(commentToSave.getContents());
             return commentRepository.save(commentToSave);
-        } else
-            return null;
     }
+
 
     @Transactional
     public Comment updateOneCommentById(Long commentId, CommentRequestDto commentRequestDto) {

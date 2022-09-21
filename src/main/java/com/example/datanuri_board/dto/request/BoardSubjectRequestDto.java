@@ -30,6 +30,4 @@ public class BoardSubjectRequestDto {
                 .state(state)
                 .build();
     }
-
-
 }

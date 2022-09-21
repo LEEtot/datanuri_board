@@ -225,10 +225,10 @@ public class UserService {
                 .signUpApi(user.getSignUpApi())
                 .state(user.getState())
                 .imgPath(user.getImgPath())
-                .creator(user.getCreator())
-                .createdDate(user.getCreatedDate())
-                .modifier(user.getModifier())
-                .modifiedDate(user.getModifiedDate())
+//                .creator(user.getCreator())
+//                .createdDate(user.getCreatedDate())
+//                .modifier(user.getModifier())
+//                .modifiedDate(user.getModifiedDate())
                 .build();
         return userResponseDto;
     }

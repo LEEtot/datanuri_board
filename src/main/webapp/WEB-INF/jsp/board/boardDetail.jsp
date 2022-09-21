@@ -11,18 +11,18 @@
             <div class="writer_info">
                 <div>
                     <div class="view_profile_box">
-                        <c:choose>
-                            <c:when test="${user.imgPath == null}">
+<%--                        <c:choose>--%>
+<%--                            <c:when test="${user.imgPath == NULL}">--%>
                                 <img src="/resources/static/img/null_profile.png" class="view_profile article_profile"/>
-                            </c:when>
-                            <c:otherwise>
-                                <img src="${user.imgPath}">
-                            </c:otherwise>
-                        </c:choose>
+<%--                            </c:when>--%>
+<%--                            <c:otherwise>--%>
+<%--                                <img src="${user.imgPath}">--%>
+<%--                            </c:otherwise>--%>
+<%--                        </c:choose>--%>
                     </div>
                     <div class="profile_area">
                         <div class="writer_nickname">
-                            <span id="m${user.userId}" class="user">${user.name}</span>
+<%--                            <span class="user">${board.creater}</span>--%>
                         </div>
                         <div class="write_time">
                             <span>${board.createdDate}</span>
@@ -40,26 +40,26 @@
             </div>
             <div class="comment_box">
             </div>
-            <div class="comment_board">댓글 ${comment}</div>
+            <div class="comment_board">댓글</div>
         </div>
         <div class="comment_box">
             <ul class="comment_list">
                 <c:forEach var="comment" items="${comment}">
                 <div id="comment_area${comment.commentId}" class="comment_area">
-                    <img src="/{userId}/data?&imageFileName=${user.imgPath}"
-                         class="view_profile ">
+<%--                    <img src="/{userId}/data?&imageFileName=${user.imgPath}"--%>
+<%--                         class="view_profile ">--%>
                     <div class="comment_content">
                         <div class="comment_nick_box">
                                         <span class="comment_nickname member"
-                                              id="m${comment.userId}">${user.username}</span>
+<%--                                              id="m${comment.userId}">${comment.creator}</span>--%>
                         </div>
                         <div class="comment_text_box">
                             <c:choose>
-                                <c:when test="${comment.content == 'NULL'}">
+                                <c:when test="${comment.contents == 'NULL'}">
                                     <span class="text_comment delete_comment">삭제된 댓글입니다.</span>
                                 </c:when>
                                 <c:otherwise>
-                                    <span class="text_comment">${comment.content}</span>
+                                    <span class="text_comment">${comment.contents}</span>
                                 </c:otherwise>
                             </c:choose>
                         </div>
@@ -79,8 +79,8 @@
         <div class="comment_writer">
             <form id="commentForm" method="post" onsubmit="return false;">
                 <input name="boardId" value="${board.boardId}" hidden />
-<%--                <div class="comment_writer_name">${User.name}</div>--%>
-                <textarea name="content" class="comment_write_input" placeholder="댓글을 남겨보세요"
+<%--                <div class="comment_writer_name">${comment.creator}</div>--%>
+                <textarea id="contents" name="contents" class="comment_write_input" placeholder="댓글을 남겨보세요"
                           onkeydown="resize(this)"></textarea>
                 <input type="hidden" name="state" class="board-input"  value="S001"/>
                 <div class="comment_writer_button">
@@ -117,8 +117,7 @@
             contentType: 'application/json; charset=utf-8',
             data: formsubmit,
         }).done(function(){
-            alert('글이 등록되었습니다.');
-            //window.location.href = "/board/boardDetail/${boardId}";
+            alert('댓글이 등록되었습니다.');
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
@@ -129,6 +128,9 @@
         obj.style.height = (10+obj.scrollHeight)+"px";
     }
 
+    $(document).ready(function(){
+        console.log(me);
+    });
 </script>
 
 
