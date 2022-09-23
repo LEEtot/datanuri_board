@@ -22,17 +22,6 @@ public class DatanuriBoardApplication {
 		System.out.println(org.springframework.core.SpringVersion.getVersion());
 	}
 
-//	@Primary
-//	@Bean
-//	public AuditorAware<String> auditorProvider() {
-//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//		if (null == authentication || !authentication.isAuthenticated()) {
-//			return null;
-//		}
-//		return () -> Optional.of(authentication.getName());
-//	}
-
-
 	@Bean
 	public RestTemplate getRestTemplate() {
 		return new RestTemplate();

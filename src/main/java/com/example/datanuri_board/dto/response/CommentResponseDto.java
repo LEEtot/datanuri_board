@@ -13,7 +13,6 @@ public class CommentResponseDto {
     private Long boardId;
     private Long userId;
     private String contents;
-    private String author;
     private String state;
     private String creator;
     private String modifier;
@@ -23,7 +22,6 @@ public class CommentResponseDto {
     public CommentResponseDto(Comment comment) {
         this.commentId = comment.getCommentId();
         this.contents = comment.getContents();
-        this.author = comment.getUser().getName();
         this.state = comment.getState();
         this.boardId = comment.getBoard().getBoardId();
         this.userId = comment.getUser().getId();

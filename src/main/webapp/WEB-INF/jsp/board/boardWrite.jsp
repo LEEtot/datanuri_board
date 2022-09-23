@@ -10,6 +10,7 @@
                 <div class="user_info">
                     <div class="write-profile_img">프로필</div>
                     <span id="board_writer">작성자</span>
+
                 </div>
 
                 <span class="selectedSubject-title" id="selectedSubject-title">${selectedBoardSubject.subject}</span>
@@ -68,6 +69,7 @@
 $(document).ready(function(){
     console.log(`${selectedBoardSubject}`);
     document.getElementById("board_writer").textContent=me.name;
+
 })
 </script>
 
