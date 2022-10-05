@@ -1,4 +1,4 @@
-package com.example.datanuri_board.config;
+package com.example.datanuri_board.config.Security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

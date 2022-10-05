@@ -9,7 +9,7 @@
             <form name="write" id="boardwrite-form">
                 <div class="user_info">
                     <div class="profile_img">프로필</div>
-                    <span>작성자 </span>
+                    <span class="author" id="author">작성자</span>
                 </div>
 
                 <span class="selectedSubject-title" id="selectedSubject-title">${selectedBoardSubject.subject}</span>
@@ -32,6 +32,7 @@
 
 
    function boardWrite (){
+
        let formsubmitSerialArray  = $('#boardwrite-form').serializeArray(); // serialize 사용
        console.log(formsubmitSerialArray);
        let formsubmit = JSON.stringify(objectifyForm(formsubmitSerialArray));
@@ -65,11 +66,11 @@
     }*/
 
 
-$(document).ready(function(){
-    console.log(token);
-    console.log(me);
-    console.log(`${selectedBoardSubject}`);
-})
+   $(document).ready(function(){
+       console.log(me);
+       $("#author").text(me.name);
+   })
+
 </script>
 
 

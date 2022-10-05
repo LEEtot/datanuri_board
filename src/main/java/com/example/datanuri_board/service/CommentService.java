@@ -5,7 +5,9 @@ import com.example.datanuri_board.dto.request.CommentRequestDto;
 import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.Comment;
 import com.example.datanuri_board.entity.User;
+import com.example.datanuri_board.repository.BoardRepository;
 import com.example.datanuri_board.repository.CommentRepository;
+import com.example.datanuri_board.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,8 @@ public class CommentService {
      */
 
     private final CommentRepository commentRepository;
+    private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     private final UserService userService;
     private final BoardService boardService;
@@ -58,15 +62,19 @@ public class CommentService {
     }
 
     @Transactional
-    public Comment createOneComment(CommentRequestDto commentRequestDto) {
-        User user = userService.findById(Long.valueOf(commentRequestDto.getUser().getId()));
-        Board board = boardService.getOneBoardById(commentRequestDto.getBoard().getBoardId());
-        Comment commentToSave = new Comment();
-        commentToSave.setCommentId(commentRequestDto.getCommentId());
-        commentToSave.setBoard(board);
-        commentToSave.setAuthor(user.getName());
-        commentToSave.setContents(commentToSave.getContents());
-        return commentRepository.save(commentToSave);
+    public Long createOneComment(CommentRequestDto commentRequestDto) {
+        User user = userRepository.findById(commentRequestDto.getUserId()).orElse(null);
+        Optional<Board> board = boardRepository.findById(commentRequestDto.getBoardId());
+        Comment comment = Comment.builder()
+                .board(board.get())
+                .user(user)
+                .author(user.getName())
+                .contents(commentRequestDto.getContents())
+                .state(commentRequestDto.getState())
+                .build();
+        Comment Entity = commentRepository.save(comment);
+
+        return Entity.getCommentId();
     }
 
     @Transactional

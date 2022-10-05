@@ -1,6 +1,6 @@
 package com.example.datanuri_board.service;
 
-import com.example.datanuri_board.config.SecurityUtil;
+import com.example.datanuri_board.config.Security.SecurityUtil;
 import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.dto.request.UserRequestDto;
 import com.example.datanuri_board.entity.User;

@@ -1,6 +1,6 @@
 package com.example.datanuri_board.oauth2;
 
-import com.example.datanuri_board.config.TokenProvider;
+import com.example.datanuri_board.config.Security.TokenProvider;
 import com.example.datanuri_board.dto.TokenDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;

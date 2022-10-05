@@ -1,7 +1,5 @@
 package com.example.datanuri_board.oauth2;
 
-import com.example.datanuri_board.config.TokenProvider;
-import com.example.datanuri_board.dto.TokenDto;
 import com.example.datanuri_board.dto.response.UserResponseDto;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.UserRepository;
@@ -16,7 +14,6 @@ import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.attribute.UserPrincipal;
 import java.util.Collections;
 
 @Slf4j

@@ -1,4 +1,4 @@
-package com.example.datanuri_board.config;
+package com.example.datanuri_board.config.Security;
 
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

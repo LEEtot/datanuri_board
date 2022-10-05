@@ -1,4 +1,4 @@
-package com.example.datanuri_board.config;
+package com.example.datanuri_board.config.Security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;

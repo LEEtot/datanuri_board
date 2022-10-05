@@ -29,6 +29,7 @@ body {
     margin-bottom: 12px;
 }
 .writer_info {
+    margin-bottom: 5px;
     height: 40px;
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -40,6 +41,7 @@ body {
     margin-right: 10px;
 }
 .view_profile {
+    margin-bottom: 24px;
     width: 36px;
     height: 36px;
     border-radius: 50%;

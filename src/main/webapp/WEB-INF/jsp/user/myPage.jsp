@@ -236,7 +236,8 @@
             getBoardList(bysorting);
         }else {
             selectedPage = clickId;
-            //requestParam.page = requestParam.size * (selectedPage - 1);
+            //requestPara
+            // m.page = requestParam.size * (selectedPage - 1);
             requestParam.page = selectedPage -1;
             getBoardList(bysorting);
         }

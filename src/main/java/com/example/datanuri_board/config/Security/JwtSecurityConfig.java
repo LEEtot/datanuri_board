@@ -1,4 +1,4 @@
-package com.example.datanuri_board.config;
+package com.example.datanuri_board.config.Security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;

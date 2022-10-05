@@ -1,6 +1,6 @@
 package com.example.datanuri_board.service;
 
-import com.example.datanuri_board.config.TokenProvider;
+import com.example.datanuri_board.config.Security.TokenProvider;
 import com.example.datanuri_board.dto.TokenDto;
 import com.example.datanuri_board.dto.request.UserRequestDto;
 import lombok.RequiredArgsConstructor;
@@ -33,14 +33,19 @@ public class AuthService  implements AuditorAware<String> {
 
     @Override
     public Optional<String> getCurrentAuditor() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (null == authentication || !authentication.isAuthenticated()) {
-            return null;
-        }
-        System.out.println("****************************************----"+authentication.getPrincipal());
-        /*User user = (User) authentication.getPrincipal();
 
-        return Optional.of(user.getName());*/
-        return Optional.of(authentication.getName());
+        Authentication loggedInUser = SecurityContextHolder.getContext().getAuthentication();
+        String username = loggedInUser.getName();
+
+        return Optional.of(username);
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (null == authentication || !authentication.isAuthenticated()) {
+//            return null;
+//        }
+//        System.out.println("****************************************----"+authentication.getPrincipal());
+//        /*User user = (User) authentication.getPrincipal();
+//
+//        return Optional.of(user.getName());*/
+//        return Optional.of(authentication.getName());
     }
 }

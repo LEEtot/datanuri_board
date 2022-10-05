@@ -1,4 +1,4 @@
-package com.example.datanuri_board.config;
+package com.example.datanuri_board.config.Security;
 
 import com.example.datanuri_board.dto.TokenDto;
 import com.example.datanuri_board.dto.response.UserResponseDto;
@@ -58,6 +58,13 @@ public class TokenProvider {
                 .accessToken(accessToken)
                 .tokenExpiresIn(tokenExpiresIn.getTime())
                 .build();
+    }
+
+
+    public static String getUserIdFromJWT(String token) {
+        Claims claims = Jwts.parserBuilder().build().parseClaimsJws(token).getBody();
+
+        return claims.getSubject();
     }
 
     public Authentication getAuthentication(String accessToken) {
