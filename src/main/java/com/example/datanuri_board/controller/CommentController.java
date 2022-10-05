@@ -1,6 +1,7 @@
 package com.example.datanuri_board.controller;
 
 import com.example.datanuri_board.dto.request.CommentRequestDto;
+import com.example.datanuri_board.dto.response.CommentResponseDto;
 import com.example.datanuri_board.entity.Comment;
 import com.example.datanuri_board.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;

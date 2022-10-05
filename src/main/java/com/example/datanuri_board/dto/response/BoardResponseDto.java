@@ -1,13 +1,9 @@
 package com.example.datanuri_board.dto.response;
 
-import com.example.datanuri_board.controller.UserController;
 import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.BoardSubject;
-import com.example.datanuri_board.entity.User;
-import com.example.datanuri_board.service.UserService;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.LocalDateTime;
 

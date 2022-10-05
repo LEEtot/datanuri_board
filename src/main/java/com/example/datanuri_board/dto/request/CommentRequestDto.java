@@ -1,18 +1,15 @@
 package com.example.datanuri_board.dto.request;
 
-import com.example.datanuri_board.entity.Board;
-import com.example.datanuri_board.entity.User;
-import lombok.Getter;
+
 import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
+@Data
+@AllArgsConstructor
 @NoArgsConstructor
-@ToString
+@Builder
 public class CommentRequestDto {
     private Long commentId;
     private Long boardId;

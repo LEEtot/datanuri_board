@@ -12,6 +12,8 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findByEmailContaining(String email);
 
     List<User> findByNameContaining(String name);
+
+
     List<User> findByEmailContainingOrNameContaining(String email, String name);
 
     Optional<User> findByEmailAndSignUpApi(String email, String signUpApi);
@@ -21,5 +23,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Boolean existsByEmail(String email);
 
     List<User> findByRoleAndStateInOrderById(String Role, List<String> State);
-
+    Optional<User> findByName(String name);
 }

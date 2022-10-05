@@ -79,7 +79,7 @@ public class TokenProvider {
                         .map(SimpleGrantedAuthority::new)
                         .collect(Collectors.toList());
 
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        UserDetails principal = new User(claims.getSubject(),"", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
@@ -108,6 +108,10 @@ public class TokenProvider {
         }
     }
 
+    public String getUserPk(String token) {
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
+    }
+
     private Map<String, Object> createClaims(UserResponseDto userResponseDto) { // payload
 
         Map<String, Object> claims = new HashMap<>();
@@ -115,4 +119,5 @@ public class TokenProvider {
         claims.put("name", userResponseDto.getName());
         return claims;
     }
+
 }

@@ -50,7 +50,7 @@
         }).done(function(data){
             alert('글이 등록되었습니다.');
             console.log('<%=request.getContextPath()%>/api/board/save');
-            /*window.location.href = "<%=request.getContextPath()%>/board/boardDetail/${boardId}";*/
+            <%--window.location.href = "<%=request.getContextPath()%>/board/boardDetail/${boardId}";--%>
         }).fail(function(error){
             alert(JSON.stringify(error));
         });
@@ -64,6 +64,7 @@
         }
         return returnArray;
     }*/
+
 
 
    $(document).ready(function(){

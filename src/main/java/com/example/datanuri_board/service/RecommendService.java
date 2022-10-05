@@ -5,7 +5,9 @@ import com.example.datanuri_board.dto.response.RecommendResponse;
 import com.example.datanuri_board.entity.Board;
 import com.example.datanuri_board.entity.Recommend;
 import com.example.datanuri_board.entity.User;
+import com.example.datanuri_board.repository.BoardRepository;
 import com.example.datanuri_board.repository.RecommendRepository;
+import com.example.datanuri_board.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,10 @@ public class RecommendService {
 
     @Autowired
     private RecommendRepository recommendRepository;
+    @Autowired
+    private BoardRepository boardRepository;
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private UserService userService;
     @Autowired
@@ -45,14 +51,14 @@ public class RecommendService {
 
 
     public Recommend createOneRecommend(RecommendRequest request) {
-        User user = userService.findById(request.getUserId());
-        Board board = boardService.getOneBoardById(request.getBoardId());
+        Optional<User> user = userRepository.findById(request.getUserId());
+        Board board = boardRepository.findBoardByBoardId(request.getBoardId());
 
         if (user != null && board != null) {
             Recommend recommendToSave = new Recommend();
             recommendToSave.setId(request.getId());
             recommendToSave.setBoard(board);
-            recommendToSave.setUser(user);
+            recommendToSave.setUser(user.get());
 
             return recommendRepository.save(recommendToSave);
         } else return null;

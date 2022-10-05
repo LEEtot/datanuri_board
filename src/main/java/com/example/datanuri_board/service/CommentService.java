@@ -1,8 +1,11 @@
 package com.example.datanuri_board.service;
 
 
+import com.example.datanuri_board.dto.request.BoardRequestDto;
 import com.example.datanuri_board.dto.request.CommentRequestDto;
+import com.example.datanuri_board.dto.response.CommentResponseDto;
 import com.example.datanuri_board.entity.Board;
+import com.example.datanuri_board.entity.BoardSubject;
 import com.example.datanuri_board.entity.Comment;
 import com.example.datanuri_board.entity.User;
 import com.example.datanuri_board.repository.BoardRepository;

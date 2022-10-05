@@ -174,7 +174,4 @@ public class BoardService {
         return boards.map(board -> new BoardResponseDto(board));
     }
 
-    public Board getOneBoardById(Long boardId) {
-        return boardRepository.findById(boardId).orElse(null);
-    }
 }

@@ -114,6 +114,7 @@
     }
 
     function writecomment() {
+
         let formsubmitSerialArray  = $('#commentForm').serializeArray(); // serialize 사용
         let formsubmit = JSON.stringify(objectifyForm(formsubmitSerialArray));
         console.log(formsubmit);
@@ -139,7 +140,7 @@
         obj.style.height = "0px";
         obj.style.height = (10+obj.scrollHeight)+"px";
     }
-    
+
     function deletecomment(commentId) {
         $.ajax({
             type: 'delete',
